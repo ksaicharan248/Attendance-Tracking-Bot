@@ -1,1 +1,1 @@
-prin("hellow")
+print("hellow")
