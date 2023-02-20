@@ -22,7 +22,7 @@ def update_attendance():
         attendanc = altho()
         time.sleep(10)
         roshitt = altho_2()
-        time.sleep(100)
+        time.sleep(1800)
 
 
 @dp.message_handler(commands=['start'])
