@@ -8,6 +8,7 @@ def tommaro():
     today = datetime.date.today()
     yesterday = (today - datetime.timedelta(days=1)).strftime('%d/%m/%Y')
     opt = Options()
+    opt.add_argument('--headless')
     opt.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=opt)
     driver.get("http://bit.ly/3Qb3MoX")

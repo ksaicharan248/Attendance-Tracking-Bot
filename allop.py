@@ -7,6 +7,7 @@ import base64
 def altho():
     subjects, results = [], []
     opt = Options()
+    opt.add_argument('--headless')
     opt.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=opt)
     driver.set_window_size(1024, 768)
@@ -27,7 +28,7 @@ def altho():
     subjects.append(txt[0]), results.append(txt[1])
     screenshot = driver.get_screenshot_as_png()
     image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-    cropped_image = image.crop((10,140,950,620))
+    cropped_image = image.crop((10,140,970,620))
     with io.BytesIO() as output:
       cropped_image.save(output, format='JPEG')
       image_bytes = output.getvalue()
@@ -39,6 +40,7 @@ def altho():
 def altho_2():
     subjects, results = [], []
     opt = Options()
+    opt.add_argument('--headless')
     opt.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=opt)
     driver.set_window_size(1024, 768)
@@ -59,7 +61,7 @@ def altho_2():
     subjects.append(txt[0]), results.append(txt[1])
     screenshot = driver.get_screenshot_as_png()
     image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-    cropped_image = image.crop((10,140,950,620))
+    cropped_image = image.crop((10,140,970,620))
     with io.BytesIO() as output:
         cropped_image.save(output, format='JPEG')
         image_bytes = output.getvalue()
