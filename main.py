@@ -23,10 +23,8 @@ dispatcher = updater.dispatcher
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0])
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0])
 
-#  Data base
 
-attendanc = db["at2"]
-roshitt = db["at4"]
+
 
 #     A function dispcription
 
@@ -37,10 +35,8 @@ def update_attendance():
   while True:
     global attendanc, roshitt
     attendanc = altho()
-    db["at2"] = attendanc
     time.sleep(10)
     roshitt = altho_2()
-    db["at4"] = roshitt
     time.sleep(60)
 
 
