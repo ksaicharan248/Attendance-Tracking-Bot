@@ -12,8 +12,8 @@ from webser import keep_alive
 bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
-attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0000 )
-roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0000)
+attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 
 
 def update_attendance():
@@ -74,7 +74,7 @@ async def pic(message: types.Message):
         await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
     else:
         encoded_string = str(roshitt[2])
-        decoded_bytes = base64.b64decode(encoded_string)
+        decoded_bytes = base64.b64decode(str(encoded_string))
         photo_file = io.BytesIO(decoded_bytes)
         chat_id = message.chat.id
         await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
