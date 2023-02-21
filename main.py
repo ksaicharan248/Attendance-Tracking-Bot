@@ -24,6 +24,31 @@ def update_attendance():
         roshitt = altho_2()
         time.sleep(1800)
 
+@dp.message_handler(commands=['updater'])
+async def cmd_updaters(message: types.Message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
+    if chat_id == 1746861239 or full_name == "saicharan":
+        await bot.send_message(chat_id=message.chat.id, text="updating the process .....")
+        r = threading.Thread(target=update_attendance)
+        r.start()
+        time.sleep(10)
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 1)
+            await bot.send_message(chat_id=message.chat.id, text="updated suceesfully.....")
+            time.sleep(5)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 2)
+        except Exception as e:
+            pass
+    else:
+        await bot.send_message(chat_id=message.chat.id, text="You cannot use this commands this status is updated to admin")
+        time.sleep(5)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 1)
+
+
 
 @dp.message_handler(commands=['start'])
 async def start(message):
