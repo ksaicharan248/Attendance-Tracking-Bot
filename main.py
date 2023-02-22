@@ -7,6 +7,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
 from allop import altho, altho_2
+from todaypk import today
 from webser import keep_alive
 
 bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
@@ -128,6 +129,11 @@ async def allattendance(message: types.Message):
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
     except Exception as e:
         pass
+
+@dp.message_handler(commands='toadyattendance')
+async def cmd_toadyattendance(message: types.Message):
+    t2 = today()
+    await bot.send_message(chat_id=message.chat.id, text="CS           :"+str(t2[0])+ "\n"+"EMTL      :"+str(t2[1])+ "\n" +"VLSI         :"+str(t2[2])+"\n"+"EMI          :" +str(t2[3])+"\n"+"IR             :"+str(t2[4])+"\n"+"MAP        :"+str(t2[5])+"\n"+"CS LAB    :"+str(t2[6])+"\n"+"VL LAB    :"+str(t2[7])+"\n"+"COI          :"+str(t2[8])+"\n"+"CONS      :"+str(t2[9])+"\n"+"LIB           :"+str(t2[10])+"\n"+"TOTAL     :"+str(t2[11])+"%")
 
 t = threading.Thread(target=update_attendance)
 t.start()
