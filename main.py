@@ -1,7 +1,11 @@
 import base64
+import os
 import threading
 import io
 import time
+from io import BytesIO
+
+from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
@@ -25,6 +29,7 @@ def update_attendance():
         roshitt = altho_2()
         time.sleep(1800)
 
+
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message):
     chat_id = message.chat.id
@@ -44,11 +49,11 @@ async def cmd_updaters(message: types.Message):
         except Exception as e:
             pass
     else:
-        await bot.send_message(chat_id=message.chat.id, text="You cannot use this commands this status is updated to admin")
+        await bot.send_message(chat_id=message.chat.id,
+                               text="You cannot use this commands this status is updated to admin")
         time.sleep(5)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 1)
-
 
 
 @dp.message_handler(commands=['start'])
@@ -56,10 +61,12 @@ async def start(message):
     # Send a message to the user
     await bot.send_message(chat_id=message.chat.id, text="Hello,/help")
 
+
 @dp.message_handler(commands=['help'])
 async def help(message):
     # Send a message to the user
     await bot.send_message(chat_id=message.chat.id, text="/attendance\n/allattendance\n/pic")
+
 
 @dp.message_handler(commands=['attendance'])
 async def attendance(message: types.Message):
@@ -111,6 +118,7 @@ async def pic(message: types.Message):
     except Exception as e:
         pass
 
+
 @dp.message_handler(commands='allattendance')
 async def allattendance(message: types.Message):
     chat_id = message.chat.id
@@ -119,10 +127,16 @@ async def allattendance(message: types.Message):
     global attendanc, roshitt
     if chat_id == 1746861239 or full_name == "saicharan":
         t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16-len("subject")) + " " + " " * (7-len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16-len(str(t2[0][i]))) + ":" + " " * (7-len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0,12)]))
+        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+            [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
+             i in range(0, 12)]))
     else:
         t2 = roshitt
-        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16-len("subject")) + " " + " " * (7-len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16-len(str(t2[0][i]))) + ":" + " " * (7-len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0,12)]))
+        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+            [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
+             i in range(0, 12)]))
 
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
@@ -130,10 +144,37 @@ async def allattendance(message: types.Message):
     except Exception as e:
         pass
 
+
 @dp.message_handler(commands='toadyattendance')
 async def cmd_toadyattendance(message: types.Message):
     t2 = today()
-    await bot.send_message(chat_id=message.chat.id, text="CS           :"+str(t2[0])+ "\n"+"EMTL      :"+str(t2[1])+ "\n" +"VLSI         :"+str(t2[2])+"\n"+"EMI          :" +str(t2[3])+"\n"+"IR             :"+str(t2[4])+"\n"+"MAP        :"+str(t2[5])+"\n"+"CS LAB    :"+str(t2[6])+"\n"+"VL LAB    :"+str(t2[7])+"\n"+"COI          :"+str(t2[8])+"\n"+"CONS      :"+str(t2[9])+"\n"+"LIB           :"+str(t2[10])+"\n"+"TOTAL     :"+str(t2[11])+"%")
+    await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
+        t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
+        t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
+        t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(t2[7]) + "\n" + "COI          :" + str(
+        t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
+        t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+
+
+@dp.message_handler(commands=['timetable','tt'])
+async def send_tt(message: types.Message):
+    photo_path = os.path.join(os.getcwd(), 'timetable.jpg')
+    with Image.open(photo_path) as photo:
+        photo_bytes = BytesIO()
+        photo.save(photo_bytes, format='JPEG')
+        photo_bytes.seek(0)
+        await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+
+
+@dp.message_handler(commands=['academic_calendar'])
+async def send_academic_calendar(message: types.Message):
+    photo_path = os.path.join(os.getcwd(), 'clg.jpg')
+    with Image.open(photo_path) as photo:
+        photo_bytes = BytesIO()
+        photo.save(photo_bytes, format='JPEG')
+        photo_bytes.seek(0)
+        await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+
 
 t = threading.Thread(target=update_attendance)
 t.start()
@@ -141,4 +182,3 @@ t.start()
 keep_alive()
 if __name__ == '__main__':
     executor.start_polling(dp)
-
