@@ -156,7 +156,7 @@ async def cmd_toadyattendance(message: types.Message):
         t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
 
 
-@dp.message_handler(commands=['timetable','tt'])
+@dp.message_handler(commands=['timetable', 'tt'])
 async def send_tt(message: types.Message):
     photo_path = os.path.join(os.getcwd(), 'timetable.jpg')
     with Image.open(photo_path) as photo:
