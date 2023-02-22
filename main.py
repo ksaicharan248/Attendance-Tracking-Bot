@@ -4,7 +4,6 @@ import threading
 import io
 import time
 from io import BytesIO
-
 from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
@@ -64,8 +63,17 @@ async def start(message):
 
 @dp.message_handler(commands=['help'])
 async def help(message):
-    # Send a message to the user
-    await bot.send_message(chat_id=message.chat.id, text="/attendance\n/allattendance\n/pic")
+    await bot.send_message(chat_id=message.chat.id, text="/attendance---------> percentage\n/allattendance--------->including subjects \n/pic------ > photo copy\n/more")
+
+
+
+@dp.message_handler(commands=['more'])
+async def cmd_more(message):
+    await bot.send_message(chat_id=message.chat.id, text="/clear ---------->clear chat \n/todayattendance----->todays\n")
+    try:
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    except Exception as e:
+        pass
 
 
 @dp.message_handler(commands=['attendance'])
@@ -145,7 +153,7 @@ async def allattendance(message: types.Message):
         pass
 
 
-@dp.message_handler(commands='toadyattendance')
+@dp.message_handler(commands='todayattendance')
 async def cmd_toadyattendance(message: types.Message):
     t2 = today()
     await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
