@@ -12,7 +12,7 @@ def attandence():
     tz = timezone(timedelta(hours=5, minutes=30))
     ind_time = datetime.now(tz).strftime('%d/%m/%Y')
     asyncio.set_event_loop(loop)
-    browser = loop.run_until_complete(launch())
+    browser = loop.run_until_complete(launch(headless=True))
     page = loop.run_until_complete(browser.newPage())
     loop.run_until_complete(page.goto("http://bit.ly/3Qb3MoX"))
     loop.run_until_complete(page.goto("http://bit.ly/3Qb3MoX"))
