@@ -35,3 +35,9 @@ def today():
     txt = driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(13) > td:nth-child(4)").text
     driver.close()
     return cs, EMTL, vlsi, emi, irob, map, cslb, vlsilb, coi, con, lib, txt
+
+
+
+if __name__ == "__main__":
+	t3=today()
+	print(t3)
