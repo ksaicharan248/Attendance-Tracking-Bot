@@ -63,13 +63,14 @@ async def start(message):
 
 @dp.message_handler(commands=['help'])
 async def help(message):
-    await bot.send_message(chat_id=message.chat.id, text="/attendance---------> percentage\n/allattendance--------->including subjects \n/pic------ > photo copy\n/more")
-
+    await bot.send_message(chat_id=message.chat.id,
+                           text="/attendance---------> percentage\n/allattendance--------->including subjects \n/pic------ > photo copy\n/more")
 
 
 @dp.message_handler(commands=['more'])
 async def cmd_more(message):
-    await bot.send_message(chat_id=message.chat.id, text="/clear ---------->clear chat \n/todayattendance----->todays\n")
+    await bot.send_message(chat_id=message.chat.id,
+                           text="/clear ---------->clear chat \n/todayattendance----->todays\n")
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     except Exception as e:
@@ -178,6 +179,7 @@ async def send_tt(message: types.Message):
     except Exception as e:
         pass
 
+
 @dp.message_handler(commands=['academic_calendar'])
 async def send_academic_calendar(message: types.Message):
     photo_path = os.path.join(os.getcwd(), 'clg.jpg')
@@ -205,8 +207,8 @@ async def cmd_clear(message: types.Message):
                 await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
             except Exception as e:
                 pass
-        else:
-            await bot.send_message(chat_id=message.chat.id, text="cant be used ")
+    else:
+        await bot.send_message(chat_id=message.chat.id, text="cant be used ")
 
 
 t = threading.Thread(target=update_attendance)
