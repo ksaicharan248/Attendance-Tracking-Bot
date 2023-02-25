@@ -192,6 +192,23 @@ async def send_academic_calendar(message: types.Message):
     except Exception as e:
         pass
 
+
+@dp.message_handler(commands='clear')
+async def cmd_clear(message: types.Message):
+    global attendanc, roshitt
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
+    if full_name == "saicharan":
+        for i in range(0, 50):
+            try:
+                await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
+            except types.BadRequest:
+                pass
+        else:
+            await bot.send_message(chat_id=message.chat.id, text="cant be used ")
+
+
 t = threading.Thread(target=update_attendance)
 t.start()
 
