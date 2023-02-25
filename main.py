@@ -172,7 +172,11 @@ async def send_tt(message: types.Message):
         photo.save(photo_bytes, format='JPEG')
         photo_bytes.seek(0)
         await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-
+    try:
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+    except Exception as e:
+        pass
 
 @dp.message_handler(commands=['academic_calendar'])
 async def send_academic_calendar(message: types.Message):
@@ -182,7 +186,11 @@ async def send_academic_calendar(message: types.Message):
         photo.save(photo_bytes, format='JPEG')
         photo_bytes.seek(0)
         await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-
+    try:
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+    except Exception as e:
+        pass
 
 t = threading.Thread(target=update_attendance)
 t.start()
