@@ -203,7 +203,7 @@ async def cmd_clear(message: types.Message):
         for i in range(0, 50):
             try:
                 await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
-            except types.BadRequest:
+            except Exception as e:
                 pass
         else:
             await bot.send_message(chat_id=message.chat.id, text="cant be used ")
