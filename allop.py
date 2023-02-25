@@ -34,7 +34,7 @@ def altho():
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         cropped_image = image.crop((10, 140, 970, 620))
         with io.BytesIO() as output:
-            cropped_image.save(output, format='PNG', quality=95)
+            cropped_image.save(output, format='PNG', quality=100)
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
