@@ -76,7 +76,7 @@ async def cmd_more(message):
         pass
 
 
-@dp.message_handler(commands=['attendance'])
+@dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
@@ -127,7 +127,7 @@ async def pic(message: types.Message):
         pass
 
 
-@dp.message_handler(commands='allattendance')
+@dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
@@ -153,7 +153,7 @@ async def allattendance(message: types.Message):
         pass
 
 
-@dp.message_handler(commands='todayattendance')
+@dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message):
     t2 = today()
     await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(

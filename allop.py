@@ -5,7 +5,7 @@ from selenium.common.exceptions import WebDriverException
 from PIL import Image
 import io
 import base64
-
+import time
 
 def altho():
     try:
@@ -82,5 +82,8 @@ def altho_2():
 
 
 if __name__ == "__main__":
-    t2 = altho()
-    print(t2)
+    start_time = time.time()
+    t3 = altho()
+    end_time = time.time()
+    print(f"Time taken: {end_time - start_time:.2f} seconds")
+    print(t3)

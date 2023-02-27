@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -35,3 +37,12 @@ def tommaro():
     txt = driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(13) > td:nth-child(4)").text
     driver.close()
     return cs, EMTL, vlsi, emi, irob, map, cslb, vlsilb, coi, con, lib, txt
+
+
+
+if __name__ == "__main__":
+    start_time = time.time()
+    t3 = tommaro()
+    end_time = time.time()
+    print(f"Time taken: {end_time - start_time:.2f} seconds")
+    print(t3)
