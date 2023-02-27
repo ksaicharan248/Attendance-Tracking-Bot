@@ -13,7 +13,7 @@ def today():
     try:
         ind_time = datetime.now(timezone("Asia/Kolkata")).strftime('%d/%m/%Y')
         opt = Options()
-        #opt.add_argument('--headless')
+        opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
         driver.get("http://bit.ly/3Qb3MoX")
