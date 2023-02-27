@@ -57,7 +57,6 @@ async def cmd_updaters(message: types.Message):
 
 @dp.message_handler(commands=['start'])
 async def start(message):
-    # Send a message to the user
     await bot.send_message(chat_id=message.chat.id, text="Hello,/help")
 
 
@@ -180,7 +179,7 @@ async def send_tt(message: types.Message):
         pass
 
 
-@dp.message_handler(commands=['academic_calendar'])
+@dp.message_handler(commands=['academic_calendar', 'ac', 'Ac', 'AC'])
 async def send_academic_calendar(message: types.Message):
     photo_path = os.path.join(os.getcwd(), 'clg.jpg')
     with Image.open(photo_path) as photo:
@@ -195,7 +194,7 @@ async def send_academic_calendar(message: types.Message):
         pass
 
 
-@dp.message_handler(commands='clear')
+@dp.message_handler(commands=['clear', 'clc', 'clr'])
 async def cmd_clear(message: types.Message):
     global attendanc, roshitt
     chat_id = message.chat.id
