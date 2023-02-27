@@ -162,6 +162,11 @@ async def cmd_toadyattendance(message: types.Message):
         t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(t2[7]) + "\n" + "COI          :" + str(
         t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
         t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+    try:
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+    except Exception as e:
+        pass
 
 
 @dp.message_handler(commands=['timetable', 'tt'])
