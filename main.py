@@ -26,7 +26,7 @@ def update_attendance():
         attendanc = altho()
         time.sleep(10)
         roshitt = altho_2()
-        time.sleep(1800)
+        time.sleep(600)
 
 
 @dp.message_handler(commands=['updater'])
@@ -78,17 +78,20 @@ async def cmd_more(message):
 
 @dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     global attendanc, roshitt
 
-    if chat_id == 1746861239 or full_name == "saicharan":
+    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+        user_id = message.entities[1].user.id
+    else:
+        user_id = message.from_user.id
+
+    if user_id == 1746861239 and full_name == "saicharan":
         t2 = attendanc
         await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][11]) + " %")
     else:
         t2 = roshitt
-        await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][11]) + " %")
+        await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
 
 
 @dp.message_handler(commands='hey')
@@ -104,10 +107,14 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(commands='pic')
 async def pic(message: types.Message):
     global attendanc, roshitt
-    chat_id = message.chat.id
-    user_id = message.from_user.id
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
-    if full_name == "saicharan":
+
+    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+        user_id = message.entities[1].user.id
+    else:
+        user_id = message.from_user.id
+
+    if user_id == 1746861239 and full_name == "saicharan":
         encoded_string = str(attendanc[2])
         decoded_bytes = base64.b64decode(str(encoded_string))
         photo_file = io.BytesIO(decoded_bytes)
@@ -129,11 +136,15 @@ async def pic(message: types.Message):
 
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     global attendanc, roshitt
-    if chat_id == 1746861239 or full_name == "saicharan":
+
+    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+        user_id = message.entities[1].user.id
+    else:
+        user_id = message.from_user.id
+
+    if user_id == 1746861239 and full_name == "saicharan":
         t2 = attendanc
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                 7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
@@ -144,7 +155,7 @@ async def allattendance(message: types.Message):
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                 7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
             [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
-             i in range(0, 12)]))
+             i in range(0, 13)]))
 
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
@@ -155,13 +166,23 @@ async def allattendance(message: types.Message):
 
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message):
-    t2 = today()
-    await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
-        t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
-        t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
-        t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(t2[7]) + "\n" + "COI          :" + str(
-        t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
-        t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+        user_id = message.entities[1].user.id
+    else:
+        user_id = message.from_user.id
+
+    if user_id == 1746861239:
+        t2 = today()
+        await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
+            t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
+            t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
+            t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(
+            t2[7]) + "\n" + "COI          :" + str(
+            t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
+            t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+
+    else:
+        await bot.send_message(chat_id=message.chat.id, text="notfound ")
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
@@ -171,12 +192,26 @@ async def cmd_toadyattendance(message: types.Message):
 
 @dp.message_handler(commands=['timetable', 'tt'])
 async def send_tt(message: types.Message):
-    photo_path = os.path.join(os.getcwd(), 'timetable.jpg')
-    with Image.open(photo_path) as photo:
-        photo_bytes = BytesIO()
-        photo.save(photo_bytes, format='JPEG')
-        photo_bytes.seek(0)
-        await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+        user_id = message.entities[1].user.id
+    else:
+        user_id = message.from_user.id
+
+    if user_id == 1746861239:
+        photo_path = os.path.join(os.getcwd(), 'timetable.jpg')
+        with Image.open(photo_path) as photo:
+            photo_bytes = BytesIO()
+            photo.save(photo_bytes, format='JPEG')
+            photo_bytes.seek(0)
+            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+    else:
+        photo_path = os.path.join(os.getcwd(), 'timetable1.jpg')
+        with Image.open(photo_path) as photo:
+            photo_bytes = BytesIO()
+            photo.save(photo_bytes, format='JPEG')
+            photo_bytes.seek(0)
+            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
