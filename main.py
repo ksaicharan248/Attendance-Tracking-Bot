@@ -17,7 +17,7 @@ bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
-roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], 00000000)
 
 
 def update_attendance():
@@ -85,10 +85,10 @@ async def attendance(message: types.Message):
         user_id = message.entities[1].user.id
     else:
         user_id = message.from_user.id
-
-    if user_id == 1746861239 and full_name == "saicharan":
+    print(user_id)
+    if user_id == 1746861239 or full_name == "saicharan":
         t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][11]) + " %")
+        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + 'str(t2[1][11])' + " %")
     else:
         t2 = roshitt
         await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
@@ -114,7 +114,7 @@ async def pic(message: types.Message):
     else:
         user_id = message.from_user.id
 
-    if user_id == 1746861239 and full_name == "saicharan":
+    if user_id == 1746861239 or full_name == "saicharan":
         encoded_string = str(attendanc[2])
         decoded_bytes = base64.b64decode(str(encoded_string))
         photo_file = io.BytesIO(decoded_bytes)
@@ -143,8 +143,8 @@ async def allattendance(message: types.Message):
         user_id = message.entities[1].user.id
     else:
         user_id = message.from_user.id
-
-    if user_id == 1746861239 and full_name == "saicharan":
+    print(full_name)
+    if user_id == 1746861239 or full_name == "saicharan":
         t2 = attendanc
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                 7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
