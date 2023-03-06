@@ -17,7 +17,7 @@ bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
-roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], 00000000)
+roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 
 
 def update_attendance():
@@ -31,10 +31,8 @@ def update_attendance():
 
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message):
-    chat_id = message.chat.id
     user_id = message.from_user.id
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
-    if chat_id == 1746861239 or full_name == "saicharan":
+    if user_id == 1746861239:
         await bot.send_message(chat_id=message.chat.id, text="updating the process .....")
         r = threading.Thread(target=update_attendance)
         r.start()
@@ -78,17 +76,15 @@ async def cmd_more(message):
 
 @dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message):
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     global attendanc, roshitt
 
     if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
         user_id = message.entities[1].user.id
     else:
         user_id = message.from_user.id
-    print(user_id)
-    if user_id == 1746861239 or full_name == "saicharan":
+    if user_id == 1746861239:
         t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + 'str(t2[1][11])' + " %")
+        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][11]) + " %")
     else:
         t2 = roshitt
         await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
@@ -107,14 +103,13 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(commands='pic')
 async def pic(message: types.Message):
     global attendanc, roshitt
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
 
     if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
         user_id = message.entities[1].user.id
     else:
         user_id = message.from_user.id
 
-    if user_id == 1746861239 or full_name == "saicharan":
+    if user_id == 1746861239:
         encoded_string = str(attendanc[2])
         decoded_bytes = base64.b64decode(str(encoded_string))
         photo_file = io.BytesIO(decoded_bytes)
@@ -136,15 +131,14 @@ async def pic(message: types.Message):
 
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message):
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     global attendanc, roshitt
 
     if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
         user_id = message.entities[1].user.id
     else:
         user_id = message.from_user.id
-    print(full_name)
-    if user_id == 1746861239 or full_name == "saicharan":
+
+    if user_id == 1746861239:
         t2 = attendanc
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                 7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
@@ -182,7 +176,7 @@ async def cmd_toadyattendance(message: types.Message):
             t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
 
     else:
-        await bot.send_message(chat_id=message.chat.id, text="notfound ")
+        await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
@@ -236,9 +230,6 @@ async def send_academic_calendar(message: types.Message):
 
 @dp.message_handler(commands=['clear', 'clc', 'clr'])
 async def cmd_clear(message: types.Message):
-    global attendanc, roshitt
-    chat_id = message.chat.id
-    user_id = message.from_user.id
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     if full_name == "saicharan":
         for i in range(0, 50):
