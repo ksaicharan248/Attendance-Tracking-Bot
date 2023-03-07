@@ -34,7 +34,7 @@ def dft(x):
         X.append(xk)
 
     for i in range(0, len(X)):
-        x = complex(round_number(X[i].real), round_number(X[i].imag))
+        x = complex(chop(round_number(X[i].real)), chop(round_number(X[i].imag)))
         V.append(x)
     return V
 
@@ -61,3 +61,55 @@ def complex_exponential(k, n, N):
         if abs(imag_part) < 1e-10:
             imag_part = 0
         return real_part + j * imag_part
+
+
+def chop(n):
+    if "e" in str(n):
+        n = 0
+    else:
+        n = n
+    return n
+
+
+def idft(x):
+    N = len(x)
+    X = [0]
+    V = []
+    O = []
+    for k in range(N):
+        xk = 0
+        for n in range(N):
+            X = x[n] * complex_exponentiali(k, n, N)
+            xk = X + xk
+
+        n = xk / N
+        V.append(n)
+
+    for i in range(0,len(V)):
+        y = complex(round_number(chop(V[i].real)),round_number(chop(V[i].imag)))
+        O.append(y)
+
+    return O
+
+
+def complex_exponentiali(k, n, N):
+    if k == 0 and n == 0:
+        return 1
+    elif k == 0:
+        return 1
+    elif n == 0:
+        return 1
+    else:
+        angle = 2 * pi * k * n / N
+        real_part = math.cos(angle)
+        imag_part = math.sin(angle)
+        if abs(real_part) < 1e-5:
+            real_part = 0
+        if abs(imag_part) < 1e-4:
+            imag_part = 0
+        if "e" in str(real_part):
+            real_part = 0
+        if "e" in str(imag_part):
+            imag_part = 0
+
+        return real_part + i * imag_part

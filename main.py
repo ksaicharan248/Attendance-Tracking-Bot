@@ -12,7 +12,7 @@ import asyncio
 from allop import altho, altho_2
 from todaypk import today
 from webser import keep_alive
-from tff import dft, parse_complex
+from tff import dft, parse_complex, idft
 
 bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
@@ -247,8 +247,16 @@ async def dft_handler(message: types.Message):
     input_str = message.text.split()[1]
     input_list = input_str.split(",")
     x = [parse_complex(val) for val in input_list]
-    print(x)
     y = dft(x)
+    await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
+
+
+@dp.message_handler(commands=['idft'])
+async def idft_handler(message: types.Message):
+    input_str = message.text.split()[1]
+    input_list = input_str.split(",")
+    x = [parse_complex(val) for val in input_list]
+    y = idft(x)
     await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
 
 
