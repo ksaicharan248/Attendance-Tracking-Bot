@@ -51,7 +51,7 @@ def altho_2():
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1920, 1080)
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=20751A0232")
