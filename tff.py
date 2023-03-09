@@ -85,8 +85,8 @@ def idft(x):
         n = xk / N
         V.append(n)
 
-    for i in range(0,len(V)):
-        y = complex(round_number(chop(V[i].real)),round_number(chop(V[i].imag)))
+    for i in range(0, len(V)):
+        y = complex(round_number(chop(V[i].real)), round_number(chop(V[i].imag)))
         O.append(y)
 
     return O
@@ -112,4 +112,4 @@ def complex_exponentiali(k, n, N):
         if "e" in str(imag_part):
             imag_part = 0
 
-        return real_part + i * imag_part
+        return real_part + j * imag_part
