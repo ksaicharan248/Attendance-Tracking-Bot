@@ -112,4 +112,4 @@ def complex_exponentiali(k, n, N):
         if "e" in str(imag_part):
             imag_part = 0
 
-        return real_part + i * imag_part
+        return real_part + j * imag_part
