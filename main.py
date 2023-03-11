@@ -17,7 +17,7 @@ from tff import dft, parse_complex, idft
 bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
-attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0], 00000000)
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 
 
@@ -85,7 +85,7 @@ async def attendance(message: types.Message):
         user_id = message.from_user.id
     if user_id == 1746861239:
         t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][11]) + " %")
+        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
     else:
         t2 = roshitt
         await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
@@ -144,7 +144,7 @@ async def allattendance(message: types.Message):
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                 7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
             [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
-             i in range(0, 12)]))
+             i in range(0, 14)]))
     else:
         t2 = roshitt
         await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
