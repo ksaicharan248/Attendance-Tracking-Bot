@@ -85,8 +85,8 @@ def idft(x):
         n = xk / N
         V.append(n)
 
-    for i in range(0,len(V)):
-        y = complex(round_number(chop(V[i].real)),round_number(chop(V[i].imag)))
+    for i in range(0, len(V)):
+        y = complex(round_number(chop(V[i].real)), round_number(chop(V[i].imag)))
         O.append(y)
 
     return O

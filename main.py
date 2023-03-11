@@ -244,20 +244,26 @@ async def cmd_clear(message: types.Message):
 
 @dp.message_handler(commands=['dft'])
 async def dft_handler(message: types.Message):
-    input_str = message.text.split()[1]
-    input_list = input_str.split(",")
-    x = [parse_complex(val) for val in input_list]
-    y = dft(x)
-    await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
+    try:
+        input_str = message.text.split()[1]
+        input_list = input_str.split(",")
+        x = [parse_complex(val) for val in input_list]
+        y = dft(x)
+        await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
+    except Exception as e:
+        await bot.send_message(chat_id=message.chat.id, text='bad sequence ')
 
 
 @dp.message_handler(commands=['idft'])
 async def idft_handler(message: types.Message):
-    input_str = message.text.split()[1]
-    input_list = input_str.split(",")
-    x = [parse_complex(val) for val in input_list]
-    y = idft(x)
-    await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
+    try:
+        input_str = message.text.split()[1]
+        input_list = input_str.split(",")
+        x = [parse_complex(val) for val in input_list]
+        y = idft(x)
+        await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
+    except Exception as e:
+        await bot.send_message(chat_id=message.chat.id, text='bad sequence ')
 
 
 t = threading.Thread(target=update_attendance)
