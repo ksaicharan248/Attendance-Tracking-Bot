@@ -20,19 +20,19 @@ def altho():
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=20751A0467")
         driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-        for i in range(2, 13):
+        for i in range(2, 15):
             selectors = [
                 "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
                     i, col) for col in [2, 5]]
             values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
             txt = [driver.find_element(By.CSS_SELECTOR,
-                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(13) > td:nth-child({})".format(
+                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child({})".format(
                                            i)).text for i in [1, 4]]
             subjects.append(values[0]), results.append(values[1])
         subjects.append(txt[0]), results.append(txt[1])
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 140, 970, 620))
+        cropped_image = image.crop((10, 140, 970, 670))
         with io.BytesIO() as output:
             cropped_image.save(output, format='PNG', quality=100)
             image_bytes = output.getvalue()
