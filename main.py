@@ -251,7 +251,7 @@ async def dft_handler(message: types.Message):
         y = dft(x)
         await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
     except Exception as e:
-        await bot.send_message(chat_id=message.chat.id, text='bad sequence ')
+        await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
 
 
 @dp.message_handler(commands=['idft'])
@@ -263,7 +263,7 @@ async def idft_handler(message: types.Message):
         y = idft(x)
         await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
     except Exception as e:
-        await bot.send_message(chat_id=message.chat.id, text='bad sequence ')
+        await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
 
 
 t = threading.Thread(target=update_attendance)
