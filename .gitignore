@@ -1,0 +1,6 @@
+LATEST_RELEASE
+LICENSE.chromedriver
+__pycache__/
+chromedriver
+nohup.out
+
