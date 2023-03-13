@@ -17,8 +17,9 @@ from tff import dft, parse_complex, idft
 bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
-attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0], 00000000)
+attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+
 
 
 def update_attendance():
@@ -62,7 +63,8 @@ async def start(message):
 @dp.message_handler(commands=['help'])
 async def help(message):
     await bot.send_message(chat_id=message.chat.id,
-                           text="/attendance---------> percentage\n/allattendance--------->including subjects \n/pic------ > photo copy\n/more")
+                           text="/attendance---------> percentage\n/allattendance--------->including subjects "
+                                "\n/pic------ > photo copy\n/more")
 
 
 @dp.message_handler(commands=['more'])
@@ -78,17 +80,20 @@ async def cmd_more(message):
 @dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message):
     global attendanc, roshitt
+    if isinstance(attendanc, str):
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
-    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
-        user_id = message.entities[1].user.id
     else:
-        user_id = message.from_user.id
-    if user_id == 1746861239:
-        t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
-    else:
-        t2 = roshitt
-        await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
+        if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+            user_id = message.entities[1].user.id
+        else:
+            user_id = message.from_user.id
+        if user_id == 1746861239:
+            t2 = attendanc
+            await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
+        else:
+            t2 = roshitt
+            await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
 
 
 @dp.message_handler(commands='hey')
@@ -104,85 +109,98 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(commands='pic')
 async def pic(message: types.Message):
     global attendanc, roshitt
+    if isinstance(attendanc, str):
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
-    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
-        user_id = message.entities[1].user.id
     else:
-        user_id = message.from_user.id
+        if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+            user_id = message.entities[1].user.id
+        else:
+            user_id = message.from_user.id
 
-    if user_id == 1746861239:
-        encoded_string = str(attendanc[2])
-        decoded_bytes = base64.b64decode(str(encoded_string))
-        photo_file = io.BytesIO(decoded_bytes)
-        chat_id = message.chat.id
-        await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-    else:
-        encoded_string = str(roshitt[2])
-        decoded_bytes = base64.b64decode(str(encoded_string))
-        photo_file = io.BytesIO(decoded_bytes)
-        chat_id = message.chat.id
-        await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+        if user_id == 1746861239:
+            encoded_string = str(attendanc[2])
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            chat_id = message.chat.id
+            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+        else:
+            encoded_string = str(roshitt[2])
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            chat_id = message.chat.id
+            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
 
-    try:
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-    except Exception as e:
-        pass
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+        except Exception as e:
+            pass
 
 
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message):
     global attendanc, roshitt
+    if isinstance(attendanc, str):
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
-    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
-        user_id = message.entities[1].user.id
     else:
-        user_id = message.from_user.id
+        if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+            user_id = message.entities[1].user.id
+        else:
+            user_id = message.from_user.id
 
-    if user_id == 1746861239:
-        t2 = attendanc
-        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
-                7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-            [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
-             i in range(0, 14)]))
-    else:
-        t2 = roshitt
-        await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
-                7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-            [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for
-             i in range(0, 13)]))
+        if user_id == 1746861239:
+            t2 = attendanc
+            await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                    7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
+                 for
+                 i in range(0, 14)]))
+        else:
+            t2 = roshitt
+            await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                    7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
+                 for
+                 i in range(0, 13)]))
 
-    try:
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-    except Exception as e:
-        pass
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+        except Exception as e:
+            pass
 
 
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message):
-    if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
-        user_id = message.entities[1].user.id
-    else:
-        user_id = message.from_user.id
-
-    if user_id == 1746861239:
-        t2 = today()
-        await bot.send_message(chat_id=message.chat.id, text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
-            t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
-            t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
-            t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(
-            t2[7]) + "\n" + "COI          :" + str(
-            t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
-            t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+    if isinstance(attendanc, str):
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else:
-        await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
-    try:
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-    except Exception as e:
-        pass
+        if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention':
+            user_id = message.entities[1].user.id
+        else:
+            user_id = message.from_user.id
+
+        if user_id == 1746861239:
+            t2 = today()
+            await bot.send_message(chat_id=message.chat.id,
+                                   text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
+                                       t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
+                                       t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
+                                       t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(
+                                       t2[7]) + "\n" + "COI          :" + str(
+                                       t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
+                                       t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+
+        else:
+            await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+        except Exception as e:
+            pass
 
 
 @dp.message_handler(commands=['timetable', 'tt'])
