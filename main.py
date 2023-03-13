@@ -19,7 +19,8 @@ dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
-print()
+
+
 
 def update_attendance():
     while True:
@@ -28,6 +29,7 @@ def update_attendance():
         time.sleep(10)
         roshitt = altho_2()
         time.sleep(600)
+
 
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message):
@@ -94,8 +96,6 @@ async def attendance(message: types.Message):
             await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
 
 
-
-
 @dp.message_handler(commands='hey')
 async def cmd_start(message: types.Message):
     full_name = message.from_user.full_name
@@ -138,8 +138,6 @@ async def pic(message: types.Message):
             pass
 
 
-
-
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message):
     global attendanc, roshitt
@@ -174,7 +172,6 @@ async def allattendance(message: types.Message):
             pass
 
 
-
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message):
     if isinstance(attendanc, str):
@@ -204,8 +201,6 @@ async def cmd_toadyattendance(message: types.Message):
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
         except Exception as e:
             pass
-
-
 
 
 @dp.message_handler(commands=['timetable', 'tt'])
@@ -289,11 +284,8 @@ async def idft_handler(message: types.Message):
         await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
 
 
-
-
 t = threading.Thread(target=update_attendance)
 t.start()
-
 
 keep_alive()
 if __name__ == '__main__':
