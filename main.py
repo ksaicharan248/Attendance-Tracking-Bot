@@ -299,6 +299,11 @@ async def pic(message: types.Message):
         photo_file = io.BytesIO(decoded_bytes)
         chat_id = message.chat.id
         await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+        except Exception as e:
+            pass
 
 
 
