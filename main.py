@@ -15,7 +15,7 @@ from todaypk import today
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 
-bot = Bot(token="")
+bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
