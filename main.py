@@ -186,13 +186,14 @@ async def cmd_toadyattendance(message: types.Message):
         if user_id == 1746861239:
             t2 = today()
             await bot.send_message(chat_id=message.chat.id,
-                                   text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
-                                       t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
-                                       t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
-                                       t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(
-                                       t2[7]) + "\n" + "COI          :" + str(
-                                       t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
-                                       t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+                                   text="DSP          :" + str(t2[0]) + "\n" + "PM        :" + str(
+                                       t2[1]) + "\n" + "MWOC         :" + str(t2[2]) + "\n" + "ES           :" + str(
+                                       t2[3]) + "\n" + "DCCN           :" + str(t2[4]) + "\n" + "ASD        :" + str(
+                                       t2[5]) + "\n" + "DI&I      :" + str(t2[6]) + "\n" + "CI LAB    :" + str(
+                                       t2[7]) + "\n" + "MWOC LAB     :" + str(
+                                       t2[8]) + "\n" + "DSP LAB    :" + str(t2[9]) + "\n" + "LIB           :" + str(
+                                       t2[10]) + "\n" + "COUN      :" + str(t2[11]) + "\n" + "BMI       :" + str(
+                                       t2[12]) + "\n" + "TOTAL     :" + str(t2[13]))
 
         else:
             await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
