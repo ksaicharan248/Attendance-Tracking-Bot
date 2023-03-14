@@ -285,29 +285,30 @@ async def idft_handler(message: types.Message):
 
 
 @dp.message_handler(commands='roll')
-async def pic(message: types.Message):
-
+async def i_pic(message: types.Message):
     if isinstance(attendanc, str):
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else:
-        rollno = message.text.split()[1]
-        if rollno is None:
-            await bot.send_message(chat_id=message.chat.id, text="Please enter last two digits of roll number, ex:roll xx")
-        else:
+        try:
+            rollno = message.text.split()[1]
             with concurrent.futures.ThreadPoolExecutor() as ey:
                 future = ey.submit(goget, rollno)
                 encoded_string = future.result()
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
-            chat_id = message.chat.id
-            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+            await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
+            try:
+                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+            except Exception as e:
+                pass
 
-        try:
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
         except Exception as e:
-            pass
+            await bot.send_message(chat_id=message.chat.id,
+                                   text="Please enter last two digits of roll number, ex: roll xx .")
+
+
 
 
 
