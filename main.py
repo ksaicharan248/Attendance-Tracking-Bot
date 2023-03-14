@@ -309,9 +309,6 @@ async def i_pic(message: types.Message):
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
 
-
-
-
 t = threading.Thread(target=update_attendance)
 t.start()
 
