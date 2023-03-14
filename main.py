@@ -292,13 +292,17 @@ async def pic(message: types.Message):
 
     else:
         rollno = message.text.split()[1]
-        with concurrent.futures.ThreadPoolExecutor() as ey:
-            future = ey.submit(goget, rollno)
-            encoded_string = future.result()
-        decoded_bytes = base64.b64decode(str(encoded_string))
-        photo_file = io.BytesIO(decoded_bytes)
-        chat_id = message.chat.id
-        await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+        if rollno is None:
+            await bot.send_message(chat_id=message.chat.id, text="Please enter last two digits of roll number, ex:roll xx")
+        else:
+            with concurrent.futures.ThreadPoolExecutor() as ey:
+                future = ey.submit(goget, rollno)
+                encoded_string = future.result()
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            chat_id = message.chat.id
+            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
         try:
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
