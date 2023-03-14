@@ -1,3 +1,5 @@
+import threading
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -6,6 +8,7 @@ from PIL import Image
 import io
 import base64
 import time
+
 
 def altho():
     try:
@@ -54,7 +57,7 @@ def altho_2():
         driver.set_window_size(1024, 768)
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://bit.ly/3WUQsHy")
-        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=20751A0232")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         for i in range(2, 14):
@@ -81,11 +84,41 @@ def altho_2():
         return 'server not responding 404'
 
 
+def goget(x):
+    try:
+        y = str(x)
+        opt = Options()
+        opt.add_argument('--headless')
+        opt.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024, 768)
+        driver.get("http://bit.ly/3WUQsHy")
+        driver.get("http://bit.ly/3WUQsHy")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        if len(y) == 2:
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + y)
+        elif 'l' in y:
+            n = y.replace("l", "")
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755a04" + n)
+        driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
+        driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
+        screenshot = driver.get_screenshot_as_png()
+        image = Image.open(io.BytesIO(screenshot)).convert('RGB')
+        cropped_image = image.crop((10, 160, 970, 700))
+        with io.BytesIO() as output:
+            cropped_image.save(output, format='JPEG')
+            image_bytes = output.getvalue()
+        encoded_string = base64.b64encode(image_bytes).decode('utf-8')
+        driver.close()
+        return encoded_string
+
+    except WebDriverException:
+        return 'server not responding 404'
+
+
 if __name__ == "__main__":
     start_time = time.time()
-    t3 = altho()
-    t4 = altho_2()
+    t = altho()
+    print(t[1])
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")
-    print(t3[1])
-    print(t4[1])

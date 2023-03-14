@@ -1,4 +1,5 @@
 import base64
+import concurrent.futures
 import os
 import threading
 import io
@@ -9,17 +10,16 @@ from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
-from allop import altho, altho_2
+from allop import altho, altho_2, goget
 from todaypk import today
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 
-bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
+bot = Bot(token="")
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
-
 
 
 def update_attendance():
@@ -282,6 +282,24 @@ async def idft_handler(message: types.Message):
         await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
     except Exception as e:
         await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
+
+
+@dp.message_handler(commands='roll')
+async def pic(message: types.Message):
+
+    if isinstance(attendanc, str):
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
+
+    else:
+        rollno = message.text.split()[1]
+        with concurrent.futures.ThreadPoolExecutor() as ey:
+            future = ey.submit(goget, rollno)
+            encoded_string = future.result()
+        decoded_bytes = base64.b64decode(str(encoded_string))
+        photo_file = io.BytesIO(decoded_bytes)
+        chat_id = message.chat.id
+        await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
 
 
 t = threading.Thread(target=update_attendance)
