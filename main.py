@@ -186,13 +186,14 @@ async def cmd_toadyattendance(message: types.Message):
         if user_id == 1746861239:
             t2 = today()
             await bot.send_message(chat_id=message.chat.id,
-                                   text="CS           :" + str(t2[0]) + "\n" + "EMTL      :" + str(
-                                       t2[1]) + "\n" + "VLSI         :" + str(t2[2]) + "\n" + "EMI          :" + str(
-                                       t2[3]) + "\n" + "IR             :" + str(t2[4]) + "\n" + "MAP        :" + str(
-                                       t2[5]) + "\n" + "CS LAB    :" + str(t2[6]) + "\n" + "VL LAB    :" + str(
-                                       t2[7]) + "\n" + "COI          :" + str(
-                                       t2[8]) + "\n" + "CONS      :" + str(t2[9]) + "\n" + "LIB           :" + str(
-                                       t2[10]) + "\n" + "TOTAL     :" + str(t2[11]) + "%")
+                                   text="DSP          :" + str(t2[0]) + "\n" + "PM        :" + str(
+                                       t2[1]) + "\n" + "MWOC         :" + str(t2[2]) + "\n" + "ES           :" + str(
+                                       t2[3]) + "\n" + "DCCN           :" + str(t2[4]) + "\n" + "ASD        :" + str(
+                                       t2[5]) + "\n" + "DI&I      :" + str(t2[6]) + "\n" + "CI LAB    :" + str(
+                                       t2[7]) + "\n" + "MWOC LAB     :" + str(
+                                       t2[8]) + "\n" + "DSP LAB    :" + str(t2[9]) + "\n" + "LIB           :" + str(
+                                       t2[10]) + "\n" + "COUN      :" + str(t2[11]) + "\n" + "BMI       :" + str(
+                                       t2[12]) + "\n" + "TOTAL     :" + str(t2[13]))
 
         else:
             await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
@@ -285,30 +286,28 @@ async def idft_handler(message: types.Message):
 
 
 @dp.message_handler(commands='roll')
-async def pic(message: types.Message):
-
+async def i_pic(message: types.Message):
     if isinstance(attendanc, str):
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else:
-        rollno = message.text.split()[1]
-        if rollno is None:
-            await bot.send_message(chat_id=message.chat.id, text="Please enter last two digits of roll number, ex:roll xx")
-        else:
+        try:
+            rollno = message.text.split()[1]
             with concurrent.futures.ThreadPoolExecutor() as ey:
                 future = ey.submit(goget, rollno)
                 encoded_string = future.result()
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
-            chat_id = message.chat.id
-            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+            await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
+            try:
+                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+            except Exception as e:
+                pass
 
-        try:
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
         except Exception as e:
-            pass
-
+            await bot.send_message(chat_id=message.chat.id,
+                                   text="Please enter last two digits of roll number, ex: roll xx .")
 
 
 t = threading.Thread(target=update_attendance)

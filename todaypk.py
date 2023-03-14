@@ -7,8 +7,6 @@ from datetime import datetime
 import time
 
 
-
-
 def today():
     try:
         ind_time = datetime.now(timezone("Asia/Kolkata")).strftime('%d/%m/%Y')
@@ -25,9 +23,11 @@ def today():
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         tm = [driver.find_element(By.CSS_SELECTOR,
                                   f"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({i}) > td:nth-child(5)").text
-              for i in range(2, 13)]
-        total = driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(13) > td:nth-child(4)").text
+              for i in range(2, 15)]
+        total = driver.find_element(By.CSS_SELECTOR,
+                                    "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
         tm.append(total)
+        driver.close()
         return tm
 
 
