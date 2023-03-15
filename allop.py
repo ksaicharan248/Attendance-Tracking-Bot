@@ -100,6 +100,8 @@ def goget(x):
         elif 'l' in y:
             n = y.replace("l", "")
             driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755a04" + n)
+        elif 'l' not in y and len(y) == 3:
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751a0" + y)
         driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         screenshot = driver.get_screenshot_as_png()
@@ -118,7 +120,7 @@ def goget(x):
 
 if __name__ == "__main__":
     start_time = time.time()
-    t = altho()
-    print(t[1])
+    t = goget(232)
+
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")
