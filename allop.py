@@ -57,7 +57,7 @@ def altho_2():
         driver.set_window_size(1024, 768)
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://bit.ly/3WUQsHy")
-        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=20751A0467")
         driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         for i in range(2, 14):
@@ -120,7 +120,8 @@ def goget(x):
 
 if __name__ == "__main__":
     start_time = time.time()
-    t = goget(232)
+    t = altho_2()
+    print(t[2])
 
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")

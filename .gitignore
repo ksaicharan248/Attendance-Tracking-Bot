@@ -3,4 +3,6 @@ LICENSE.chromedriver
 __pycache__/
 chromedriver
 nohup.out
+.git
+
 
