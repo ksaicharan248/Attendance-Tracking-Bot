@@ -3,6 +3,7 @@ import re
 
 pi = math.pi
 j = 1j
+i = 1j
 
 
 def parse_complex(s):

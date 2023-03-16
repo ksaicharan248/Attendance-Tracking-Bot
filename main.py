@@ -14,8 +14,9 @@ from allop import altho, altho_2, goget
 from todaypk import today
 from webser import keep_alive
 from tff import dft, parse_complex, idft
+from re_feren_ce import key
 
-bot = Bot(token="5751283716:AAGHgB6P15DPNyaV7Kr_FGQpbX0DjuUT0gc")
+bot = Bot(token=key)
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
@@ -248,11 +249,26 @@ async def send_academic_calendar(message: types.Message):
         pass
 
 
-@dp.message_handler(commands=['clear', 'clc', 'clr'])
+@dp.message_handler(commands=['clear', 'clc'])
 async def cmd_clear(message: types.Message):
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
     if full_name == "saicharan":
         for i in range(0, 50):
+            try:
+                await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
+            except Exception as e:
+                pass
+    else:
+        await bot.send_message(chat_id=message.chat.id, text="cant be used ")
+
+
+@dp.message_handler(commands=['clr'])
+async def cmd_clear(message: types.Message):
+    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
+    ref_str_num = message.text.split()[1]
+    ref_num = int(ref_str_num)
+    if full_name == "saicharan":
+        for i in range(0, ref_num):
             try:
                 await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
             except Exception as e:
