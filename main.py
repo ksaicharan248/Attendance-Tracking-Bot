@@ -11,7 +11,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
 from allop import altho, altho_2, goget
-from todaypk import today
+from todaypk import today, dato
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
@@ -185,22 +185,24 @@ async def cmd_toadyattendance(message: types.Message):
             user_id = message.from_user.id
 
         if user_id == 1746861239:
-            t2 = today()
-            await bot.send_message(chat_id=message.chat.id,
-                                   text="DSP          :" + str(t2[0]) + "\n" + "PM        :" + str(
-                                       t2[1]) + "\n" + "MWOC         :" + str(t2[2]) + "\n" + "ES           :" + str(
-                                       t2[3]) + "\n" + "DCCN           :" + str(t2[4]) + "\n" + "ASD        :" + str(
-                                       t2[5]) + "\n" + "DI&I      :" + str(t2[6]) + "\n" + "CI LAB    :" + str(
-                                       t2[7]) + "\n" + "MWOC LAB     :" + str(
-                                       t2[8]) + "\n" + "DSP LAB    :" + str(t2[9]) + "\n" + "LIB           :" + str(
-                                       t2[10]) + "\n" + "COUN      :" + str(t2[11]) + "\n" + "BMI       :" + str(
-                                       t2[12]) + "\n" + "TOTAL     :" + str(t2[13]))
+            try:
+                ref_dato = message.text.split()[1]
+            except:
+                ref_dato = ""
+            date = dato(ref_dato)
+            t2 = today(date)
+            encoded_string = str(t2)
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            chat_id = message.chat.id
+            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
 
         else:
             await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
         try:
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+
         except Exception as e:
             pass
 
