@@ -186,10 +186,10 @@ async def cmd_toadyattendance(message: types.Message):
 
         if user_id == 1746861239:
             try:
-                ref_date = message.text.split()[1]
+                ref_dato = message.text.split()[1]
             except:
-                ref_date = ""
-            date = dato(ref_date)
+                ref_dato = ""
+            date = dato(ref_dato)
             t2 = today(date)
             encoded_string = str(t2)
             decoded_bytes = base64.b64decode(str(encoded_string))
