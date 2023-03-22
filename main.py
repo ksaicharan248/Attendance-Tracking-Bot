@@ -11,7 +11,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
 from allop import altho, altho_2, goget
-from todaypk import today, dato
+from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
@@ -214,7 +214,7 @@ async def cmd_toadyattendance(message: types.Message):
             except:
                 ref_dato = ""
             date = dato(ref_dato)
-            t2 = today(date)
+            t2 = today_rs(date)
             encoded_string = str(t2)
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
