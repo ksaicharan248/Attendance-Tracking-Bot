@@ -35,7 +35,7 @@ def update_attendance():
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message):
     user_id = message.from_user.id
-    if user_id == 1746861239:
+    if user_id == 1746861239 or user_id == 5139592059:
         await bot.send_message(chat_id=message.chat.id, text="updating the process .....")
         r = threading.Thread(target=update_attendance)
         r.start()
@@ -92,9 +92,11 @@ async def attendance(message: types.Message):
         if user_id == 1746861239:
             t2 = attendanc
             await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
-        else:
+        elif user_id == 5139592059:
             t2 = roshitt
             await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
+        else:
+            await bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
 
 
 @dp.message_handler(commands='hey')
@@ -125,12 +127,17 @@ async def pic(message: types.Message):
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-        else:
+
+
+        elif user_id == 5139592059:
             encoded_string = str(roshitt[2])
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
+        else:
+            await  bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
 
         try:
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
@@ -158,13 +165,17 @@ async def allattendance(message: types.Message):
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for
                  i in range(0, 14)]))
-        else:
+        elif user_id == 5139592059:
             t2 = roshitt
             await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for
                  i in range(0, 13)]))
+
+
+        else:
+            await bot.send_message(chat_id=message.chat.id, text="NO data exists")
 
         try:
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
@@ -196,6 +207,20 @@ async def cmd_toadyattendance(message: types.Message):
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
+        elif user_id == 5139592059:
+            try:
+                ref_dato = message.text.split()[1]
+            except:
+                ref_dato = ""
+            date = dato(ref_dato)
+            t2 = today(date)
+            encoded_string = str(t2)
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            chat_id = message.chat.id
+            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+
 
         else:
             await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
