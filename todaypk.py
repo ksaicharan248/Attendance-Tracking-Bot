@@ -37,6 +37,35 @@ def today(ind_time):
         return 'server not responding 404'
 
 
+def today_rs(ind_time):
+    try:
+        opt = Options()
+        opt.add_argument('--headless')
+        opt.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024, 768)
+        driver.get("http://bit.ly/3WUQsHy")
+        driver.get("http://bit.ly/3WUQsHy")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=SA")
+        driver.find_element(By.CSS_SELECTOR, '#radPeriod').click()
+        driver.find_element(By.CSS_SELECTOR, '#txtFromDate').send_keys(ind_time)
+        driver.find_element(By.CSS_SELECTOR, '#txtToDate').send_keys(ind_time)
+        driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
+        screenshot = driver.get_screenshot_as_png()
+        image = Image.open(io.BytesIO(screenshot)).convert('RGB')
+        cropped_image = image.crop((10, 160, 970, 700))
+        with io.BytesIO() as output:
+            cropped_image.save(output, format='JPEG')
+            image_bytes = output.getvalue()
+        encoded_string = base64.b64encode(image_bytes).decode('utf-8')
+        driver.close()
+        return encoded_string
+
+
+    except WebDriverException:
+        return 'server not responding 404'
+
+
 def dato(s=""):
     if "-" in s:
         s = s.replace("-", "/")
