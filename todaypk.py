@@ -29,7 +29,7 @@ async def goget(x):
         await page.click('#btnShow')
         screenshot = await page.screenshot(fullPage=True)
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 800, 700))
+        cropped_image = image.crop((10, 160, 760, 700))
         with io.BytesIO() as output:
             cropped_image.save(output, format='JPEG')
             image_bytes = output.getvalue()
@@ -54,7 +54,7 @@ async def date_attendance_67(ind_time):
         await page.click('#btnShow')
         screenshot = await page.screenshot(fullPage=True)
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 800, 700))
+        cropped_image = image.crop((10, 160, 760, 700))
         with io.BytesIO() as output:
             cropped_image.save(output, format='JPEG')
             image_bytes = output.getvalue()
@@ -79,7 +79,7 @@ async def date_attendance_32(ind_time):
         await page.click('#btnShow')
         screenshot = await page.screenshot(fullPage=True)
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 800, 700))
+        cropped_image = image.crop((10, 160, 760, 700))
         with io.BytesIO() as output:
             cropped_image.save(output, format='JPEG')
             image_bytes = output.getvalue()
