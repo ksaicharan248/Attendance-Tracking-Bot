@@ -121,6 +121,5 @@ def goget(x):
 if __name__ == "__main__":
     start_time = time.time()
     t = goget(232)
-
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")

@@ -10,11 +10,12 @@ from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
-from allop import altho, altho_2, goget
-from todaypk import today, dato, today_rs
+from allop import altho, altho_2
+from todaypk import dato, date_attendance_67, date_attendance_32, goget
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
+
 
 bot = Bot(token=key)
 dp = Dispatcher(bot)
@@ -201,7 +202,7 @@ async def cmd_toadyattendance(message: types.Message):
             except:
                 ref_dato = ""
             date = dato(ref_dato)
-            t2 = today(date)
+            t2 = await date_attendance_67(date)
             encoded_string = str(t2)
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
@@ -214,7 +215,7 @@ async def cmd_toadyattendance(message: types.Message):
             except:
                 ref_dato = ""
             date = dato(ref_dato)
-            t2 = today_rs(date)
+            t2 = await date_attendance_32(date)
             encoded_string = str(t2)
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
@@ -336,9 +337,7 @@ async def i_pic(message: types.Message):
     else:
         try:
             rollno = message.text.split()[1]
-            with concurrent.futures.ThreadPoolExecutor() as ey:
-                future = ey.submit(goget, rollno)
-                encoded_string = future.result()
+            encoded_string = await goget(rollno)
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
@@ -353,9 +352,11 @@ async def i_pic(message: types.Message):
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
 
-t = threading.Thread(target=update_attendance)
-t.start()
 
 keep_alive()
+
+
 if __name__ == '__main__':
     executor.start_polling(dp)
+   # t = threading.Thread(target=update_attendance)
+    #t.start()
