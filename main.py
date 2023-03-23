@@ -16,7 +16,6 @@ from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
 
-
 bot = Bot(token=key)
 dp = Dispatcher(bot)
 
@@ -352,11 +351,9 @@ async def i_pic(message: types.Message):
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
 
-
 keep_alive()
-
 
 if __name__ == '__main__':
     executor.start_polling(dp)
-   # t = threading.Thread(target=update_attendance)
-    #t.start()
+    t = threading.Thread(target=update_attendance)
+    t.start()
