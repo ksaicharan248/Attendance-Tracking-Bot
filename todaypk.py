@@ -8,12 +8,12 @@ import io
 import base64
 
 
-# executablePath='/usr/bin/google-chrome-stable',
+#
 
 async def goget(x):
     try:
         y = str(x)
-        browser = await launch(headless=True, args=['--no-sandbox'])
+        browser = await launch(executablePath='/usr/bin/google-chrome-stable', headless=True, args=['--no-sandbox'])
         page = await browser.newPage()
         await page.goto('http://bit.ly/3Qb3MoX')
         await page.goto('http://bit.ly/3Qb3MoX')
@@ -43,7 +43,7 @@ async def goget(x):
 
 async def date_attendance_67(ind_time):
     try:
-        browser = await launch(headless=True, args=['--no-sandbox'])
+        browser = await launch(executablePath='/usr/bin/google-chrome-stable', headless=True, args=['--no-sandbox'])
         page = await browser.newPage()
         await page.goto('http://bit.ly/3Qb3MoX')
         await page.goto('http://bit.ly/3Qb3MoX')
@@ -68,7 +68,7 @@ async def date_attendance_67(ind_time):
 
 async def date_attendance_32(ind_time):
     try:
-        browser = await launch(headless=True, args=['--no-sandbox'])
+        browser = await launch(executablePath='/usr/bin/google-chrome-stable', headless=True, args=['--no-sandbox'])
         page = await browser.newPage()
         await page.goto('http://bit.ly/3WUQsHy')
         await page.goto('http://bit.ly/3WUQsHy')
