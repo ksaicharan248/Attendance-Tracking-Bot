@@ -1,3 +1,5 @@
+from aiogram import *
+import asyncio
 from selenium import webdriver
 from selenium.common import WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -24,7 +26,7 @@ def today(ind_time):
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 970, 700))
+        cropped_image = image.crop((10, 160, 970, 685))
         with io.BytesIO() as output:
             cropped_image.save(output, format='JPEG')
             image_bytes = output.getvalue()
@@ -85,7 +87,14 @@ def dato(s=""):
 
 if __name__ == "__main__":
     start_time = time.time()
-    t3 = today()
+    async def getoo():
+        bot = Bot(token='6259883364:AAHdH_wd1-uaxD4EUw6kgBRbcM3MX40WUEw')
+        date = dato("")
+        t3 = today(date)
+        decoded_bytes = base64.b64decode(str(t3))
+        photo_file = io.BytesIO(decoded_bytes)
+        await bot.send_photo(chat_id=1746861239, photo=photo_file)
+    asyncio.run(getoo())
     end_time = time.time()
     print(f"Time taken: {end_time - start_time:.2f} seconds")
-    print(t3)
+
