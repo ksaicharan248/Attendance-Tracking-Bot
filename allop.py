@@ -121,14 +121,17 @@ def goget(x):
 
 if __name__ == "__main__":
     start_time = time.time()
+
+
     async def getoo():
         bot = Bot(token='6259883364:AAHdH_wd1-uaxD4EUw6kgBRbcM3MX40WUEw')
-        t3 =  goget('67')
+        t3 = goget('67')
         decoded_bytes = base64.b64decode(str(t3))
         photo_file = io.BytesIO(decoded_bytes)
         await bot.send_photo(chat_id=1746861239, photo=photo_file)
+
+
     asyncio.run(getoo())
     end_time = time.time()
     print("done")
     print(f"Time taken: {end_time - start_time:.2f} seconds")
-
