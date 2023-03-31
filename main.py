@@ -94,7 +94,8 @@ async def attendance(message: types.Message):
             await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
         elif user_id == 5139592059:
             t2 = roshitt
-            await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
+            await bot.send_message(chat_id=message.chat.id, text="please dont use me")
+           # await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
         else:
             await bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
 
@@ -134,7 +135,8 @@ async def pic(message: types.Message):
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
-            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+            await bot.send_message(chat_id=message.chat.id, text="please dont use me")
+            #await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
 
         else:
             await  bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
@@ -166,14 +168,13 @@ async def allattendance(message: types.Message):
                  for
                  i in range(0, 14)]))
         elif user_id == 5139592059:
+            await bot.send_message(chat_id=message.chat.id, text="please dont use me")
             t2 = roshitt
-            await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+            """await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for
-                 i in range(0, 13)]))
-
-
+                 i in range(0, 13)]))"""
         else:
             await bot.send_message(chat_id=message.chat.id, text="NO data exists")
 
@@ -219,7 +220,8 @@ async def cmd_toadyattendance(message: types.Message):
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
-            await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
+            await bot.send_message(chat_id=message.chat.id, text="please dont use me")
+            #await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
 
 
         else:
@@ -252,8 +254,8 @@ async def send_tt(message: types.Message):
             photo_bytes = BytesIO()
             photo.save(photo_bytes, format='JPEG')
             photo_bytes.seek(0)
-            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-
+            #await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+            await bot.send_message(chat_id=message.chat.id, text="please dont use me")
     try:
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
@@ -263,17 +265,21 @@ async def send_tt(message: types.Message):
 
 @dp.message_handler(commands=['academic_calendar', 'ac', 'Ac', 'AC'])
 async def send_academic_calendar(message: types.Message):
-    photo_path = os.path.join(os.getcwd(), 'clg.jpg')
-    with Image.open(photo_path) as photo:
-        photo_bytes = BytesIO()
-        photo.save(photo_bytes, format='JPEG')
-        photo_bytes.seek(0)
-        await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-    try:
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-    except Exception as e:
-        pass
+    user_id = message.chat.id
+    if user_id == 1746861239:
+        await bot.send_message(chat_id=message.chat.id, text="please dont use me")
+    else:
+        photo_path = os.path.join(os.getcwd(), 'clg.jpg')
+        with Image.open(photo_path) as photo:
+            photo_bytes = BytesIO()
+            photo.save(photo_bytes, format='JPEG')
+            photo_bytes.seek(0)
+            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+        try:
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+        except Exception as e:
+            pass
 
 
 @dp.message_handler(commands=['clear', 'clc'])
@@ -330,27 +336,31 @@ async def idft_handler(message: types.Message):
 
 @dp.message_handler(commands='roll')
 async def i_pic(message: types.Message):
-    if isinstance(attendanc, str):
-        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
-
+    user_id = message.chat.id
+    if user_id == 1746861239:
+        await bot.send_message(chat_id=message.chat.id, text="please dont use me")
     else:
-        try:
-            rollno = message.text.split()[1]
-            with concurrent.futures.ThreadPoolExecutor() as ey:
-                future = ey.submit(goget, rollno)
-                encoded_string = future.result()
-            decoded_bytes = base64.b64decode(str(encoded_string))
-            photo_file = io.BytesIO(decoded_bytes)
-            await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
-            try:
-                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-            except Exception as e:
-                pass
+        if isinstance(attendanc, str):
+            await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
-        except Exception as e:
-            await bot.send_message(chat_id=message.chat.id,
-                                   text="Please enter last two digits of roll number, ex: roll xx .")
+        else:
+            try:
+                rollno = message.text.split()[1]
+                with concurrent.futures.ThreadPoolExecutor() as ey:
+                    future = ey.submit(goget, rollno)
+                    encoded_string = future.result()
+                decoded_bytes = base64.b64decode(str(encoded_string))
+                photo_file = io.BytesIO(decoded_bytes)
+                await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
+                try:
+                    await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+                    await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+                except Exception as e:
+                    pass
+
+            except Exception as e:
+                await bot.send_message(chat_id=message.chat.id,
+                                       text="Please enter last two digits of roll number, ex: roll xx .")
 
 
 t = threading.Thread(target=update_attendance)
