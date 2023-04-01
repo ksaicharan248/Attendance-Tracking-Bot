@@ -262,21 +262,17 @@ async def send_tt(message: types.Message):
 
 @dp.message_handler(commands=['academic_calendar', 'ac', 'Ac', 'AC'])
 async def send_academic_calendar(message: types.Message):
-    user_id = message.chat.id
-    if user_id == 1746861239:
-        await bot.send_message(chat_id=message.chat.id, text="please dont use me")
-    else:
-        photo_path = os.path.join(os.getcwd(), 'clg.jpg')
-        with Image.open(photo_path) as photo:
-            photo_bytes = BytesIO()
-            photo.save(photo_bytes, format='JPEG')
-            photo_bytes.seek(0)
-            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-        try:
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-            await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-        except Exception as e:
-            pass
+    photo_path = os.path.join(os.getcwd(), 'clg.jpg')
+    with Image.open(photo_path) as photo:
+        photo_bytes = BytesIO()
+        photo.save(photo_bytes, format='JPEG')
+        photo_bytes.seek(0)
+        await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+    try:
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+        await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
+    except Exception as e:
+        pass
 
 
 @dp.message_handler(commands=['clear', 'clc'])
