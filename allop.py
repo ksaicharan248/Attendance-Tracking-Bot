@@ -157,10 +157,10 @@ if __name__ == "__main__":
 
     async def getoo():
         bot = Bot(token='6259883364:AAHdH_wd1-uaxD4EUw6kgBRbcM3MX40WUEw')
-        batchroll()
-        # decoded_bytes = base64.b64decode(str(t3))
-        # photo_file = io.BytesIO(decoded_bytes)
-        # await bot.send_photo(chat_id=1746861239, photo=photo_file)
+        t3 = goget("67")
+        decoded_bytes = base64.b64decode(str(t3))
+        photo_file = io.BytesIO(decoded_bytes)
+        await bot.send_photo(chat_id=1746861239, photo=photo_file)
 
 
     asyncio.run(getoo())
