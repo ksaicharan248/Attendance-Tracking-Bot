@@ -392,7 +392,7 @@ async def batchroll_num(message: types.Message):
     user_id = message.from_user.id
     if user_id == 1746861239:
         t2 = batchroll()
-        await bot.send_message(chat_id=message.chat.id, text="roll num" + " " * (16 - len("roll num")) + " " + " " * (
+        await bot.send_message(chat_id=message.chat.id, text="roll num" + " " * (13 - len("roll num")) + " " + " " * (
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])+" %"
                  for

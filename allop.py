@@ -131,7 +131,7 @@ def batchroll():
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        roll = [62, 64, 67, 69, 76, 86, 91, "A3", "A5"]
+        roll = [62, 64, 67, 69, 76, 86, 91, "A3", "A5","B1"]
         attendance = []
         for i in range(0, len(roll)):
             driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + str(roll[i]))
