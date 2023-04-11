@@ -10,17 +10,20 @@ from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import Message
 import asyncio
-from allop import altho, altho_2, goget
+from allop import altho, altho_2, goget, batchroll
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
+import sympy
+
 
 bot = Bot(token=key)
 dp = Dispatcher(bot)
 
 attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+calculator_mode = False
 
 
 def update_attendance():
@@ -351,6 +354,52 @@ async def i_pic(message: types.Message):
         except Exception as e:
             await bot.send_message(chat_id=message.chat.id,
                                    text="Please enter last two digits of roll number, ex: roll xx .")
+
+
+@dp.message_handler(commands=['calc'])
+async def start_calculator(message: types.Message):
+    global calculator_mode
+    calculator_mode = True
+    await message.reply('Calculator mode started. Please enter a calculation. Use /stopcalc to exit calculator mode.')
+
+
+@dp.message_handler(commands=['stopcalc'])
+async def stop_calculator(message: types.Message):
+    global calculator_mode
+    calculator_mode = False
+    await message.reply('Calculator mode stopped.')
+
+
+@dp.message_handler(lambda message: calculator_mode and not message.text.startswith('/'))
+async def calculate(message: types.Message):
+    calculation = message.text
+
+    try:
+        result = sympy.sympify(calculation)
+        try:
+            num = float(result.evalf())
+            await message.reply(num)
+        except:
+            await message.reply(str(result))
+
+
+    except sympy.SympifyError:
+        await bot.send_message(chat_id=message.chat.id, text="i dont even understand...")
+
+
+@dp.message_handler(commands='batch')
+async def batchroll_num(message: types.Message):
+    user_id = message.from_user.id
+    if user_id == 1746861239:
+        t2 = batchroll()
+        await bot.send_message(chat_id=message.chat.id, text="roll num" + " " * (16 - len("roll num")) + " " + " " * (
+                    7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])+" %"
+                 for
+                 i in range(0, len(t2[0]))]))
+
+
+
 
 
 t = threading.Thread(target=update_attendance)

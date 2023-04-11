@@ -93,8 +93,8 @@ def goget(x):
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
         driver.set_window_size(1024, 768)
-        driver.get("http://bit.ly/3WUQsHy")
-        driver.get("http://bit.ly/3WUQsHy")
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         if len(y) == 2:
             driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + y)
@@ -119,16 +119,48 @@ def goget(x):
         return 'server not responding 404'
 
 
+def batchroll():
+    try:
+        opt = Options()
+        opt.add_argument('--headless')
+        opt.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024, 768)
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        roll = [62, 64, 67, 69, 76, 86, 91, "A3", "A5"]
+        attendance = []
+        for i in range(0, len(roll)):
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + str(roll[i]))
+            driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
+            driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
+            res = driver.find_element(By.CSS_SELECTOR,
+                                      "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
+            attendance.append(res)
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').clear()
+        data = list(zip(roll, attendance))
+        data.sort(key=lambda x: x[1], reverse=True)
+        roll_numbers = [x[0] for x in data]
+        sorted_percentages = [x[1] for x in data]
+        return roll_numbers, sorted_percentages
+
+
+    except WebDriverException:
+
+        return 'server not responding 404'
+
+
 if __name__ == "__main__":
     start_time = time.time()
 
 
     async def getoo():
         bot = Bot(token='6259883364:AAHdH_wd1-uaxD4EUw6kgBRbcM3MX40WUEw')
-        t3 = goget('67')
-        decoded_bytes = base64.b64decode(str(t3))
-        photo_file = io.BytesIO(decoded_bytes)
-        await bot.send_photo(chat_id=1746861239, photo=photo_file)
+        batchroll()
+        # decoded_bytes = base64.b64decode(str(t3))
+        # photo_file = io.BytesIO(decoded_bytes)
+        # await bot.send_photo(chat_id=1746861239, photo=photo_file)
 
 
     asyncio.run(getoo())
