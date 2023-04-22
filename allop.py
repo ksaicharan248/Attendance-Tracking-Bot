@@ -131,10 +131,13 @@ def batchroll():
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        roll = [62, 64, 67, 69, 76, 86, 91, "A3", "A5","B1"]
+        roll = [462, 464, 467, 469, 478, 486, 491, "4A3", "4A5", "4B1", 408, 412]
         attendance = []
         for i in range(0, len(roll)):
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + str(roll[i]))
+            if i < 10:
+                driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A0" + str(roll[i]))
+            else:
+                driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755A0" + str(roll[i]))    
             driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
             driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
             res = driver.find_element(By.CSS_SELECTOR,
@@ -154,9 +157,8 @@ def batchroll():
 
 
 if __name__ == "__main__":
-    start_time = time.time()
-
-
+    start_time = time.time()    
+    batchroll()
     async def getoo():
         bot = Bot(token='6259883364:AAHdH_wd1-uaxD4EUw6kgBRbcM3MX40WUEw')
         t3 =  altho()
@@ -165,8 +167,7 @@ if __name__ == "__main__":
         decoded_bytes = base64.b64decode(str(t3))
         photo_file = io.BytesIO(decoded_bytes)
         await bot.send_photo(chat_id=1746861239, photo=photo_file)
-
-    asyncio.run(getoo())
+    #asyncio.run(getoo())
     end_time = time.time()
     print("done")
     print(f"Time taken: {end_time - start_time:.2f} seconds")
