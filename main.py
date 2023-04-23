@@ -14,7 +14,7 @@ from allop import altho, altho_2, goget, batchroll, daily_check
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
-from re_feren_ce import key
+from re_feren_c import key
 import sympy
 
 bot = Bot(token=key)
@@ -377,7 +377,7 @@ async def calculate(message: types.Message) :
         result = sympy.sympify(calculation)
         try :
             num = float(result.evalf())
-            await message.reply(num)
+            await message.reply(str(num))
         except :
             await message.reply(str(result))
 
@@ -400,14 +400,30 @@ async def batchroll_num(message: types.Message) :
                                     for
                                     i in range(0, len(t2[0]))]))
 
+<<<<<<< HEAD
 def todoforme():
     while True:
+=======
+
+async def uper() :
+    await bot.send_message(chat_id=1746861239, text="updated edp\n https://www.appedp.com/#/pages/login/login")
+
+
+def todoformme() :
+    while True :
+>>>>>>> 1cf773b87da94e5cbf1df5f2fc9cd537c505e7d6
         crt = time.localtime()
-        if crt.tm_hour == 20 and crt.tm_min == 9 and crt.tm_sec == 50 :
+        if crt.tm_hour == 4 and crt.tm_min == 00 and crt.tm_sec == 00 :
             daily_check()
+            time.sleep(1)
+            asyncio.run(uper())
 
 
+<<<<<<< HEAD
 gotit = threading.Thread(target=todoforme)
+=======
+gotit = threading.Thread(target=todoformme)
+>>>>>>> 1cf773b87da94e5cbf1df5f2fc9cd537c505e7d6
 gotit.start()
 t = threading.Thread(target=update_attendance)
 t.start()
