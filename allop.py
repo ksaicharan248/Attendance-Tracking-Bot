@@ -213,8 +213,8 @@ if __name__ == "__main__" :
                                     for
                                     i in range(0, len(t2[0]))]))
 
-
-    asyncio.run(getoo())
+    daily_check()
+    #asyncio.run(getoo())
     end_time = time.time()
     print("done")
     print(f"Time taken: {end_time - start_time:.2f} seconds")
