@@ -8,7 +8,6 @@ from io import BytesIO
 from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import Message
 import asyncio
 from allop import altho, altho_2, goget, batchroll, daily_check
 from todaypk import today, dato, today_rs
@@ -247,8 +246,15 @@ async def send_tt(message: types.Message) :
             photo.save(photo_bytes, format='JPEG')
             photo_bytes.seek(0)
             await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-    else :
+    elif user_id == 5139592059:
         photo_path = os.path.join(os.getcwd(), 'timetable1.jpg')
+        with Image.open(photo_path) as photo :
+            photo_bytes = BytesIO()
+            photo.save(photo_bytes, format='JPEG')
+            photo_bytes.seek(0)
+            await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
+    else:
+        photo_path = os.path.join(os.getcwd(), 'timetable.jpg')
         with Image.open(photo_path) as photo :
             photo_bytes = BytesIO()
             photo.save(photo_bytes, format='JPEG')
@@ -391,11 +397,12 @@ async def batchroll_num(message: types.Message) :
     user_id = message.from_user.id
     if user_id == 1746861239 :
         t2 = batchroll()
-        await bot.send_message(chat_id=message.chat.id,text="sno " + " " * (6- len(str("s.no"))) + "roll num " + " " * (
-                                           5 - len("roll num")) + " " + " " * (
+        await bot.send_message(chat_id=message.chat.id,
+                               text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
+                                       5 - len("roll num")) + " " + " " * (
                                             7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                                    [str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
-                                               8 - len(str(t2[0][i]))) + ":" + " " * (
+                                           8 - len(str(t2[0][i]))) + ":" + " " * (
                                             10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
                                     for
                                     i in range(0, len(t2[0]))]))
@@ -414,9 +421,6 @@ def todoformme() :
             if s == 1 :
                 asyncio.run(uper())
             time.sleep(60)
-
-
-
 
 
 gotit = threading.Thread(target=asyncio.run, args=(todoformme(),))
