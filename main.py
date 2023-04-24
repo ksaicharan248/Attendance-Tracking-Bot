@@ -14,7 +14,7 @@ from allop import altho, altho_2, goget, batchroll, daily_check
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
-from re_feren_ce import key
+from re_feren_c import key
 import sympy
 
 bot = Bot(token=key)
@@ -408,15 +408,20 @@ async def uper() :
 def todoformme() :
     while True :
         crt = time.localtime()
-        if crt.tm_hour == 4 and crt.tm_min == 00 and crt.tm_sec == 00 :
-            daily_check()
-            time.sleep(1)
-            asyncio.run(uper())
+        if crt.tm_hour == 6 and crt.tm_min == 00 and crt.tm_sec == 00 :
+            s = daily_check()
+
+            if s == 1 :
+                asyncio.run(uper())
+            time.sleep(60)
 
 
 
-gotit = threading.Thread(target=todoformme)
+
+
+gotit = threading.Thread(target=asyncio.run, args=(todoformme(),))
 gotit.start()
+
 t = threading.Thread(target=update_attendance)
 t.start()
 keep_alive()
