@@ -14,7 +14,7 @@ from allop import altho, altho_2, goget, batchroll, daily_check
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
-from re_feren_c import key
+from re_feren_ce import key
 import sympy
 
 bot = Bot(token=key)
