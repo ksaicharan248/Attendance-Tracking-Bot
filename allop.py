@@ -208,10 +208,7 @@ if __name__ == "__main__" :
             t2 = altho_2()
             decoded_bytes = base64.b64decode(str(t2[2]))
             photo_file = io.BytesIO(decoded_bytes)
-            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
-                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
-                 for i in range(0, 14)]))
+            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0, 13)]))
             await bot.send_photo(chat_id=1746861239, photo=photo_file)
 
         if s == 3:
