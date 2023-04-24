@@ -1,4 +1,3 @@
-import json
 import threading
 import asyncio
 from aiogram import *
@@ -35,11 +34,10 @@ def altho() :
                                            i)).text for i in [1, 4]]
             subjects.append(values[0]), results.append(values[1])
         subjects.append(txt[0]), results.append(txt[1])
-        driver.execute_script("document.body.style.fontFamily = 'Arial'") 
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         cropped_image = image.crop((10, 140, 970, 665))
-        with io.BytesIO() as output:
+        with io.BytesIO() as output :
             cropped_image.save(output, format='PNG', quality=100)
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
@@ -133,10 +131,10 @@ def batchroll() :
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         roll = [462, 464, 467, 469, 478, 486, 491, "4A3", "4A5", "4B1", 408, 412]
         attendance = []
-        for i in range(0, len(roll)):
-            if i < 10:
+        for i in range(0, len(roll)) :
+            if i < 10 :
                 driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A0" + str(roll[i]))
-            else:
+            else :
                 driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755A0" + str(roll[i]))
             driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
             driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
@@ -157,7 +155,7 @@ def batchroll() :
 
 
 def daily_check() :
-    try:
+    try :
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
@@ -188,7 +186,7 @@ def daily_check() :
                 'document.querySelector("body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view:nth-child(3) > uni-view.margin-lr.padding-lr.padding-tb-lg.flex.justify-between > uni-button").click();')
             time.sleep(2)
         driver.close()
-    except WebDriverException:
+    except WebDriverException :
 
         return 'server not responding 404'
 
@@ -198,20 +196,35 @@ if __name__ == "__main__" :
 
 
     async def getoo() :
+        s = int(input("enter the option 1,2,3,4,5:"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
-        t2 = batchroll()
-        # decoded_bytes = base64.b64decode(str(t3))
-        # photo_file = io.BytesIO(decoded_bytes)
-        # await bot.send_photo(chat_id=1746861239, photo=photo_file)
-        await bot.send_message(chat_id=1746861239,
-                               text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
-                                       5 - len("roll num")) + " " + " " * (
-                                            7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                                   [str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
-                                           8 - len(str(t2[0][i]))) + ":" + " " * (
-                                            10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
-                                    for
-                                    i in range(0, len(t2[0]))]))
+        if s == 1:
+            t2 = altho()
+            decoded_bytes = base64.b64decode(str(t2[2]))
+            photo_file = io.BytesIO(decoded_bytes)
+            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0, 14)]))
+            await bot.send_photo(chat_id=1746861239, photo=photo_file)
+        if s == 2:
+            t2 = altho_2()
+            decoded_bytes = base64.b64decode(str(t2[2]))
+            photo_file = io.BytesIO(decoded_bytes)
+            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
+                 for i in range(0, 14)]))
+            await bot.send_photo(chat_id=1746861239, photo=photo_file)
+
+        if s == 3:
+            t2 = goget(467)
+            decoded_bytes = base64.b64decode(str(t2))
+            photo_file = io.BytesIO(decoded_bytes)
+            await bot.send_photo(chat_id=1746861239, photo=photo_file)
+
+        if s == 4:
+            t2 = batchroll()
+            await bot.send_message(chat_id=1746861239,text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (5 - len("roll num")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (8 - len(str(t2[0][i]))) + ":" + " " * (10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %" for i in range(0, len(t2[0]))]))
+
+
 
 
     asyncio.run(getoo())
