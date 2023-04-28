@@ -186,9 +186,10 @@ def daily_check() :
                 'document.querySelector("body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view:nth-child(3) > uni-view.margin-lr.padding-lr.padding-tb-lg.flex.justify-between > uni-button").click();')
             time.sleep(2)
         driver.close()
+        return 1
     except WebDriverException :
 
-        return 'server not responding 404'
+        return 0
 
 
 if __name__ == "__main__" :
