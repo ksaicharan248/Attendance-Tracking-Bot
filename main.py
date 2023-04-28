@@ -394,7 +394,6 @@ async def calculate(message: types.Message) :
 
 @dp.message_handler(commands='batch')
 async def batchroll_num(message: types.Message) :
-    user_id = message.from_user.id
     await bot.send_message(chat_id=message.chat.id,
                                text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
                                        5 - len("roll num")) + " " + " " * (
