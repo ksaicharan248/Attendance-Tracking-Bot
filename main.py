@@ -388,10 +388,8 @@ async def calculate(message: types.Message) :
 
 @dp.message_handler(commands='batch')
 async def batchroll_num(message: types.Message) :
-    user_id = message.from_user.id
-    if user_id == 1746861239 :
-        t2 = batchroll()
-        await bot.send_message(chat_id=message.chat.id,text="sno " + " " * (6- len(str("s.no"))) + "roll num " + " " * (
+    t2 = batchroll()
+    await bot.send_message(chat_id=message.chat.id,text="sno " + " " * (6- len(str("s.no"))) + "roll num " + " " * (
                                            5 - len("roll num")) + " " + " " * (
                                             7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                                    [str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
@@ -399,28 +397,6 @@ async def batchroll_num(message: types.Message) :
                                             10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
                                     for
                                     i in range(0, len(t2[0]))]))
-
-
-async def uper() :
-    await bot.send_message(chat_id=1746861239, text="updated edp\n https://www.appedp.com/#/pages/login/login")
-
-
-def todoformme() :
-    while True :
-        crt = time.localtime()
-        if crt.tm_hour == 6 and crt.tm_min == 00 and crt.tm_sec == 00 :
-            s = daily_check()
-
-            if s == 1 :
-                asyncio.run(uper())
-            time.sleep(60)
-
-
-
-
-
-gotit = threading.Thread(target=asyncio.run, args=(todoformme(),))
-gotit.start()
 
 t = threading.Thread(target=update_attendance)
 t.start()
