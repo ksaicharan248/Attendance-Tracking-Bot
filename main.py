@@ -38,7 +38,7 @@ def update_attendance() :
 async def gooo() :
     t = attendanc[1][13]
     boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-    await boont.send_message(chat_id="1746861239", text="Attendance:"+str(t)+"%")
+    await boont.send_message(chat_id="1746861239", text="Attendance:"+str(t)+"%", disable_notification=True)
 
 
 @dp.message_handler(commands=['updater'])
