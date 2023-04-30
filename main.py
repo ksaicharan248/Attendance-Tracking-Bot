@@ -32,6 +32,7 @@ def update_attendance() :
         roshitt = altho_2()
         time.sleep(2)
         asyncio.run(gooo())
+        print("Running threads:", threading.enumerate())
         time.sleep(600)
 
 
@@ -50,8 +51,8 @@ async def cmd_updaters(message: types.Message) :
     user_id = message.from_user.id
     if user_id == 1746861239 or user_id == 5139592059 :
         await bot.send_message(chat_id=message.chat.id, text="updating the process .....")
-        r = threading.Thread(target=update_attendance)
-        r.start()
+        rox = threading.Thread(target=update_attendance)
+        rox.start()
         time.sleep(10)
         try :
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
@@ -61,6 +62,9 @@ async def cmd_updaters(message: types.Message) :
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 2)
         except Exception as e :
             pass
+
+        timer = threading.Timer(10.0, rox._stop)
+        timer.start()
     else :
         await bot.send_message(chat_id=message.chat.id,
                                text="You cannot use this commands this status is updated to admin")
