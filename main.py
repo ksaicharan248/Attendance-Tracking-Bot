@@ -33,7 +33,7 @@ def update_attendance() :
         time.sleep(2)
         asyncio.run(gooo())
         print("Running threads:", threading.enumerate())
-        time.sleep(600)
+        time.sleep(6000)
 
 
 async def gooo() :
@@ -62,9 +62,13 @@ async def cmd_updaters(message: types.Message) :
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id + 2)
         except Exception as e :
             pass
+        if rox.is_alive() :
+            timer = threading.Timer(40.0, rox._stop)
+            timer.start()
+            print("Thread is still running")
+        else :
+            print("Thread has finished")
 
-        timer = threading.Timer(10.0, rox._stop)
-        timer.start()
     else :
         await bot.send_message(chat_id=message.chat.id,
                                text="You cannot use this commands this status is updated to admin")
@@ -144,18 +148,14 @@ async def pic(message: types.Message) :
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-
-
         elif user_id == 5139592059 :
             encoded_string = str(roshitt[2])
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-
         else :
             await  bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
-
         try :
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
