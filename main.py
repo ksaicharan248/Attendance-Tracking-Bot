@@ -9,7 +9,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import altho, altho_2, goget, batchroll, daily_check
+from allop import altho, altho_2, goget, batchroll, daily_check, delete_msg
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -32,18 +32,21 @@ def update_attendance() :
         roshitt = altho_2()
         time.sleep(2)
         asyncio.run(gooo())
-        print("Running threads:", threading.enumerate())
         time.sleep(6000)
 
 
 async def gooo() :
     global intial
     t = attendanc[1][13]
-    if t != intial:
+    if t != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%", disable_notification=True)
+        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",disable_notification=True)
+        msg_id = msg["message_id"]
+        if msg_id % 10 == 0 :
+            for i in range(msg_id - 10, msg_id) :
+                deleting = threading.Thread(target=delete_msg(i), args=(i,))
+                deleting.start()
         intial = t
-
 
 
 @dp.message_handler(commands=['updater'])
