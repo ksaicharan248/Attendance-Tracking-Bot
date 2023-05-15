@@ -13,7 +13,7 @@ import time
 
 def altho() :
     try :
-        subjects, results = [], []
+        subjects, results ,txt= [], [], []
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
@@ -50,7 +50,7 @@ def altho() :
 
 def altho_2() :
     try :
-        subjects, results = [], []
+        subjects, results ,txt= [], [], []
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
@@ -154,41 +154,20 @@ def batchroll() :
         return 'server not responding 404'
 
 
-def daily_check() :
+
+
+def delete_msg(x):
+    link = "https://api.telegram.org/bot6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk/deleteMessage?chat_id=1746861239&message_id=" + str(x)
     try :
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
         driver.set_window_size(1024, 768)
-        nums = [9014145839, 8919994235, 9440516668, 8019293540, 6304439282]
-        for i in range(0, 5) :
-            driver.get("https://www.appedp.com/#/pages/login/login")
-            driver.find_element(By.CSS_SELECTOR,
-                                'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.padding-tb-lg.radius.bg-white > uni-view:nth-child(2) > uni-view:nth-child(1) > uni-input > div > input').clear()
-            driver.find_element(By.CSS_SELECTOR,
-                                'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.padding-tb-lg.radius.bg-white > uni-view:nth-child(2) > uni-view:nth-child(1) > uni-input > div > input').send_keys(
-                nums[i])
-            time.sleep(2)
-            driver.find_element(By.CSS_SELECTOR,
-                                'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.padding-tb-lg.radius.bg-white > uni-view:nth-child(2) > uni-view:nth-child(2) > uni-input > div > input').clear()
-            driver.find_element(By.CSS_SELECTOR,
-                                'body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.padding-tb-lg.radius.bg-white > uni-view:nth-child(2) > uni-view:nth-child(2) > uni-input > div > input').send_keys(
-                "1234")
-            time.sleep(2)
-            driver.execute_script(
-                'document.querySelector("body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view.padding-tb-lg.radius.bg-white > uni-view:nth-child(3) > uni-button").click();')
-            time.sleep(2)
-            driver.execute_script(
-                'document.querySelector("body > uni-app > uni-tabbar > div.uni-tabbar > div:nth-child(5)").click();')
-            time.sleep(2)
-            driver.execute_script(
-                'document.querySelector("body > uni-app > uni-page > uni-page-wrapper > uni-page-body > uni-view > uni-view:nth-child(3) > uni-view.margin-lr.padding-lr.padding-tb-lg.flex.justify-between > uni-button").click();')
-            time.sleep(2)
+        driver.get(link)
         driver.close()
-        return 1
-    except WebDriverException :
 
+    except WebDriverException:
         return 0
 
 
@@ -197,7 +176,7 @@ if __name__ == "__main__" :
 
 
     async def getoo() :
-        s = int(input("enter the option 1,2,3,4,5:"))
+        s = int(input("enter the option 1,2,3,4:-->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1:
             t2 = altho()
@@ -222,11 +201,9 @@ if __name__ == "__main__" :
             t2 = batchroll()
             await bot.send_message(chat_id=1746861239,text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (5 - len("roll num")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (8 - len(str(t2[0][i]))) + ":" + " " * (10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %" for i in range(0, len(t2[0]))]))
 
-        if s ==5:
-            daily_check()
-            print("done")
+  
 
-    #daily_check()
+   
     asyncio.run(getoo())
     end_time = time.time()
     print("done")

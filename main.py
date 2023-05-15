@@ -19,7 +19,7 @@ import sympy
 bot = Bot(token=key)
 dp = Dispatcher(bot)
 intial = 0.00
-attendanc = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+attendanc = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
 roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
 calculator_mode = False
 
@@ -81,7 +81,7 @@ async def cmd_updaters(message: types.Message) :
 
 
 @dp.message_handler(commands=['start'])
-async def start(message) :
+async def start(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id, text="Hello,/help")
 
 
@@ -391,7 +391,7 @@ async def start_calculator(message: types.Message) :
 async def stop_calculator(message: types.Message) :
     global calculator_mode
     calculator_mode = False
-    await message.reply('Calculator mode stopped.')
+    await message.reply('Calculator mode stopped./calc')
 
 
 @dp.message_handler(lambda message : calculator_mode and not message.text.startswith('/'))
@@ -425,23 +425,9 @@ async def batchroll_num(message: types.Message) :
                                 i in range(0, len(t2[0]))]))
 
 
-async def uper() :
-    await bot.send_message(chat_id=1746861239, text="updated edp\n https://www.appedp.com/#/pages/login/login")
 
-
-def todoformme() :
-    while True :
-        crt = time.localtime()
-        if crt.tm_hour == 6 and crt.tm_min == 00 and crt.tm_sec == 00 :
-            s = daily_check()
-
-            if s == 1 :
-                asyncio.run(uper())
-            time.sleep(60)
-
-
-t = threading.Thread(target=update_attendance)
-t.start()
-keep_alive()
 if __name__ == '__main__' :
     executor.start_polling(dp)
+    t = threading.Thread(target=update_attendance)
+    t.start()
+    keep_alive()
