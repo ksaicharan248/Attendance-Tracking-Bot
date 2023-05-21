@@ -40,7 +40,7 @@ async def gooo() :
     t = attendanc[1][13]
     if t != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",disable_notification=True)
+        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%", disable_notification=True)
         msg_id = msg["message_id"]
         if msg_id % 10 == 0 :
             for i in range(msg_id - 10, msg_id) :
@@ -86,13 +86,13 @@ async def start(message: types.Message) :
 
 
 @dp.message_handler(commands=['help'])
-async def help(message) :
+async def help(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id,
-                           text="/attendance     --------->  percentage \n/allattendance --------->  including subjects\n/pic                   ----------> photo copy\n/more")
+                           text="/attendance     --------->  percentage \n/allattendance --------->  including subjects\n/pic                   ---------> photo copy\n/more")
 
 
 @dp.message_handler(commands=['more'])
-async def cmd_more(message) :
+async def cmd_more(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id,
                            text="/clear ---------->clear chat \n/todayattendance----->todays\n")
     try :
@@ -396,7 +396,6 @@ async def stop_calculator(message: types.Message) :
 @dp.message_handler(lambda message : calculator_mode and not message.text.startswith('/'))
 async def calculate(message: types.Message) :
     calculation = message.text
-
     try :
         result = sympy.sympify(calculation)
         try :
