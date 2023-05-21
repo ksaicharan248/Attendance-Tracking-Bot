@@ -9,7 +9,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import altho, altho_2, goget, batchroll, daily_check, delete_msg
+from allop import altho, altho_2, goget, batchroll, delete_msg
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
