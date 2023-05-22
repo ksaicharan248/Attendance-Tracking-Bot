@@ -20,27 +20,41 @@ bot = Bot(token=key)
 dp = Dispatcher(bot)
 intial = 0.00
 attendanc = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
-roshitt = ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000)
+roshitt = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
 calculator_mode = False
+stop_event1 = threading.Event()
+stop_event2 = threading.Event()
 
 
-def update_attendance() :
-    while True :
+def update_attendance(stop_event) :
+    while not stop_event.is_set() :
         global attendanc, roshitt
         attendanc = altho()
         time.sleep(10)
         roshitt = altho_2()
         time.sleep(2)
         asyncio.run(gooo())
+        file_path = "therads.txt"
+        with open(file_path, "a") as file :
+            running_threads = threading.enumerate()
+            for thread in running_threads :
+                thread_info = f"Thread name: {thread}\n"
+                file.write(thread_info)
         time.sleep(6000)
 
 
+
+def stop_thread() -> None :
+    stop_event2.set()
+
+
 async def gooo() :
-    global intial
+    global intial, attendanc
     t = attendanc[1][13]
     if t != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%", disable_notification=True)
+        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",
+                                       disable_notification=True)
         msg_id = msg["message_id"]
         if msg_id % 10 == 0 :
             for i in range(msg_id - 10, msg_id) :
@@ -54,7 +68,7 @@ async def cmd_updaters(message: types.Message) :
     user_id = message.from_user.id
     if user_id == 1746861239 or user_id == 5139592059 :
         await bot.send_message(chat_id=message.chat.id, text="updating the process .....")
-        rox = threading.Thread(target=update_attendance)
+        rox = threading.Thread(target=update_attendance, args=(stop_event2,), name="secondary")
         rox.start()
         time.sleep(10)
         try :
@@ -66,11 +80,11 @@ async def cmd_updaters(message: types.Message) :
         except Exception as e :
             pass
         if rox.is_alive() :
-            timer = threading.Timer(40.0, rox._stop)
+            timer = threading.Timer(40.0, stop_thread)
             timer.start()
-            print("Thread is still running")
-        else :
-            print("Thread has finished")
+
+
+
 
     else :
         await bot.send_message(chat_id=message.chat.id,
@@ -157,7 +171,7 @@ async def pic(message: types.Message) :
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
         else :
-            await  bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
+            await bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
         try :
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
             await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
@@ -423,9 +437,9 @@ async def batchroll_num(message: types.Message) :
                                 i in range(0, len(t2[0]))]))
 
 
+first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
+first_thread.start()
 
 if __name__ == '__main__' :
-    executor.start_polling(dp)
-    t = threading.Thread(target=update_attendance)
-    t.start()
     keep_alive()
+    executor.start_polling(dp)

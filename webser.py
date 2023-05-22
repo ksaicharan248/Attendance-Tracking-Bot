@@ -3,16 +3,16 @@ from threading import Thread
 
 app = Flask('')
 
+
 @app.route('/')
-
-def home():
-  return "i am alive"
-
-
-def run():
-  app.run(host="0.0.0.0",port=8080)
+def home() :
+    return "i am alive"
 
 
-def keep_alive():
-  t =Thread(target=run)
-  t.start()
+def run() :
+    app.run(host="0.0.0.0", port=8080)
+
+
+def keep_alive() :
+    t = Thread(target=run, name="hosting thread")
+    t.start()
