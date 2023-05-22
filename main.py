@@ -376,7 +376,7 @@ async def i_pic(message: types.Message) :
     else :
         try :
             rollno = message.text.split()[1]
-            with concurrent.futures.ThreadPoolExecutor() as ey :
+            with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="roll_fuction") as ey :
                 future = ey.submit(goget, rollno)
                 encoded_string = future.result()
             decoded_bytes = base64.b64decode(str(encoded_string))
