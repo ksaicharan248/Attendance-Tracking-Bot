@@ -40,7 +40,7 @@ def update_attendance(stop_event) :
             for thread in running_threads :
                 thread_info = f"Thread name: {thread}\n"
                 file.write(thread_info)
-        time.sleep(6000)
+        time.sleep(600)
 
 
 
