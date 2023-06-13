@@ -80,7 +80,7 @@ async def cmd_updaters(message: types.Message) :
         except Exception as e :
             pass
         if rox.is_alive() :
-            timer = threading.Timer(40.0, stop_thread)
+            timer = threading.Timer(100.0, stop_thread)
             timer.start()
 
 
@@ -315,24 +315,17 @@ async def send_academic_calendar(message: types.Message) :
         pass
 
 
-@dp.message_handler(commands=['clear', 'clc'])
+@dp.message_handler(commands=['clear', 'clc','clr'])
 async def cmd_clear(message: types.Message) :
     full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
-    if full_name == "saicharan" :
-        for i in range(0, 50) :
-            try :
-                await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
-            except Exception as e :
-                pass
-    else :
-        await bot.send_message(chat_id=message.chat.id, text="cant be used ")
-
-
-@dp.message_handler(commands=['clr'])
-async def cmd_clear(message: types.Message) :
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
-    ref_str_num = message.text.split()[1]
-    ref_num = int(ref_str_num)
+    try:
+        ref_str_num = message.text.split()[1]
+    except IndexError:
+        ref_str_num = None
+    if ref_str_num is None:
+        ref_num = 50
+    else:
+        ref_num = int(ref_str_num)
     if full_name == "saicharan" :
         for i in range(0, ref_num) :
             try :
@@ -343,10 +336,12 @@ async def cmd_clear(message: types.Message) :
         await bot.send_message(chat_id=message.chat.id, text="cant be used ")
 
 
+
+
+
 @dp.message_handler(commands=['dft'])
 async def dft_handler(message: types.Message) :
-    try :
-        input_str = message.text.split()[1]
+    try : 
         input_list = input_str.split(",")
         x = [parse_complex(val) for val in input_list]
         y = dft(x)
