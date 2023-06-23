@@ -18,7 +18,7 @@ import sympy
 
 bot = Bot(token=key)
 dp = Dispatcher(bot)
-intial = 0.00
+intial =  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 attendanc = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
 roshitt = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
 calculator_mode = False
@@ -50,12 +50,24 @@ def stop_thread() -> None :
 
 async def gooo() :
     global intial, attendanc
-    t = attendanc[1][13]
+    updated_list=[]
+    t = attendanc[1]
     if t != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",
-                                       disable_notification=True)
+        if intial[13]!=0:
+            for i in range(0, 13) :
+                if t[i] != intial[i] :
+                    if float(t[i]) > float(intial[i]) :
+                        updated_list.append(attendanc[0][i] + "  ⬆️ ")
+                    else :
+                        updated_list.append(attendanc[0][i] + "  ⬇️ ")
+
+            print()
+            await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
+        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t[13]) + "%",disable_notification=True)
         intial = t
+
+
 
 
 @dp.message_handler(commands=['updater'])
