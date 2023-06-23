@@ -53,13 +53,8 @@ async def gooo() :
     t = attendanc[1][13]
     if t != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        msg = await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",
+        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t) + "%",
                                        disable_notification=True)
-        msg_id = msg["message_id"]
-        if msg_id % 10 == 0 :
-            for i in range(msg_id - 10, msg_id) :
-                deleting = threading.Thread(target=delete_msg(i), args=(i,))
-                deleting.start()
         intial = t
 
 
