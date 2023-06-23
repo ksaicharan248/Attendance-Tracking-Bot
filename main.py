@@ -332,8 +332,6 @@ async def cmd_clear(message: types.Message) :
 
 
 
-
-
 @dp.message_handler(commands=['dft'])
 async def dft_handler(message: types.Message) :
     try : 
@@ -420,7 +418,7 @@ async def batchroll_num(message: types.Message) :
                            text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
                                    5 - len("roll num")) + " " + " " * (
                                         7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                               [str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
+                               [str(i + 1).zfill(2) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
                                        8 - len(str(t2[0][i]))) + ":" + " " * (
                                         10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
                                 for
