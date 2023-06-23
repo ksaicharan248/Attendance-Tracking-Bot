@@ -61,9 +61,8 @@ async def gooo() :
                         updated_list.append(attendanc[0][i] + "  ⬆️ ")
                     else :
                         updated_list.append(attendanc[0][i] + "  ⬇️ ")
-
-            print()
-            await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
+            if len(updated_list)>0:
+                await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
         await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t[13]) + "%",disable_notification=True)
         intial = t
 
