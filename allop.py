@@ -1,5 +1,7 @@
 import threading
 import asyncio
+from typing import List
+
 from aiogram import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -13,7 +15,7 @@ import time
 
 def altho() :
     try :
-        subjects, results ,txt= [], [], []
+        subjects, results, txt = [], [], []
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
@@ -21,17 +23,13 @@ def altho() :
         driver.set_window_size(1024, 768)
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
-        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=20751A0467")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         for i in range(2, 15) :
-            selectors = [
-                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
-                    i, col) for col in [2, 5]]
+            selectors = ["#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(i, col) for col in [2, 5]]
             values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
-            txt = [driver.find_element(By.CSS_SELECTOR,
-                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child({})".format(
-                                           i)).text for i in [1, 4]]
+            txt = [driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child({})".format(i)).text for i in [1, 4]]
             subjects.append(values[0]), results.append(values[1])
         subjects.append(txt[0]), results.append(txt[1])
         screenshot = driver.get_screenshot_as_png()
@@ -50,8 +48,9 @@ def altho() :
 
 def altho_2() :
     try :
-        subjects, results ,txt= [], [], []
+        subjects, results, txt = [], [], []
         opt = Options()
+        n= 14
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
@@ -63,12 +62,9 @@ def altho_2() :
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         for i in range(2, 14) :
             selectors = [
-                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
-                    i, col) for col in [2, 5]]
+                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(i, col) for col in [2, 5]]
             values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
-            txt = [driver.find_element(By.CSS_SELECTOR,
-                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child({})".format(
-                                           i)).text for i in [1, 4]]
+            txt = [driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(n,i)).text for i in [1, 4]]
             subjects.append(values[0]), results.append(values[1])
         subjects.append(txt[0]), results.append(txt[1])
         screenshot = driver.get_screenshot_as_png()
@@ -154,10 +150,57 @@ def batchroll() :
         return 'server not responding 404'
 
 
+def graber():
+    try :
+        roll_numbers = ['20751A0467', '20751A0232']
+        length_of_subjects = [15, 14]
+        roll_data = []
+        opt = Options()
+        opt.add_argument('--headless')
+        opt.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024, 768)
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        for x in range(len(roll_numbers)):
+            subjects, results, txt = [], [], []
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys(roll_numbers[x])
+            driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
+            driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
+            for i in range(2, length_of_subjects[x]):
+                selectors = [
+                    "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
+                        i, col) for col in [2, 5]]
+                values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
+                subjects.append(values[0])
+                results.append(values[1])
+            txt = [driver.find_element(By.CSS_SELECTOR,
+                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
+                                           length_of_subjects[x], i)).text for i in [1, 4]]
+            subjects.append(txt[0])
+            results.append(txt[1])
+            screenshot = driver.get_screenshot_as_png()
+            image = Image.open(io.BytesIO(screenshot)).convert('RGB')
+            cropped_image = image.crop((10, 140, 970, 665))
+            with io.BytesIO() as output:
+                cropped_image.save(output, format='PNG', quality=100)
+                image_bytes = output.getvalue()
+            encoded_string = base64.b64encode(image_bytes).decode('utf-8')
+            roll_data.append([subjects, results ,encoded_string])
+            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').clear()
+
+        driver.close()
+        return roll_data
 
 
-def delete_msg(x):
-    link = "https://api.telegram.org/bot6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk/deleteMessage?chat_id=1746861239&message_id=" + str(x)
+    except WebDriverException :
+        return 'server not responding 404'
+
+
+def delete_msg(x) :
+    link = "https://api.telegram.org/bot6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk/deleteMessage?chat_id=1746861239&message_id=" + str(
+        x)
     try :
         opt = Options()
         opt.add_argument('--headless')
@@ -167,7 +210,7 @@ def delete_msg(x):
         driver.get(link)
         driver.close()
 
-    except WebDriverException:
+    except WebDriverException :
         return 0
 
 
@@ -176,34 +219,53 @@ if __name__ == "__main__" :
 
 
     async def getoo() :
-        s = int(input("enter the option 1,2,3,4:-->"))
+        s = int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
-        if s == 1:
-            t2 = altho()
-            decoded_bytes = base64.b64decode(str(t2[2]))
-            photo_file = io.BytesIO(decoded_bytes)
-            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0, 14)]))
-            await bot.send_photo(chat_id=1746861239, photo=photo_file)
-        if s == 2:
+        if s == 1 :
+            attend = graber()
+            for k in range(0,2):
+                t2 = attend[k]
+
+                decoded_bytes = base64.b64decode(str(t2[2]))
+                photo_file = io.BytesIO(decoded_bytes)
+                await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                    [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(
+                        t2[1][i])
+                     for i in range(0, len(t2[1]))]))
+                await bot.send_photo(chat_id=1746861239, photo=photo_file)
+
+        if s == 2 :
             t2 = altho_2()
             decoded_bytes = base64.b64decode(str(t2[2]))
             photo_file = io.BytesIO(decoded_bytes)
-            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i]) for i in range(0, 13)]))
+            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
+                 for i in range(0, 13)]))
             await bot.send_photo(chat_id=1746861239, photo=photo_file)
 
-        if s == 3:
+        if s == 3 :
             t2 = goget(467)
             decoded_bytes = base64.b64decode(str(t2))
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239, photo=photo_file)
 
-        if s == 4:
+        if s == 4 :
             t2 = batchroll()
-            await bot.send_message(chat_id=1746861239,text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (5 - len("roll num")) + " " + " " * (7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([str(i + 1) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (8 - len(str(t2[0][i]))) + ":" + " " * (10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %" for i in range(0, len(t2[0]))]))
-
+            await bot.send_message(chat_id=1746861239,
+                                   text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
+                                           5 - len("roll num")) + " " + " " * (
+                                                7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
+                                       [str(i + 1).zfill(2) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
+                                               8 - len(str(t2[0][i]))) + ":" + " " * (
+                                                10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
+                                        for
+                                        i in range(0, len(t2[0]))]))
 
 
     asyncio.run(getoo())
+
     end_time = time.time()
     print("done")
     print(f"Time taken: {end_time - start_time:.2f} seconds")
