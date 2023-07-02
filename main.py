@@ -9,7 +9,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import altho, altho_2, goget, batchroll, delete_msg
+from allop import altho, altho_2, goget, batchroll, delete_msg ,graber
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -29,17 +29,10 @@ stop_event2 = threading.Event()
 def update_attendance(stop_event) :
     while not stop_event.is_set() :
         global attendanc, roshitt
-        attendanc = altho()
-        time.sleep(10)
-        roshitt = altho_2()
-        time.sleep(2)
+        total_attendance = graber()
+        attendanc = total_attendance[0]
+        roshitt = total_attendance[1]
         asyncio.run(gooo())
-        file_path = "therads.txt"
-        with open(file_path, "a") as file :
-            running_threads = threading.enumerate()
-            for thread in running_threads :
-                thread_info = f"Thread name: {thread}\n"
-                file.write(thread_info)
         time.sleep(600)
 
 
