@@ -154,6 +154,7 @@ def graber():
     try :
         roll_numbers = ['20751A0467', '20751A0232']
         length_of_subjects = [15, 14]
+        width = [[10, 160, 970, 685],[10,160,970,665]]
         roll_data = []
         opt = Options()
         opt.add_argument('--headless')
@@ -182,7 +183,7 @@ def graber():
             results.append(txt[1])
             screenshot = driver.get_screenshot_as_png()
             image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-            cropped_image = image.crop((10, 140, 970, 665))
+            cropped_image = image.crop((width[x]))
             with io.BytesIO() as output:
                 cropped_image.save(output, format='PNG', quality=100)
                 image_bytes = output.getvalue()
