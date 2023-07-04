@@ -362,11 +362,7 @@ async def idft_handler(message: types.Message) :
 @dp.message_handler(commands='roll')
 async def i_pic(message: types.Message) :
     user_id = message.chat.id
-    if isinstance(attendanc, str) :
-        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
-
-    else :
-        try :
+    try :
             rollno = message.text.split()[1]
             with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="roll_fuction") as ey :
                 future = ey.submit(goget, rollno)
@@ -380,7 +376,7 @@ async def i_pic(message: types.Message) :
             except Exception as e :
                 pass
 
-        except Exception as e :
+    except Exception as e :
             await bot.send_message(chat_id=message.chat.id,
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
