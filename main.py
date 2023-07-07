@@ -455,8 +455,8 @@ async def batchroll_num(message: types.Message) :
         pickle.dump(t2, file)
 
 
-#first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
-#first_thread.start()
+first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
+first_thread.start()
 
 if __name__ == '__main__' :
     keep_alive()
