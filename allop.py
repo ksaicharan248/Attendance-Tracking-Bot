@@ -1,3 +1,4 @@
+import pickle
 import threading
 import asyncio
 from typing import List
@@ -199,28 +200,46 @@ def graber():
         return 'server not responding 404'
 
 
-def delete_msg(x) :
-    link = "https://api.telegram.org/bot6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk/deleteMessage?chat_id=1746861239&message_id=" + str(
-        x)
+def batchrolls() :
     try :
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
         driver.set_window_size(1024, 768)
-        driver.get(link)
-        driver.close()
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
+                    '467' : {'percentage' : 0 , 'state' : ''} , '486' : {'percentage' : 0 , 'state' : ''} ,
+                    '469' : {'percentage' : 0 , 'state' : ''} , '478' : {'percentage' : 0 , 'state' : ''} ,
+                    '491' : {'percentage' : 0 , 'state' : ''} , '4A3' : {'percentage' : 0 , 'state' : ''} ,
+                    '4A5' : {'percentage' : 0 , 'state' : ''} , '4B1' : {'percentage' : 0 , 'state' : ''} ,
+                    '408' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
 
-    except WebDriverException :
-        return 0
+        roll_numbers = list(batche.keys())
+        for i in range(len(roll_numbers)) :
+            roll_number = roll_numbers[i]
+            roll_string = "20751A0" + str(roll_number) if i < 10 else "21755A0" + str(roll_number)
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(roll_string)
+            driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+            driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+            res : float = driver.find_element(By.CSS_SELECTOR ,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
+            batche[roll_number]['percentage'] = res
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
+
+        sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
+        return sorted_batche
+
+    except WebDriverException:
+
+            return "Error occurred during web scraping."
 
 
 if __name__ == "__main__" :
     start_time = time.time()
-
-
     async def getoo() :
-        s = int(input("enter the option 1,2,3,4:-------->"))
+        s =4 # int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1 :
             attend = graber()
@@ -235,6 +254,7 @@ if __name__ == "__main__" :
                         t2[1][i])
                      for i in range(0, len(t2[1]))]))
                 await bot.send_photo(chat_id=1746861239, photo=photo_file)
+                await bot.close()
 
         if s == 2 :
             t2 = altho_2()
@@ -245,26 +265,31 @@ if __name__ == "__main__" :
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for i in range(0, 13)]))
             await bot.send_photo(chat_id=1746861239, photo=photo_file)
+            await bot.close()
 
         if s == 3 :
             t2 = goget(467)
             decoded_bytes = base64.b64decode(str(t2))
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239, photo=photo_file)
+            await bot.close()
 
         if s == 4 :
-            t2 = batchroll()
-            await bot.send_message(chat_id=1746861239,
-                                   text ="    roll num " + " " * (
-                                           15 - len("roll num")) + " " + " " * (
-                                                7 - len(str("percentage"))) + "percentage " + "\n" +"----------------------------------------\n" +"\n".join(
-                                       ["-> "+str(t2[0][i]) + " " * (
-                                               13 - len(str(t2[0][i]))) + ":" + " " * (
-                                                10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
-                                        for
-                                        i in range(0, len(t2[0]))]))
-
-
+            '''with open("attendance.pkl" , "rb") as file :
+                 t2 = pickle.load(file)'''
+            t2 = batchrolls()
+            t4 = list(t2.keys())
+            name = [details['percentage'] for details in t2.values()]
+            percentage = [details['state'] for details in t2.values()]
+            t3 = [t4 , name , percentage]
+            await bot.send_message(chat_id=1746861239 ,
+                                   text=" roll num " + " " * (15 - len("roll num")) + " " + " " * (7 - len(
+                                       str("percentage"))) + "percentage " + "\n" + "----------------------------------------\n" + "\n".join(
+                                       ["-> " + str(t3[0][i]) + " " * (9 - len(str(t3[0][i]))) + ":" + " " * (
+                                               10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (
+                                                    10 - len(str(t3[1][i]))) + str(t3[2][i]) for i in
+                                        range(0 , len(t3[0]))]))
+            await bot.close()
     asyncio.run(getoo())
 
     end_time = time.time()
