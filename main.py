@@ -442,15 +442,12 @@ async def batchroll_num(message: types.Message) :
     name = [details['percentage'] for details in t2.values()]
     percentage = [details['state'] for details in t2.values()]
     t3 = [t4 , name , percentage]
-    await bot.send_message(chat_id=message.chat.id,
-                           text =".    roll num " + " " * (
-                                           15 - len("roll num")) + " " + " " * (
-                                                7 - len(str("percentage"))) + "percentage " + "\n" +"----------------------------------------\n" +"\n".join(
-                                       ["-> "+str(t3[0][i]) + " " * (
-                                               13 - len(str(t3[0][i]))) + ":" + " " * (
-                                                10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (10 - len(str(t3[1][i]))) +str(t3[2][i])
-                                        for
-                                        i in range(0, len(t3[0]))]))
+    await bot.send_message(chat_id=message.chat.id,text=" roll num " + " " * (15 - len("roll num")) + " " + " " * (7 - len(
+                                       str("percentage"))) + "percentage " + "\n" + "----------------------------------------\n" + "\n".join(
+                                       ["-> " + str(t3[0][i]) + " " * (9 - len(str(t3[0][i]))) + ":" + " " * (
+                                               10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (
+                                                    10 - len(str(t3[1][i]))) + str(t3[2][i]) for i in
+                                        range(0 , len(t3[0]))]))
     with open("attendance.pkl" , "wb") as file :
         pickle.dump(t2, file)
 
