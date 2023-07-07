@@ -1,4 +1,0 @@
-Thread name: <_MainThread(MainThread, started 140432384165696)>
-Thread name: <Thread(first, started 140432085268224)>
-Thread name: <Thread(hosting thread, started 140432074778368)>
-Thread name: <Thread(ThreadPoolExecutor-0_0, started daemon 140432064026368)>
