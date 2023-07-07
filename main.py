@@ -415,15 +415,14 @@ async def calculate(message: types.Message) :
 async def batchroll_num(message: types.Message) :
     t2 = batchroll()
     await bot.send_message(chat_id=message.chat.id,
-                           text="sno " + " " * (6 - len(str("s.no"))) + "roll num " + " " * (
-                                   5 - len("roll num")) + " " + " " * (
-                                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                               [str(i + 1).zfill(2) + " " * (9 - len(str(i + 1))) + str(t2[0][i]) + " " * (
-                                       8 - len(str(t2[0][i]))) + ":" + " " * (
-                                        10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
-                                for
-                                i in range(0, len(t2[0]))]))
-
+                           text ="    roll num " + " " * (
+                                           15 - len("roll num")) + " " + " " * (
+                                                7 - len(str("percentage"))) + "percentage " + "\n" +"----------------------------------------\n" +"\n".join(
+                                       ["-> "+str(t2[0][i]) + " " * (
+                                               13 - len(str(t2[0][i]))) + ":" + " " * (
+                                                10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
+                                        for
+                                        i in range(0, len(t2[0]))]))
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
 first_thread.start()
