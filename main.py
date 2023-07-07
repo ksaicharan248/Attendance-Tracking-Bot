@@ -4,12 +4,13 @@ import os
 import threading
 import io
 import time
+import pickle
 from io import BytesIO
 from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import altho, altho_2, goget, batchroll, delete_msg ,graber
+from allop import altho, altho_2, goget, batchrolls ,graber
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -57,6 +58,11 @@ async def gooo() :
             if len(updated_list)>0:
                 await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
         await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t[13]) + "%",disable_notification=True)
+        try :
+            await boont.close()
+        except DeprecationWarning as e:
+            await boont.close()
+
         intial = t
 
 
@@ -316,21 +322,23 @@ async def send_academic_calendar(message: types.Message) :
 
 @dp.message_handler(commands=['clear', 'clc','clr'])
 async def cmd_clear(message: types.Message) :
-    full_name = str(message.from_user.first_name) + str(message.from_user.last_name)
-    try:
-        ref_str_num = message.text.split()[1]
-    except IndexError:
-        ref_str_num = None
-    if ref_str_num is None:
-        ref_num = 50
-    else:
-        ref_num = int(ref_str_num)
-    if full_name == "saicharan" :
-        for i in range(0, ref_num) :
-            try :
-                await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
-            except Exception as e :
-                pass
+    user_id = message.from_user.id
+    if user_id == 1746861239 :
+        try :
+            ref_str_num = message.text.split()[1]
+        except IndexError :
+            ref_str_num = None
+        if ref_str_num is None :
+            ref_num = 50
+        else :
+            ref_num = int(ref_str_num)
+        if full_name == "saicharan" :
+            for i in range(0, ref_num) :
+                try :
+                    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
+                except Exception as e :
+                    pass
+
     else :
         await bot.send_message(chat_id=message.chat.id, text="cant be used ")
 
@@ -413,19 +421,42 @@ async def calculate(message: types.Message) :
 
 @dp.message_handler(commands='batch')
 async def batchroll_num(message: types.Message) :
-    t2 = batchroll()
+    with open("attendance.pkl" , "rb") as file :
+        old_dict = pickle.load(file)
+
+    t2 = batchrolls()
+    for roll_number in list(t2.keys()) :
+        if roll_number in old_dict and roll_number in t2 :
+            old_attendance = old_dict[roll_number]
+            new_attendance = t2[roll_number]
+            old_percentage :float = old_attendance.get("percentage")
+            new_percentage :float= new_attendance.get("percentage")
+            if old_percentage is not None and new_percentage is not None :
+                if float(new_percentage) > float(old_percentage):
+                    t2[roll_number]["state"] = "▲"
+                elif float(new_percentage) < float(old_percentage):
+                    t2[roll_number]["state"] = "🔻"
+                else :
+                    t2[roll_number]["state"] = old_dict[roll_number]["state"]
+    t4 = list(t2.keys())
+    name = [details['percentage'] for details in t2.values()]
+    percentage = [details['state'] for details in t2.values()]
+    t3 = [t4 , name , percentage]
     await bot.send_message(chat_id=message.chat.id,
-                           text ="    roll num " + " " * (
+                           text =".    roll num " + " " * (
                                            15 - len("roll num")) + " " + " " * (
                                                 7 - len(str("percentage"))) + "percentage " + "\n" +"----------------------------------------\n" +"\n".join(
-                                       ["-> "+str(t2[0][i]) + " " * (
-                                               13 - len(str(t2[0][i]))) + ":" + " " * (
-                                                10 - len(str(t2[1][i]))) + str(t2[1][i]) + " %"
+                                       ["-> "+str(t3[0][i]) + " " * (
+                                               13 - len(str(t3[0][i]))) + ":" + " " * (
+                                                10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (10 - len(str(t3[1][i]))) +str(t3[2][i])
                                         for
-                                        i in range(0, len(t2[0]))]))
+                                        i in range(0, len(t3[0]))]))
+    with open("attendance.pkl" , "wb") as file :
+        pickle.dump(t2, file)
 
-first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
-first_thread.start()
+
+#first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
+#first_thread.start()
 
 if __name__ == '__main__' :
     keep_alive()
