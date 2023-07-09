@@ -16,45 +16,45 @@ from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
 import sympy
-
+"""                                    data 
+"""
 bot = Bot(token=key)
 dp = Dispatcher(bot)
-intial =  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-attendanc = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
-roshitt = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 00000000]
+with open('attendance_data.pkl' , 'rb') as file :
+    total_attendance = pickle.load(file)
 calculator_mode = False
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
 
-
+#                    recursvie fun
 def update_attendance(stop_event) :
     while not stop_event.is_set() :
-        global attendanc, roshitt
         total_attendance = graber()
-        attendanc = total_attendance[0]
-        roshitt = total_attendance[1]
-        asyncio.run(gooo())
+        if total_attendance is not False:
+            asyncio.run(gooo())
+            with open('attendance_data.pkl' , 'wb') as file :
+                pickle.dump(total_attendance , file)
+        else:
+            pass
         time.sleep(600)
-
-
 
 def stop_thread() -> None :
     stop_event2.set()
 
-
 async def gooo() :
-    global intial, attendanc
+    global total_attendance
+    with open('past_attendance_data.pkl' , 'rb') as file :
+        intial = pickle.load(file)
     updated_list=[]
-    t = attendanc[1]
-    if t != intial :
+    if total_attendance[0][1] != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
         if intial[13]!=0:
             for i in range(0, 13) :
-                if t[i] != intial[i] :
+                if total_attendance[0][i] != intial[i] :
                     if float(t[i]) > float(intial[i]) :
-                        updated_list.append(attendanc[0][i] + "  ⬆️ ")
+                        updated_list.append(total_attendance[0][0][i] + "  🔺 ")
                     else :
-                        updated_list.append(attendanc[0][i] + "  ⬇️ ")
+                        updated_list.append(total_attendance[0][0][i] + "  🔻 ")
             if len(updated_list)>0:
                 await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
         await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t[13]) + "%",disable_notification=True)
@@ -62,11 +62,11 @@ async def gooo() :
             await boont.close()
         except DeprecationWarning as e:
             await boont.close()
+        with open('past_attendance_data.pkl' , 'wb') as file :
+            pickle.dump(total_attendance[0][1] , file)
 
-        intial = t
 
-
-
+#                             endd////
 
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message) :
@@ -87,10 +87,6 @@ async def cmd_updaters(message: types.Message) :
         if rox.is_alive() :
             timer = threading.Timer(100.0, stop_thread)
             timer.start()
-
-
-
-
     else :
         await bot.send_message(chat_id=message.chat.id,
                                text="You cannot use this commands this status is updated to admin")
@@ -112,8 +108,7 @@ async def help(message: types.Message) :
 
 @dp.message_handler(commands=['more'])
 async def cmd_more(message: types.Message) :
-    await bot.send_message(chat_id=message.chat.id,
-                           text="/clear ---------->clear chat \n/todayattendance----->todays\n")
+    await bot.send_message(chat_id=message.chat.id,text="/clear ---------->clear chat \n/todayattendance----->todays\n")
     try :
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     except Exception as e :
@@ -122,8 +117,8 @@ async def cmd_more(message: types.Message) :
 
 @dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message) :
-    global attendanc, roshitt
-    if isinstance(attendanc, str) :
+    global total_attendance
+    if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else :
@@ -132,10 +127,10 @@ async def attendance(message: types.Message) :
         else :
             user_id = message.from_user.id
         if user_id == 1746861239 :
-            t2 = attendanc
+            t2 = total_attendance[0]
             await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
         elif user_id == 5139592059 :
-            t2 = roshitt
+            t2 = total_attendance[1]
             await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
         else :
             await bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
@@ -153,8 +148,8 @@ async def cmd_start(message: types.Message) :
 
 @dp.message_handler(commands='pic')
 async def pic(message: types.Message) :
-    global attendanc, roshitt
-    if isinstance(attendanc, str) :
+    global total_attendance
+    if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else :
@@ -164,13 +159,13 @@ async def pic(message: types.Message) :
             user_id = message.from_user.id
 
         if user_id == 1746861239 :
-            encoded_string = str(attendanc[2])
+            encoded_string = str(total_attendance[0][2])
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
         elif user_id == 5139592059 :
-            encoded_string = str(roshitt[2])
+            encoded_string = str(total_attendance[1][2])
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
@@ -186,8 +181,8 @@ async def pic(message: types.Message) :
 
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message) :
-    global attendanc, roshitt
-    if isinstance(attendanc, str) :
+    global total_attendance
+    if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
     else :
@@ -197,7 +192,7 @@ async def allattendance(message: types.Message) :
             user_id = message.from_user.id
 
         if user_id == 1746861239 :
-            t2 = attendanc
+            t2 = total_attendance[0]
             await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
@@ -205,7 +200,7 @@ async def allattendance(message: types.Message) :
                  i in range(0, 14)]))
         elif user_id == 5139592059 :
 
-            t2 = roshitt
+            t2 = total_attendance[1]
             await bot.send_message(chat_id=message.chat.id, text="subject" + " " * (16 - len("subject")) + " " + " " * (
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
@@ -223,9 +218,8 @@ async def allattendance(message: types.Message) :
 
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message) :
-    if isinstance(attendanc, str) :
+    if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
-
     else :
         if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention' :
             user_id = message.entities[1].user.id
@@ -244,7 +238,6 @@ async def cmd_toadyattendance(message: types.Message) :
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-
         elif user_id == 5139592059 :
             try :
                 ref_dato = message.text.split()[1]
@@ -257,8 +250,6 @@ async def cmd_toadyattendance(message: types.Message) :
             photo_file = io.BytesIO(decoded_bytes)
             chat_id = message.chat.id
             await message.bot.send_photo(chat_id=chat_id, photo=photo_file)
-
-
         else :
             await bot.send_message(chat_id=message.chat.id, text="comming soon .....")
         try :
@@ -297,7 +288,6 @@ async def send_tt(message: types.Message) :
             photo.save(photo_bytes, format='JPEG')
             photo_bytes.seek(0)
             await bot.send_photo(chat_id=message.chat.id, photo=photo_bytes)
-
     try :
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
         await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
@@ -423,7 +413,6 @@ async def calculate(message: types.Message) :
 async def batchroll_num(message: types.Message) :
     with open("attendance.pkl" , "rb") as file :
         old_dict = pickle.load(file)
-
     t2 = batchrolls()
     for roll_number in list(t2.keys()) :
         if roll_number in old_dict and roll_number in t2 :
@@ -438,16 +427,13 @@ async def batchroll_num(message: types.Message) :
                     t2[roll_number]["state"] = "🔻"
                 else :
                     t2[roll_number]["state"] = old_dict[roll_number]["state"]
-    t4 = list(t2.keys())
-    name = [details['percentage'] for details in t2.values()]
-    percentage = [details['state'] for details in t2.values()]
-    t3 = [t4 , name , percentage]
-    await bot.send_message(chat_id=message.chat.id,text=" roll num " + " " * (15 - len("roll num")) + " " + " " * (7 - len(
-                                       str("percentage"))) + "percentage " + "\n" + "----------------------------------------\n" + "\n".join(
-                                       ["-> " + str(t3[0][i]) + " " * (9 - len(str(t3[0][i]))) + ":" + " " * (
-                                               10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (
-                                                    10 - len(str(t3[1][i]))) + str(t3[2][i]) for i in
-                                        range(0 , len(t3[0]))]))
+    roll_no = list(t2.keys())
+    percentage = [details['percentage'] for details in t2.values()]
+    state = [details['state'] for details in t2.values()]
+    t3 = [roll_no , percentage , state]
+    output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in range(len(t3[0]))]
+    output_text = " roll num       percentage \n----------------------------------------\n" + "\n".join(output_lines)
+    await bot.send_message(chat_id= message.chat.id , text=output_text)
     with open("attendance.pkl" , "wb") as file :
         pickle.dump(t2, file)
 
