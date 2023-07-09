@@ -16,32 +16,36 @@ import time
 
 def altho() :
     try :
-        subjects, results, txt = [], [], []
+        subjects , results , txt = [] , [] , []
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1024 , 768)
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
-        driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-        for i in range(2, 15) :
-            selectors = ["#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(i, col) for col in [2, 5]]
-            values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
-            txt = [driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child({})".format(i)).text for i in [1, 4]]
-            subjects.append(values[0]), results.append(values[1])
-        subjects.append(txt[0]), results.append(txt[1])
+        driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+        driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+        for i in range(2 , 15) :
+            selectors = [
+                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
+                    i , col) for col in [2 , 5]]
+            values = [driver.find_element(By.CSS_SELECTOR , selector).text for selector in selectors]
+            txt = [driver.find_element(By.CSS_SELECTOR ,
+                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child({})".format(
+                                           i)).text for i in [1 , 4]]
+            subjects.append(values[0]) , results.append(values[1])
+        subjects.append(txt[0]) , results.append(txt[1])
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 140, 970, 665))
+        cropped_image = image.crop((10 , 140 , 970 , 665))
         with io.BytesIO() as output :
-            cropped_image.save(output, format='PNG', quality=100)
+            cropped_image.save(output , format='PNG' , quality=100)
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
-        return subjects, results, encoded_string
+        return subjects , results , encoded_string
 
     except WebDriverException :
         return 'server not responding 404'
@@ -49,34 +53,37 @@ def altho() :
 
 def altho_2() :
     try :
-        subjects, results, txt = [], [], []
+        subjects , results , txt = [] , [] , []
         opt = Options()
-        n= 14
+        n = 14
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1024 , 768)
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://bit.ly/3WUQsHy")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?showtype=SA")
-        driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
-        driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-        for i in range(2, 14) :
+        driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+        driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+        for i in range(2 , 14) :
             selectors = [
-                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(i, col) for col in [2, 5]]
-            values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
-            txt = [driver.find_element(By.CSS_SELECTOR,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(n,i)).text for i in [1, 4]]
-            subjects.append(values[0]), results.append(values[1])
-        subjects.append(txt[0]), results.append(txt[1])
+                "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
+                    i , col) for col in [2 , 5]]
+            values = [driver.find_element(By.CSS_SELECTOR , selector).text for selector in selectors]
+            txt = [driver.find_element(By.CSS_SELECTOR ,
+                                       "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
+                                           n , i)).text for i in [1 , 4]]
+            subjects.append(values[0]) , results.append(values[1])
+        subjects.append(txt[0]) , results.append(txt[1])
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 140, 970, 650))
+        cropped_image = image.crop((10 , 140 , 970 , 650))
         with io.BytesIO() as output :
-            cropped_image.save(output, format='JPEG')
+            cropped_image.save(output , format='JPEG')
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
-        return subjects, results, encoded_string
+        return subjects , results , encoded_string
 
     except WebDriverException :
         return 'server not responding 404'
@@ -89,24 +96,24 @@ def goget(x) :
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1024 , 768)
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         if len(y) == 2 :
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A04" + y)
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys("20751A04" + y)
         elif 'l' in y :
-            n = y.replace("l", "")
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755a04" + n)
+            n = y.replace("l" , "")
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys("21755a04" + n)
         elif 'l' not in y and len(y) == 3 :
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751a0" + y)
-        driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
-        driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys("20751a0" + y)
+        driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+        driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
         screenshot = driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 970, 685))
+        cropped_image = image.crop((10 , 160 , 970 , 685))
         with io.BytesIO() as output :
-            cropped_image.save(output, format='JPEG')
+            cropped_image.save(output , format='JPEG')
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
@@ -116,88 +123,56 @@ def goget(x) :
         return 'server not responding 404'
 
 
-def batchroll() :
+
+
+
+def graber() :
     try :
-        opt = Options()
-        opt.add_argument('--headless')
-        opt.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
-        driver.get("http://bit.ly/3Qb3MoX")
-        driver.get("http://bit.ly/3Qb3MoX")
-        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        roll = [462, 464, 467, 469, 478, 486, 491, "4A3", "4A5", "4B1", 408, 412]
-        attendance = []
-        for i in range(0, len(roll)) :
-            if i < 10 :
-                driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("20751A0" + str(roll[i]))
-            else :
-                driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys("21755A0" + str(roll[i]))
-            driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
-            driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-            res = driver.find_element(By.CSS_SELECTOR,
-                                      "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
-            attendance.append(res)
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').clear()
-        data = list(zip(roll, attendance))
-        data.sort(key=lambda x : x[1], reverse=True)
-        roll_numbers = [x[0] for x in data]
-        sorted_percentages = [x[1] for x in data]
-        return roll_numbers, sorted_percentages
-
-
-    except WebDriverException :
-
-        return 'server not responding 404'
-
-
-def graber():
-    try :
-        roll_numbers = ['20751A0467', '20751A0232']
-        length_of_subjects = [15, 14]
-        width = [[10, 160, 970, 685],[10,160,970,665]]
+        roll_numbers = ['20751A0467' , '20751A0232']
+        length_of_subjects = [15 , 14]
+        width = [(10 , 160 , 970 , 685) , (10 , 160 , 970 , 665)]
         roll_data = []
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1024 , 768)
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        for x in range(len(roll_numbers)):
-            subjects, results, txt = [], [], []
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').send_keys(roll_numbers[x])
-            driver.find_element(By.CSS_SELECTOR, '#radTillNow').click()
-            driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-            for i in range(2, length_of_subjects[x]):
+        for x in range(len(roll_numbers)) :
+            subjects , results , txt = [] , [] , []
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(roll_numbers[x])
+            driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+            driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+            for i in range(2 , length_of_subjects[x]) :
                 selectors = [
                     "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
-                        i, col) for col in [2, 5]]
-                values = [driver.find_element(By.CSS_SELECTOR, selector).text for selector in selectors]
+                        i , col) for col in [2 , 5]]
+                values = [driver.find_element(By.CSS_SELECTOR , selector).text for selector in selectors]
                 subjects.append(values[0])
                 results.append(values[1])
-            txt = [driver.find_element(By.CSS_SELECTOR,
+            txt = [driver.find_element(By.CSS_SELECTOR ,
                                        "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child({}) > td:nth-child({})".format(
-                                           length_of_subjects[x], i)).text for i in [1, 4]]
+                                           length_of_subjects[x] , i)).text for i in [1 , 4]]
             subjects.append(txt[0])
             results.append(txt[1])
             screenshot = driver.get_screenshot_as_png()
             image = Image.open(io.BytesIO(screenshot)).convert('RGB')
             cropped_image = image.crop((width[x]))
-            with io.BytesIO() as output:
-                cropped_image.save(output, format='PNG', quality=100)
+            with io.BytesIO() as output :
+                cropped_image.save(output , format='PNG' , quality=100)
                 image_bytes = output.getvalue()
             encoded_string = base64.b64encode(image_bytes).decode('utf-8')
-            roll_data.append([subjects, results ,encoded_string])
-            driver.find_element(By.CSS_SELECTOR, '#txtRollNo').clear()
+            roll_data.append([subjects , results , encoded_string])
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
 
         driver.close()
         return roll_data
 
 
-    except WebDriverException :
-        return 'server not responding 404'
+    except WebDriverException as e :
+        return False
 
 
 def batchrolls() :
@@ -206,16 +181,16 @@ def batchrolls() :
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
         driver = webdriver.Chrome(options=opt)
-        driver.set_window_size(1024, 768)
+        driver.set_window_size(1024 , 768)
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
-                    '467' : {'percentage' : 0 , 'state' : ''} , '486' : {'percentage' : 0 , 'state' : ''} ,
-                    '469' : {'percentage' : 0 , 'state' : ''} , '478' : {'percentage' : 0 , 'state' : ''} ,
-                    '491' : {'percentage' : 0 , 'state' : ''} , '4A3' : {'percentage' : 0 , 'state' : ''} ,
-                    '4A5' : {'percentage' : 0 , 'state' : ''} , '4B1' : {'percentage' : 0 , 'state' : ''} ,
-                    '408' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
+                  '467' : {'percentage' : 0 , 'state' : ''} , '486' : {'percentage' : 0 , 'state' : ''} ,
+                  '469' : {'percentage' : 0 , 'state' : ''} , '478' : {'percentage' : 0 , 'state' : ''} ,
+                  '491' : {'percentage' : 0 , 'state' : ''} , '4A3' : {'percentage' : 0 , 'state' : ''} ,
+                  '4A5' : {'percentage' : 0 , 'state' : ''} , '4B1' : {'percentage' : 0 , 'state' : ''} ,
+                  '408' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
 
         roll_numbers = list(batche.keys())
         for i in range(len(roll_numbers)) :
@@ -224,72 +199,62 @@ def batchrolls() :
             driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(roll_string)
             driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
             driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
-            res : float = driver.find_element(By.CSS_SELECTOR ,"#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
+            res = driver.find_element(By.CSS_SELECTOR , "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(15) > td:nth-child(4)").text
             batche[roll_number]['percentage'] = res
             driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
 
         sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
         return sorted_batche
 
-    except WebDriverException:
+    except WebDriverException :
 
-            return "Error occurred during web scraping."
+        return "Error occurred during web scraping."
 
 
 if __name__ == "__main__" :
     start_time = time.time()
+
+
     async def getoo() :
-        s =4 # int(input("enter the option 1,2,3,4:-------->"))
+        s =  int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1 :
             attend = graber()
-            for k in range(0,2):
+            for k in range(0 , 2) :
                 t2 = attend[k]
 
                 decoded_bytes = base64.b64decode(str(t2[2]))
                 photo_file = io.BytesIO(decoded_bytes)
-                await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
-                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                    [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(
-                        t2[1][i])
-                     for i in range(0, len(t2[1]))]))
-                await bot.send_photo(chat_id=1746861239, photo=photo_file)
+                await bot.send_message(chat_id=1746861239 , text="subject" + " " * (16 - len("subject")) + " " + " " * (
+                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join([
+                    str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(
+                        t2[1][i]) for i in range(0 , len(t2[1]))]))
+                await bot.send_photo(chat_id=1746861239 , photo=photo_file)
                 await bot.close()
 
-        if s == 2 :
-            t2 = altho_2()
-            decoded_bytes = base64.b64decode(str(t2[2]))
-            photo_file = io.BytesIO(decoded_bytes)
-            await bot.send_message(chat_id=1746861239, text="subject" + " " * (16 - len("subject")) + " " + " " * (
-                        7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
-                [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
-                 for i in range(0, 13)]))
-            await bot.send_photo(chat_id=1746861239, photo=photo_file)
-            await bot.close()
 
-        if s == 3 :
+
+        if s == 2 :
             t2 = goget(467)
             decoded_bytes = base64.b64decode(str(t2))
             photo_file = io.BytesIO(decoded_bytes)
-            await bot.send_photo(chat_id=1746861239, photo=photo_file)
+            await bot.send_photo(chat_id=1746861239 , photo=photo_file)
             await bot.close()
 
-        if s == 4 :
-            '''with open("attendance.pkl" , "rb") as file :
-                 t2 = pickle.load(file)'''
+        if s == 3:
+            #with open("attendance.pkl" , "rb") as file :
+                 #t2 = pickle.load(file)
             t2 = batchrolls()
-            t4 = list(t2.keys())
-            name = [details['percentage'] for details in t2.values()]
-            percentage = [details['state'] for details in t2.values()]
-            t3 = [t4 , name , percentage]
-            await bot.send_message(chat_id=1746861239 ,
-                                   text=" roll num " + " " * (15 - len("roll num")) + " " + " " * (7 - len(
-                                       str("percentage"))) + "percentage " + "\n" + "----------------------------------------\n" + "\n".join(
-                                       ["-> " + str(t3[0][i]) + " " * (9 - len(str(t3[0][i]))) + ":" + " " * (
-                                               10 - len(str(t3[1][i]))) + str(t3[1][i]) + " %" + " " * (
-                                                    10 - len(str(t3[1][i]))) + str(t3[2][i]) for i in
-                                        range(0 , len(t3[0]))]))
+            roll_no = list(t2.keys())
+            percentage= [details['percentage'] for details in t2.values()]
+            state = [details['state'] for details in t2.values()]
+            t3 = [roll_no , percentage , state]
+            output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in range(len(t3[0]))]
+            output_text = " roll num       percentage \n----------------------------------------\n" + "\n".join(output_lines)
+            await bot.send_message(chat_id=1746861239 , text=output_text)
             await bot.close()
+
+
     asyncio.run(getoo())
 
     end_time = time.time()

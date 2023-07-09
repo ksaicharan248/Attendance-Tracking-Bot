@@ -9,3 +9,8 @@ import pickle
 
 with open("attendance.pkl" , "wb") as file :
     pickle.dump(s , file)
+
+n = ['78.85' , '77.78' , '66.07' , '.00' , '78.33' , '73.21' , '88.24' , '90.91' , '66.67' , '63.64' , '78.57' ,
+     '62.50' , '81.36' , '75.69']
+with open('past_attendance_data.pkl' , 'wb') as file :
+    pickle.dump(n , file)
