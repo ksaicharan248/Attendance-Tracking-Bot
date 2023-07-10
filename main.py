@@ -50,14 +50,14 @@ async def gooo() :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
         if intial[13]!=0:
             for i in range(0, 13) :
-                if total_attendance[0][i] != intial[i] :
-                    if float(t[i]) > float(intial[i]) :
+                if total_attendance[0][1][i] != intial[i] :
+                    if float(total_attendance[0][1][i]) > float(intial[i]) :
                         updated_list.append(total_attendance[0][0][i] + "  🔺 ")
                     else :
                         updated_list.append(total_attendance[0][0][i] + "  🔻 ")
             if len(updated_list)>0:
                 await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
-        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(t[13]) + "%",disable_notification=True)
+        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][13]) + "%",disable_notification=True)
         try :
             await boont.close()
         except DeprecationWarning as e:
