@@ -20,8 +20,7 @@ import sympy
 """
 bot = Bot(token=key)
 dp = Dispatcher(bot)
-with open('attendance_data.pkl' , 'rb') as file :
-    total_attendance = pickle.load(file)
+
 calculator_mode = False
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
@@ -42,7 +41,8 @@ def stop_thread() -> None :
     stop_event2.set()
 
 async def gooo() :
-    global total_attendance
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     with open('past_attendance_data.pkl' , 'rb') as file :
         intial = pickle.load(file)
     updated_list=[]
@@ -117,7 +117,8 @@ async def cmd_more(message: types.Message) :
 
 @dp.message_handler(commands=['attendance', 'a'])
 async def attendance(message: types.Message) :
-    global total_attendance
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
@@ -148,7 +149,8 @@ async def cmd_start(message: types.Message) :
 
 @dp.message_handler(commands='pic')
 async def pic(message: types.Message) :
-    global total_attendance
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
@@ -181,7 +183,8 @@ async def pic(message: types.Message) :
 
 @dp.message_handler(commands=['allattendance', 'atc'])
 async def allattendance(message: types.Message) :
-    global total_attendance
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
 
@@ -218,6 +221,8 @@ async def allattendance(message: types.Message) :
 
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message) :
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
     else :
