@@ -20,8 +20,7 @@ import sympy
 """
 bot = Bot(token=key)
 dp = Dispatcher(bot)
-with open('attendance_data.pkl' , 'rb') as file :
-    total_attendance = pickle.load(file)
+
 calculator_mode = False
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
@@ -222,6 +221,8 @@ async def allattendance(message: types.Message) :
 
 @dp.message_handler(commands=['todayattendance', 'tatc'])
 async def cmd_toadyattendance(message: types.Message) :
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
         await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
     else :
