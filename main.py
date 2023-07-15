@@ -29,6 +29,7 @@ stop_event2 = threading.Event()
 def update_attendance(stop_event) :
     while not stop_event.is_set() :
         total_attendance = graber()
+        asyncio.run(gooo())
         if total_attendance is not False:
             asyncio.run(gooo())
             with open('attendance_data.pkl' , 'wb') as file :
@@ -66,7 +67,7 @@ async def gooo() :
             pickle.dump(total_attendance[0][1] , file)
 
 
-#                             endd////
+#                             end
 
 @dp.message_handler(commands=['updater'])
 async def cmd_updaters(message: types.Message) :
@@ -327,8 +328,7 @@ async def cmd_clear(message: types.Message) :
             ref_num = 50
         else :
             ref_num = int(ref_str_num)
-        if full_name == "saicharan" :
-            for i in range(0, ref_num) :
+        for i in range(0, ref_num) :
                 try :
                     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - i)
                 except Exception as e :
@@ -359,7 +359,7 @@ async def idft_handler(message: types.Message) :
         y = idft(x)
         await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
     except Exception as e :
-        await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
+        await bot.send_message(chat_id=message.chat.id, text='Bad sequence')
 
 
 @dp.message_handler(commands='roll')
