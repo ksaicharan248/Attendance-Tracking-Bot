@@ -34,8 +34,6 @@ def update_attendance(stop_event) :
             asyncio.run(gooo())
             with open('attendance_data.pkl' , 'wb') as file :
                 pickle.dump(total_attendance , file)
-        else:
-            pass
         time.sleep(600)
 
 def stop_thread() -> None :
