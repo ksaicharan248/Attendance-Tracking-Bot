@@ -412,7 +412,7 @@ async def calculate(message: types.Message) :
         await bot.send_message(chat_id=message.chat.id, text="i dont even understand...")
 
 
-@dp.message_handler(commands='batch')
+@dp.message_handler(commands=['batch', 'b'])
 async def batchroll_num(message: types.Message) :
     with open("attendance.pkl" , "rb") as file :
         old_dict = pickle.load(file)
