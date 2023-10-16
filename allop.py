@@ -1,8 +1,4 @@
-import pickle
-import threading
 import asyncio
-from typing import List
-
 from aiogram import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
