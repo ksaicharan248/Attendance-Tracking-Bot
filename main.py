@@ -21,6 +21,9 @@ import sympy
 bot = Bot(token=key)
 dp = Dispatcher(bot)
 
+lol_sub_total = length_of_subjects[0] - 2
+lol_sub_total2 = length_of_subjects[1] - 2
+
 calculator_mode = False
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
@@ -40,7 +43,7 @@ def stop_thread() -> None :
     stop_event2.set()
 
 async def gooo() :
-    x = length_of_subjects[0] - 2
+
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     with open('past_attendance_data.pkl' , 'rb') as file :
@@ -57,7 +60,7 @@ async def gooo() :
                         updated_list.append(total_attendance[0][0][i] + "  🔻 ")
             if len(updated_list)>0:
                 await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
-        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][x]) + "%",disable_notification=True)
+        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][lol_sub_total]) + "%",disable_notification=True)
         try :
             await boont.close()
         except DeprecationWarning as e:
@@ -129,10 +132,10 @@ async def attendance(message: types.Message) :
             user_id = message.from_user.id
         if user_id == 1746861239 :
             t2 = total_attendance[0]
-            await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][13]) + " %")
+            await bot.send_message(chat_id=message.chat.id, text="your attendance is : " + str(t2[1][lol_sub_total]) + " %")
         elif user_id == 5139592059 :
             t2 = total_attendance[1]
-            await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][12]) + " %")
+            await bot.send_message(chat_id=message.chat.id, text="Your attendance is: " + str(t2[1][lol_sub_total2]) + " %")
         else :
             await bot.send_message(chat_id=message.chat.id, text="NO DATA EXISTS")
 
@@ -200,7 +203,7 @@ async def allattendance(message: types.Message) :
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for
-                 i in range(0, 14)]))
+                 i in range(0, lol_sub_total+1)]))
         elif user_id == 5139592059 :
 
             t2 = total_attendance[1]
@@ -208,7 +211,7 @@ async def allattendance(message: types.Message) :
                     7 - len(str("percentage"))) + "percentage " + "\n" + "\n".join(
                 [str(t2[0][i]) + " " * (16 - len(str(t2[0][i]))) + ":" + " " * (7 - len(str(t2[1][i]))) + str(t2[1][i])
                  for
-                 i in range(0, 13)]))
+                 i in range(0, lol_sub_total2+1)]))
         else :
             await bot.send_message(chat_id=message.chat.id, text="NO data exists")
 
@@ -338,28 +341,6 @@ async def cmd_clear(message: types.Message) :
 
 
 
-@dp.message_handler(commands=['dft'])
-async def dft_handler(message: types.Message) :
-    try : 
-        input_list = input_str.split(",")
-        x = [parse_complex(val) for val in input_list]
-        y = dft(x)
-        await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
-    except Exception as e :
-        await bot.send_message(chat_id=message.chat.id, text='Bad sequence ')
-
-
-@dp.message_handler(commands=['idft'])
-async def idft_handler(message: types.Message) :
-    try :
-        input_str = message.text.split()[1]
-        input_list = input_str.split(",")
-        x = [parse_complex(val) for val in input_list]
-        y = idft(x)
-        await bot.send_message(chat_id=message.chat.id, text='\n'.join(str(val) for val in y))
-    except Exception as e :
-        await bot.send_message(chat_id=message.chat.id, text='Bad sequence')
-
 
 @dp.message_handler(commands='roll')
 async def i_pic(message: types.Message) :
@@ -383,34 +364,6 @@ async def i_pic(message: types.Message) :
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
 
-@dp.message_handler(commands=['calc'])
-async def start_calculator(message: types.Message) :
-    global calculator_mode
-    calculator_mode = True
-    await message.reply('Calculator mode started. Please enter a calculation. Use /stopcalc to exit calculator mode.')
-
-
-@dp.message_handler(commands=['stopcalc'])
-async def stop_calculator(message: types.Message) :
-    global calculator_mode
-    calculator_mode = False
-    await message.reply('Calculator mode stopped./calc')
-
-
-@dp.message_handler(lambda message : calculator_mode and not message.text.startswith('/'))
-async def calculate(message: types.Message) :
-    calculation = message.text
-    try :
-        result = sympy.sympify(calculation)
-        try :
-            num = float(result.evalf())
-            await message.reply(str(num))
-        except :
-            await message.reply(str(result))
-
-
-    except sympy.SympifyError :
-        await bot.send_message(chat_id=message.chat.id, text="i dont even understand...")
 
 
 @dp.message_handler(commands=['batch', 'b'])
