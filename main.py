@@ -371,29 +371,36 @@ async def batchroll_num(message: types.Message) :
     with open("attendance.pkl" , "rb" ) as file :
         old_dict = pickle.load(file)
     t2 = batchrolls()
-    for roll_number in list(t2.keys()) :
-        if roll_number in old_dict and roll_number in t2 :
-            old_attendance = old_dict[roll_number]
-            new_attendance = t2[roll_number]
-            old_percentage :float = old_attendance.get("percentage")
-            new_percentage :float= new_attendance.get("percentage")
-            if old_percentage is not None and new_percentage is not None :
-                if float(new_percentage) > float(old_percentage):
-                    t2[roll_number]["state"] = "▲"
-                elif float(new_percentage) < float(old_percentage):
-                    t2[roll_number]["state"] = "🔻"
-                else :
-                    t2[roll_number]["state"] = old_dict[roll_number]["state"]
-    roll_no = list(t2.keys())
-    percentage = [details['percentage'] for details in t2.values()]
-    state = [details['state'] for details in t2.values()]
-    t3 = [roll_no , percentage , state]
-    output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in range(len(t3[0]))]
-    output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(output_lines)
-    await bot.send_message(chat_id= message.chat.id , text=output_text)
-    with open("attendance.pkl" , "wb") as file :
-        pickle.dump(t2, file)
+    if isinstance(t2, str) :
+        await bot.send_message(chat_id=message.chat.id, text=t2)
+    elif isinstance(t2, dict) :
+        for roll_number in list(t2.keys()) :
+            if roll_number in old_dict and roll_number in t2 :
+                old_attendance = old_dict[roll_number]
+                new_attendance = t2[roll_number]
+                old_percentage: float = old_attendance.get("percentage")
+                new_percentage: float = new_attendance.get("percentage")
+                if old_percentage is not None and new_percentage is not None :
+                    if float(new_percentage) > float(old_percentage) :
+                        t2[roll_number]["state"] = "▲"
+                    elif float(new_percentage) < float(old_percentage) :
+                        t2[roll_number]["state"] = "🔻"
+                    else :
+                        t2[roll_number]["state"] = old_dict[roll_number]["state"]
+        roll_no = list(t2.keys())
+        percentage = [details['percentage'] for details in t2.values()]
+        state = [details['state'] for details in t2.values()]
+        t3 = [roll_no , percentage , state]
+        output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in
+                        range(len(t3[0]))]
+        output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
+            output_lines)
+        await bot.send_message(chat_id=message.chat.id , text=output_text)
+        with open("attendance.pkl" , "wb") as file :
+            pickle.dump(t2 , file)
 
+    else:
+        await bot.send_message(chat_id=message.chat.id, text="Nothing found..........")
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
 first_thread.start()

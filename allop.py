@@ -122,8 +122,7 @@ def batchrolls() :
             driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
             driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
             res = driver.find_element(By.CSS_SELECTOR ,
-                                      "# tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child(4)").text
-
+                                      "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child(4)").text
             batche[roll_number]['percentage'] = res
             driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
 
@@ -140,7 +139,7 @@ if __name__ == "__main__" :
 
 
     async def getoo() :
-        s = int(input("enter the option 1,2,3,4:-------->"))
+        s = 3 #int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1 :
             attend = graber()
@@ -167,6 +166,7 @@ if __name__ == "__main__" :
             # with open("attendance.pkl" , "rb") as file :
             # t2 = pickle.load(file)
             t2 = batchrolls()
+            print(t2)
             roll_no = list(t2.keys())
             percentage = [details['percentage'] for details in t2.values()]
             state = [details['state'] for details in t2.values()]
