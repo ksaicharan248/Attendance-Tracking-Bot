@@ -414,7 +414,7 @@ async def calculate(message: types.Message) :
 
 @dp.message_handler(commands=['batch', 'b'])
 async def batchroll_num(message: types.Message) :
-    with open("attendance.pkl" , "rb") as file :
+    with open("attendance.pkl" , "rb" ) as file :
         old_dict = pickle.load(file)
     t2 = batchrolls()
     for roll_number in list(t2.keys()) :
