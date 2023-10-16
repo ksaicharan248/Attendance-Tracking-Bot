@@ -10,7 +10,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import goget, batchrolls ,graber
+from allop import goget, batchrolls ,graber ,length_of_subjects
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -40,6 +40,7 @@ def stop_thread() -> None :
     stop_event2.set()
 
 async def gooo() :
+    x = length_of_subjects[0] -1
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     with open('past_attendance_data.pkl' , 'rb') as file :
@@ -56,7 +57,7 @@ async def gooo() :
                         updated_list.append(total_attendance[0][0][i] + "  🔻 ")
             if len(updated_list)>0:
                 await boont.send_message(chat_id="1746861239", text=' , '.join(updated_list),disable_notification=True)
-        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][13]) + "%",disable_notification=True)
+        await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][x]) + "%",disable_notification=True)
         try :
             await boont.close()
         except DeprecationWarning as e:
