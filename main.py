@@ -31,9 +31,9 @@ def update_attendance(stop_event) :
         total_attendance = graber()
         asyncio.run(gooo())
         if total_attendance is not False:
-            asyncio.run(gooo())
             with open('attendance_data.pkl' , 'wb') as file :
                 pickle.dump(total_attendance , file)
+            asyncio.run(gooo())
         time.sleep(600)
 
 def stop_thread() -> None :
@@ -146,12 +146,12 @@ async def cmd_start(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id, text=text)
 
 
-@dp.message_handler(commands='pic')
+@dp.message_handler(commands=['pic', 'p'])
 async def pic(message: types.Message) :
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     if isinstance(total_attendance[0], str) :
-        await bot.send_message(chat_id=message.chat.id, text="Server doesnt responded")
+        await bot.send_message(chat_id=message.chat.id, text="Server doesnot responded")
 
     else :
         if message.entities and len(message.entities) == 2 and message.entities[1].type == 'text_mention' :
