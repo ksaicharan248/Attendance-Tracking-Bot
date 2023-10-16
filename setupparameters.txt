@@ -1,0 +1,12 @@
+sudo yum git
+git clone https://github.com/ksaicharan248/saicharan-bot.git
+sudo yum install python-pip
+pip install -r requirements.txt
+sudo yum install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+LATEST_CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+wget https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+chmod +x chromedriver
+sudo mv chromedriver /usr/local/bin/
+
+
