@@ -24,11 +24,12 @@ def today(ind_time):
         driver.find_element(By.CSS_SELECTOR, '#txtFromDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#txtToDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-        screenshot = driver.get_screenshot_as_png()
+        div_element = driver.find_element('css selector' , '#tblReport')
+        driver.execute_script(f'document.querySelector("#tblReport").style.height ="505px";')
+        screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 970, 685))
-        with io.BytesIO() as output:
-            cropped_image.save(output, format='JPEG')
+        with io.BytesIO() as output :
+            image.save(output , format='JPEG')
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
@@ -53,11 +54,12 @@ def today_rs(ind_time):
         driver.find_element(By.CSS_SELECTOR, '#txtFromDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#txtToDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
-        screenshot = driver.get_screenshot_as_png()
+        div_element = driver.find_element('css selector' , '#tblReport')
+        driver.execute_script(f'document.querySelector("#tblReport").style.height ="505px";')
+        screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
-        cropped_image = image.crop((10, 160, 970, 700))
-        with io.BytesIO() as output:
-            cropped_image.save(output, format='JPEG')
+        with io.BytesIO() as output :
+            image.save(output , format='JPEG')
             image_bytes = output.getvalue()
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         driver.close()
