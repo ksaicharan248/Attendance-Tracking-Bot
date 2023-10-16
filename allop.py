@@ -127,7 +127,7 @@ def batchrolls() :
                                       "# tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child(4)").text
 
             batche[roll_number]['percentage'] = res
-            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo' ).clear()
 
         sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
         return sorted_batche
