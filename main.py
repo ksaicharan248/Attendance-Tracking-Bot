@@ -435,7 +435,7 @@ async def batchroll_num(message: types.Message) :
     state = [details['state'] for details in t2.values()]
     t3 = [roll_no , percentage , state]
     output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in range(len(t3[0]))]
-    output_text = " roll num       percentage \n----------------------------------------\n" + "\n".join(output_lines)
+    output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(output_lines)
     await bot.send_message(chat_id= message.chat.id , text=output_text)
     with open("attendance.pkl" , "wb") as file :
         pickle.dump(t2, file)
