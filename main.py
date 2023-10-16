@@ -10,7 +10,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import altho, altho_2, goget, batchrolls ,graber
+from allop import goget, batchrolls ,graber
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
