@@ -40,7 +40,7 @@ def stop_thread() -> None :
     stop_event2.set()
 
 async def gooo() :
-    x = length_of_subjects[0] -1
+    x = length_of_subjects[0] - 2
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     with open('past_attendance_data.pkl' , 'rb') as file :
