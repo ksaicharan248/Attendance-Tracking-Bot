@@ -9,6 +9,8 @@ import io
 import base64
 import time
 
+length_of_subjects = [14 , 14]
+
 
 def goget(x) :
     try :
@@ -47,8 +49,8 @@ def goget(x) :
 
 def graber() :
     try :
+        global length_of_subjects
         roll_numbers = ['20751A0467' , '20751A0232']
-        length_of_subjects = [14 , 14]
         roll_data = []
         opt = Options()
         opt.add_argument('--headless')
