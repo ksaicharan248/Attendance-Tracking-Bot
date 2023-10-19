@@ -51,8 +51,8 @@ async def gooo() :
     updated_list=[]
     if total_attendance[0][1] != intial :
         boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
-        if intial[13]!=0:
-            for i in range(0, 13) :
+        if intial[lol_sub_total]!=0:
+            for i in range(0, lol_sub_total) :
                 if total_attendance[0][1][i] != intial[i] :
                     if float(total_attendance[0][1][i]) > float(intial[i]) :
                         updated_list.append(total_attendance[0][0][i] + "  🔺 ")
