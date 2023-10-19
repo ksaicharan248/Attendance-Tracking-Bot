@@ -33,7 +33,8 @@ def goget(x) :
         driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
         div_element = driver.find_element('css selector' , '#tblReport')
-        driver.execute_script(f'document.querySelector("#tblReport").style.height ="510px";')
+        size_of_frame = int(div_element.get_window_size().get('height')) + 10
+        driver.execute_script(f'document.querySelector("#tblReport").style.height ="{size_of_frame}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
