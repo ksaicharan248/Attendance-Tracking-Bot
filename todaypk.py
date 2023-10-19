@@ -25,7 +25,8 @@ def today(ind_time):
         driver.find_element(By.CSS_SELECTOR, '#txtToDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         div_element = driver.find_element('css selector' , '#tblReport')
-        driver.execute_script(f'document.querySelector("#tblReport").style.height ="505px";')
+        driver.execute_script(
+            f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
@@ -55,7 +56,8 @@ def today_rs(ind_time):
         driver.find_element(By.CSS_SELECTOR, '#txtToDate').send_keys(ind_time)
         driver.find_element(By.CSS_SELECTOR, '#btnShow').click()
         div_element = driver.find_element('css selector' , '#tblReport')
-        driver.execute_script(f'document.querySelector("#tblReport").style.height ="505px";')
+        driver.execute_script(
+            f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
