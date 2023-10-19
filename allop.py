@@ -78,7 +78,8 @@ def graber() :
             subjects.append(txt[0])
             results.append(txt[1])
             div_element = driver.find_element('css selector' , '#tblReport')
-            driver.execute_script(f'document.querySelector("#tblReport").style.height ="510px";')
+            if x == 0 :
+                driver.execute_script(f'document.querySelector("#tblReport").style.height ="510px";')
             screenshot = div_element.screenshot_as_png
             image = Image.open(io.BytesIO(screenshot)).convert('RGB')
             with io.BytesIO() as output :
