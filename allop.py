@@ -9,7 +9,7 @@ import io
 import base64
 import time
 
-length_of_subjects = [14 , 14]
+length_of_subjects = [14 , 11]
 
 
 def goget(x) :
