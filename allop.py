@@ -140,7 +140,7 @@ if __name__ == "__main__" :
 
 
     async def getoo() :
-        s = 2 #int(input("enter the option 1,2,3,4:-------->"))
+        s = 1 #int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1 :
             attend = graber()
