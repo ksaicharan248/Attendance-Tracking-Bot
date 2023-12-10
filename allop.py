@@ -8,7 +8,8 @@ from PIL import Image
 import io
 import base64
 import time
-from re_feren_ce.py import id , pass_key
+import re_feren_ce
+from re_feren_ce import id , pass_key
 
 length_of_subjects = [14 , 11]
 
@@ -168,7 +169,7 @@ def search_by_name(name) :
 
 
 def bio_data(roll_number) :
-    try :
+    if roll_number :
         y = str(roll_number)
         opt = Options()
         opt.add_argument('--headless')
@@ -190,7 +191,8 @@ def bio_data(roll_number) :
         else :
             driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys(y)
         driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
-        driver.find_element(By.CSS_SELECTOR , '#tblReport > h1:nth-child(1)').click()
+        time.sleep(3)
+        driver.find_element(By.CSS_SELECTOR , '#divProfile > div:nth-child(3) > input').click()
         div_element = driver.find_element('css selector' , '#divProfile_BioData')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
@@ -200,7 +202,7 @@ def bio_data(roll_number) :
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         return encoded_string
 
-    except Exception as e :
+    else :
         return None
 
 
