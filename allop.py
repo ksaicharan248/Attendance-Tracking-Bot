@@ -8,7 +8,7 @@ from PIL import Image
 import io
 import base64
 import time
-from re_feren_ce.py import id,pass_key
+from re_feren_ce.py import id , pass_key
 
 length_of_subjects = [14 , 11]
 
@@ -166,7 +166,8 @@ def search_by_name(name) :
     except Exception as e :
         return None
 
-def bio_data(roll_number):
+
+def bio_data(roll_number) :
     try :
         y = str(roll_number)
         opt = Options()
@@ -177,7 +178,7 @@ def bio_data(roll_number):
         driver.get("http://117.239.51.140/sitams/default.aspx")
         driver.find_element(By.CSS_SELECTOR , '#txtId1').send_keys(id)
         driver.find_element(By.CSS_SELECTOR , '#txtPwd1').send_keys(pass_key)
-        driver.find_element(By.CSS_SELECTOR,'#imgBtn1').click()
+        driver.find_element(By.CSS_SELECTOR , '#imgBtn1').click()
         driver.get("http://117.239.51.140/sitams/ACADEMICS/studentprofile.aspx")
         if len(y) == 2 :
             driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys("20751A04" + y)
@@ -188,7 +189,7 @@ def bio_data(roll_number):
             driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys("20751a0" + y)
         else :
             driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys(y)
-        driver.find_element(By.CSS_SELECTOR,'#btnShow').click()
+        driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
         driver.find_element(By.CSS_SELECTOR , '#tblReport > h1:nth-child(1)').click()
         div_element = driver.find_element('css selector' , '#divProfile_BioData')
         screenshot = div_element.screenshot_as_png
@@ -199,10 +200,8 @@ def bio_data(roll_number):
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         return encoded_string
 
-    except Exception as e:
+    except Exception as e :
         return None
-
-
 
 
 if __name__ == "__main__" :
@@ -255,13 +254,12 @@ if __name__ == "__main__" :
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239 , photo=photo_file)
             await bot.close()
-        if s == 5:
+        if s == 5 :
             t2 = bio_data("467")
             decoded_bytes = base64.b64decode(str(t2))
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239 , photo=photo_file)
             await bot.close()
-
 
 
     asyncio.run(getoo())
