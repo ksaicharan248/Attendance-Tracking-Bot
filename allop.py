@@ -8,6 +8,8 @@ from PIL import Image
 import io
 import base64
 import time
+import re_feren_ce
+from re_feren_ce import id , pass_key
 
 length_of_subjects = [14 , 11]
 
@@ -166,6 +168,44 @@ def search_by_name(name) :
         return None
 
 
+def bio_data(roll_number) :
+    if roll_number :
+        y = str(roll_number)
+        opt = Options()
+        opt.add_argument('--headless')
+        opt.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024 , 768)
+        driver.get("http://117.239.51.140/sitams/default.aspx")
+        driver.find_element(By.CSS_SELECTOR , '#txtId1').send_keys(id)
+        driver.find_element(By.CSS_SELECTOR , '#txtPwd1').send_keys(pass_key)
+        driver.find_element(By.CSS_SELECTOR , '#imgBtn1').click()
+        driver.get("http://117.239.51.140/sitams/ACADEMICS/studentprofile.aspx")
+        if len(y) == 2 :
+            driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys("20751A04" + y)
+        elif 'l' in y :
+            n = y.replace("l" , "")
+            driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys("21755a04" + n)
+        elif 'l' not in y and len(y) == 3 :
+            driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys("20751a0" + y)
+        else :
+            driver.find_element(By.CSS_SELECTOR , '#CapPlaceHolder_txtRollNo').send_keys(y)
+        driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+        time.sleep(3)
+        driver.find_element(By.CSS_SELECTOR , '#divProfile > div:nth-child(3) > input').click()
+        div_element = driver.find_element('css selector' , '#divProfile_BioData')
+        screenshot = div_element.screenshot_as_png
+        image = Image.open(io.BytesIO(screenshot)).convert('RGB')
+        with io.BytesIO() as output :
+            image.save(output , format='PNG' , quality=100)
+            image_bytes = output.getvalue()
+        encoded_string = base64.b64encode(image_bytes).decode('utf-8')
+        return encoded_string
+
+    else :
+        return None
+
+
 if __name__ == "__main__" :
     start_time = time.time()
 
@@ -212,6 +252,12 @@ if __name__ == "__main__" :
 
         if s == 4 :
             t2 = search_by_name("k sai charan")
+            decoded_bytes = base64.b64decode(str(t2))
+            photo_file = io.BytesIO(decoded_bytes)
+            await bot.send_photo(chat_id=1746861239 , photo=photo_file)
+            await bot.close()
+        if s == 5 :
+            t2 = bio_data("467")
             decoded_bytes = base64.b64decode(str(t2))
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239 , photo=photo_file)
