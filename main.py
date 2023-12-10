@@ -10,7 +10,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 import asyncio
-from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name
+from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name,bio_data
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -404,7 +404,7 @@ async def batchroll_num(message: types.Message) :
 
 
 @dp.message_handler(commands='find')
-async def i_pic(message: types.Message) :
+async def ioni_pic(message: types.Message) :
     try :
         name = message.text.split()[1]
         with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_name_fuction") as ey :
@@ -418,6 +418,22 @@ async def i_pic(message: types.Message) :
         await message.bot.send_message(chat_id=message.chat.id,text="something need to be expected.")
 
 
+@dp.message_handler(commands='bio')
+async def bio_pic(message: types.Message):
+    user_id = message.from_user.id
+    if user_id == 1746861239 :
+        try :
+            rollnumber = message.text.split()[1]
+            with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_bio_fuction") as ey :
+                future = ey.submit(bio_data , rollnumber)
+                encoded_string = future.result()
+            decoded_bytes = base64.b64decode(str(encoded_string))
+            photo_file = io.BytesIO(decoded_bytes)
+            await message.bot.send_photo(chat_id=message.chat.id , photo=photo_file)
+        except Exception as e :
+            await message.bot.send_message(chat_id=message.chat.id , text="something need to be expected.")
+    else:
+        await message.bot.send_message(chat_id=message.chat.id , text="Restricted by admin")
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
