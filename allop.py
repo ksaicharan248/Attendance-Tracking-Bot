@@ -151,7 +151,7 @@ def search_by_name(name):
         driver.find_element(By.CSS_SELECTOR,'#btnSearch1').click()
         div_element = driver.find_element('css selector' , '#divStudents > table')
         driver.execute_script(
-        f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
+        f'document.querySelector("#divStudents > table").style.height ="{int(div_element.size["height"]) + 15}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
