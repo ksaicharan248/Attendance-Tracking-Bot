@@ -147,6 +147,8 @@ def search_by_name(name):
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/studentsearch.aspx?ctlid=txtRollNo")
+        driver.find_element(By.CSS_SELECTOR , '#txtName').send_keys(name)
+        driver.find_element(By.CSS_SELECTOR,'#btnSearch1').click()
         div_element = driver.find_element('css selector' , '#divStudents > table')
         driver.execute_script(
         f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
