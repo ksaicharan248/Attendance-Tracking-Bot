@@ -30,10 +30,13 @@ def goget(x) :
             driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys("21755a04" + n)
         elif 'l' not in y and len(y) == 3 :
             driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys("20751a0" + y)
+        else :
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(y)
         driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
         driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
         div_element = driver.find_element('css selector' , '#tblReport')
-        driver.execute_script(f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"])+ 15}px";')
+        driver.execute_script(
+            f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
@@ -79,7 +82,7 @@ def graber() :
             results.append(txt[1])
             div_element = driver.find_element('css selector' , '#tblReport')
             driver.execute_script(
-                f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 15}px";')
+                f'document.querySelector("#tblReport").style.height ="{int(div_element.size["height"]) + 20}px";')
             screenshot = div_element.screenshot_as_png
             image = Image.open(io.BytesIO(screenshot)).convert('RGB')
             with io.BytesIO() as output :
@@ -109,7 +112,7 @@ def batchrolls() :
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
                   '467' : {'percentage' : 0 , 'state' : ''} , '469' : {'percentage' : 0 , 'state' : ''} ,
-                  '478' : {'percentage' : 0 , 'state' : ''} , '483' : {'percentage' : 0 , 'state' : ''} ,
+                  '4b0' : {'percentage' : 0 , 'state' : ''} , '483' : {'percentage' : 0 , 'state' : ''} ,
                   '486' : {'percentage' : 0 , 'state' : ''} , '491' : {'percentage' : 0 , 'state' : ''} ,
                   '4A3' : {'percentage' : 0 , 'state' : ''} , '4A5' : {'percentage' : 0 , 'state' : ''} ,
                   '4B1' : {'percentage' : 0 , 'state' : ''} , '408' : {'percentage' : 0 , 'state' : ''} ,
@@ -135,8 +138,7 @@ def batchrolls() :
         return "Error occurred during web scraping."
 
 
-
-def search_by_name(name):
+def search_by_name(name) :
     try :
         name = str(name)
         opt = Options()
@@ -148,10 +150,10 @@ def search_by_name(name):
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/studentsearch.aspx?ctlid=txtRollNo")
         driver.find_element(By.CSS_SELECTOR , '#txtName').send_keys(name)
-        driver.find_element(By.CSS_SELECTOR,'#btnSearch1').click()
+        driver.find_element(By.CSS_SELECTOR , '#btnSearch1').click()
         div_element = driver.find_element('css selector' , '#divStudents > table')
         driver.execute_script(
-        f'document.querySelector("#divStudents > table").style.height ="{int(div_element.size["height"]) + 15}px";')
+            f'document.querySelector("#divStudents").style.height ="{int(div_element.size["height"]) + 20}px";')
         screenshot = div_element.screenshot_as_png
         image = Image.open(io.BytesIO(screenshot)).convert('RGB')
         with io.BytesIO() as output :
@@ -160,16 +162,15 @@ def search_by_name(name):
         encoded_string = base64.b64encode(image_bytes).decode('utf-8')
         return encoded_string
 
-    except Exception as e:
+    except Exception as e :
         return None
-
 
 
 if __name__ == "__main__" :
     start_time = time.time()
 
 
-    async def getoo():
+    async def getoo() :
         s = int(input("enter the option 1,2,3,4:-------->"))
         bot = Bot(token='5647188009:AAGrRZA8fuY0il7LjY2WJ-EJuEhb809M4zU')
         if s == 1 :
@@ -215,7 +216,6 @@ if __name__ == "__main__" :
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239 , photo=photo_file)
             await bot.close()
-
 
 
     asyncio.run(getoo())
