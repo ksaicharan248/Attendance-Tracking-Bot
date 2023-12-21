@@ -464,10 +464,7 @@ async def update_message_handler(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][lol_sub_total]) + "%",disable_notification=True)
-def long_running_function():
-    # Simulate a long-running tas
-    asyncio.sleep(10)
-    return "Task completed!"
+
 
 @dp.message_handler(commands=['stat'])
 async def cmd_start(message: types.Message):
@@ -484,6 +481,28 @@ async def cmd_start(message: types.Message):
     stop = time.time()
     await message.answer(f'{x} \nTime taken: {stop - start:.2f} seconds')
 
+
+def long_running_function():
+    # Your long-running function here
+    time.sleep(5)
+
+@dp.message_handler(commands=['sta'])
+async def cmd_start(message: types.Message):
+    start = time.time()
+    thinking_msg = await message.answer("Thinking.")
+
+    # Run the long-running task in a separate thread
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        await asyncio.get_event_loop().run_in_executor(executor,batchrolls )
+
+    # Update the "Thinking" message with more dots
+    for i in range(2):
+        await asyncio.sleep(1)  # Add a delay for visibility
+        dots = "." * (i + 2)
+        await bot.edit_message_text(f"Thinking{dots}", chat_id=message.chat.id, message_id=thinking_msg.message_id)
+    stop= time.time()
+    # Send a response after the task is done
+    await message.answer(f"Task completed!\n Time taken: {stop - start:.2f} seconds")
 '''
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
 first_thread.start()'''
