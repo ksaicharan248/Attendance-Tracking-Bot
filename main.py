@@ -529,7 +529,6 @@ async def send_table(message: types.Message):
 
     with image_buffer as photo:
         await message.bot.send_photo(chat_id=message.chat.id , photo=image_buffer)
-        await message.reply_photo(types.InputFile(photo), caption="Your Table")
 
 
 
