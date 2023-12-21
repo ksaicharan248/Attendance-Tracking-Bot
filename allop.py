@@ -102,39 +102,37 @@ def graber() :
         return False
 
 
-async def batchrolls() :
+def batchrolls() :
     try :
         opt = Options()
         opt.add_argument('--headless')
         opt.add_argument('--no-sandbox')
-        async with webdriver.Chrome(options=opt) as driver :
-            await driver.set_window_size(1024 , 768)
-            await driver.get("http://bit.ly/3Qb3MoX")
-            await driver.get("http://bit.ly/3Qb3MoX")
-            await driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        driver = webdriver.Chrome(options=opt)
+        driver.set_window_size(1024 , 768)
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://bit.ly/3Qb3MoX")
+        driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
+        batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
+                  '467' : {'percentage' : 0 , 'state' : ''} , '469' : {'percentage' : 0 , 'state' : ''} ,
+                  '4b0' : {'percentage' : 0 , 'state' : ''} , '483' : {'percentage' : 0 , 'state' : ''} ,
+                  '486' : {'percentage' : 0 , 'state' : ''} , '491' : {'percentage' : 0 , 'state' : ''} ,
+                  '4A3' : {'percentage' : 0 , 'state' : ''} , '4A5' : {'percentage' : 0 , 'state' : ''} ,
+                  '4B1' : {'percentage' : 0 , 'state' : ''} , '408' : {'percentage' : 0 , 'state' : ''} ,
+                  '407' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
 
-            batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
-                      '467' : {'percentage' : 0 , 'state' : ''} , '469' : {'percentage' : 0 , 'state' : ''} ,
-                      '4b0' : {'percentage' : 0 , 'state' : ''} , '483' : {'percentage' : 0 , 'state' : ''} ,
-                      '486' : {'percentage' : 0 , 'state' : ''} , '491' : {'percentage' : 0 , 'state' : ''} ,
-                      '4A3' : {'percentage' : 0 , 'state' : ''} , '4A5' : {'percentage' : 0 , 'state' : ''} ,
-                      '4B1' : {'percentage' : 0 , 'state' : ''} , '408' : {'percentage' : 0 , 'state' : ''} ,
-                      '407' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
-
-            roll_numbers = list(batche.keys())
-            for i in range(len(roll_numbers)) :
-                roll_number = roll_numbers[i]
-                roll_string = "20751A0" + str(roll_number) if i < 11 else "21755A0" + str(roll_number)
-                await driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(roll_string)
-                await driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
-                await driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
-                res = driver.find_element(By.CSS_SELECTOR ,
-                                          "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child(4)").text
-                batche[roll_number]['percentage'] = res
-                await driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
-
-            sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
-            return sorted_batche
+        roll_numbers = list(batche.keys())
+        for i in range(len(roll_numbers)) :
+            roll_number = roll_numbers[i]
+            roll_string = "20751A0" + str(roll_number) if i < 11 else "21755A0" + str(roll_number)
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').send_keys(roll_string)
+            driver.find_element(By.CSS_SELECTOR , '#radTillNow').click()
+            driver.find_element(By.CSS_SELECTOR , '#btnShow').click()
+            res = driver.find_element(By.CSS_SELECTOR ,
+                                      "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(14) > td:nth-child(4)").text
+            batche[roll_number]['percentage'] = res
+            driver.find_element(By.CSS_SELECTOR , '#txtRollNo').clear()
+        sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
+        return sorted_batche
 
     except WebDriverException :
 
@@ -240,7 +238,7 @@ if __name__ == "__main__" :
         if s == 3 :
             # with open("attendance.pkl" , "rb") as file :
             # t2 = pickle.load(file)
-            t2 = await batchrolls()
+            t2 = batchrolls()
             print(t2)
             roll_no = list(t2.keys())
             percentage = [details['percentage'] for details in t2.values()]
