@@ -377,8 +377,7 @@ async def batchroll_num(message: types.Message) :
     thinking_msg = await message.answer("Moon 🌙 is thinking. 💭")
     with open("attendance.pkl" , "rb" ) as file :
         old_dict = pickle.load(file)
-    t2 = batchrolls()
-    x = long_running_function()
+    t2 = await batchrolls()
     for j in range(2) :
         for i in range(4) :
             dots = "." * (i + 2)
