@@ -465,12 +465,20 @@ async def update_message_handler(message: types.Message):
 @dp.message_handler(commands=['bp','pb','batchpic'])
 async def batchpic(message: types.Message):
     pass
-def create_table(draw, headers, data, start_position, cell_width, cell_height, header_font, data_font):
+# Function to create a dark-themed table with a title
+def create_table_with_title(draw, headers, data, start_position, cell_width, cell_height, header_font, data_font):
     # Dark theme colors
     background_color = "#1A1C28"
     text_color = "white"
     header_color = "#1A1C28"
     line_color = "gray"
+
+    title = "ECE\nSem VII"
+    title_font = ImageFont.truetype("type1.ttf", 24)  # Replace "path_to_bold_font.ttf" with your bold font file
+    title_width, title_height = draw.textsize(title, font=title_font)
+    title_x = (image_width - title_width) // 2
+    title_y = 20
+    draw.text((title_x, title_y), title, font=title_font, fill=text_color)
 
     # Draw headers
     x, y = start_position
