@@ -10,6 +10,7 @@ from io import BytesIO
 from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.types import ChatActions
 import asyncio
 from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name,bio_data
 from todaypk import today, dato, today_rs
@@ -372,10 +373,17 @@ async def i_pic(message: types.Message) :
 
 @dp.message_handler(commands=['batch', 'b'])
 async def batchroll_num(message: types.Message) :
-    await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
+    start = time.time()
+    thinking_msg = await message.answer("Moon 🌙 is thinking. 💭")
     with open("attendance.pkl" , "rb" ) as file :
         old_dict = pickle.load(file)
     t2 = batchrolls()
+    x = long_running_function()
+    for j in range(2) :
+        for i in range(4) :
+            dots = "." * (i + 2)
+            await bot.edit_message_text(f"Moon 🌙 is thinking{dots} 💭" , chat_id=message.chat.id ,
+                                        message_id=thinking_msg.message_id)
     if isinstance(t2, str) :
         await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id, text=t2)
@@ -401,7 +409,7 @@ async def batchroll_num(message: types.Message) :
                         range(len(t3[0]))]
         output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
             output_lines)
-        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=thinking_msg.message_id)
         await bot.send_message(chat_id=message.chat.id , text=output_text)
         with open("attendance.pkl" , "wb") as file :
             pickle.dump(t2 , file)
@@ -412,7 +420,7 @@ async def batchroll_num(message: types.Message) :
 
 @dp.message_handler(commands='find')
 async def ioni_pic(message: types.Message) :
-    await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
+    await message.bot.send_message(chat_id=message.chat.id , text="Moon🌙 is thinking....")
     try :
         name = message.text.split()[1]
         with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_name_fuction") as ey :
@@ -433,7 +441,7 @@ async def bio_pic(message: types.Message):
     user_id = message.from_user.id
     if user_id :
         try :
-            await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
+            await message.bot.send_message(chat_id=message.chat.id , text="Moon🌙 is thinking....")
             rollnumber = message.text.split()[1]
             with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_bio_fuction") as ey :
                 future = ey.submit(bio_data , rollnumber)
@@ -457,13 +465,29 @@ async def update_message_handler(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][lol_sub_total]) + "%",disable_notification=True)
+def long_running_function():
+    # Simulate a long-running tas
+    asyncio.sleep(10)
+    return "Task completed!"
 
+@dp.message_handler(commands=['stat'])
+async def cmd_start(message: types.Message):
+    start = time.time()
+    thinking_msg = await message.answer("Moon 🌙 is thinking. 💭")
+    x = long_running_function()
+    for j in range(2):
+        for i in range(4) :
+            dots = "." * (i + 2)
+            await bot.edit_message_text(f"Moon 🌙 is thinking{dots} 💭" , chat_id=message.chat.id ,
+                                        message_id=thinking_msg.message_id)
 
+    await message.bot.delete_message(chat_id=message.chat.id , message_id=thinking_msg.message_id)
+    stop = time.time()
+    await message.answer(f'{x} \nTime taken: {stop - start:.2f} seconds')
 
-
-
+'''
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
-first_thread.start()
+first_thread.start()'''
 
 
 if __name__ == '__main__' :
