@@ -372,13 +372,14 @@ async def i_pic(message: types.Message) :
 
 @dp.message_handler(commands=['batch', 'b'])
 async def batchroll_num(message: types.Message) :
+    await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
     with open("attendance.pkl" , "rb" ) as file :
         old_dict = pickle.load(file)
     t2 = batchrolls()
     if isinstance(t2, str) :
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id, text=t2)
     elif isinstance(t2, dict) :
-        await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
         for roll_number in list(t2.keys()) :
             if roll_number in old_dict and roll_number in t2 :
                 old_attendance = old_dict[roll_number]
@@ -404,8 +405,8 @@ async def batchroll_num(message: types.Message) :
         await bot.send_message(chat_id=message.chat.id , text=output_text)
         with open("attendance.pkl" , "wb") as file :
             pickle.dump(t2 , file)
-
     else:
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id, text="Nothing found..........")
 
 
