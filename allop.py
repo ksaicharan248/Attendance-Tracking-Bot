@@ -112,13 +112,14 @@ def batchrolls() :
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://bit.ly/3Qb3MoX")
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
-        batche = {'462' : {'percentage' : 0 , 'state' : ''} , '464' : {'percentage' : 0 , 'state' : ''} ,
-                  '467' : {'percentage' : 0 , 'state' : ''} , '469' : {'percentage' : 0 , 'state' : ''} ,
-                  '4b0' : {'percentage' : 0 , 'state' : ''} , '483' : {'percentage' : 0 , 'state' : ''} ,
-                  '486' : {'percentage' : 0 , 'state' : ''} , '491' : {'percentage' : 0 , 'state' : ''} ,
-                  '4A3' : {'percentage' : 0 , 'state' : ''} , '4A5' : {'percentage' : 0 , 'state' : ''} ,
-                  '4B1' : {'percentage' : 0 , 'state' : ''} , '408' : {'percentage' : 0 , 'state' : ''} ,
-                  '407' : {'percentage' : 0 , 'state' : ''} , '412' : {'percentage' : 0 , 'state' : ''}}
+        batche = {'462' : {'percentage' : 0 , 'state' : '' ,'name':"Jeevan"} , '464' : {'percentage' : 0 , 'state' : '' ,'name':"Dinesh"} ,
+                  '467' : {'percentage' : 0 , 'state' : '','name':"Sai Charan"} , '469' : {'percentage' : 0 , 'state' : '','name':"Varun"} ,
+                  '483' : {'percentage' : 0 , 'state' : '','name':"Mothiesh"} ,'486' : {'percentage' : 0 , 'state' : '','name':"Dilli"} ,
+                  '491' : {'percentage' : 0 , 'state' : '','name':"Vishnu"} ,'4A3' : {'percentage' : 0 , 'state' : '','name':"Venkat"} ,
+                  '4A5' : {'percentage' : 0 , 'state' : '','name':"Jagadesh"} ,'4b0' : {'percentage' : 0 , 'state' : '','name':"Rohith"} ,
+                  '4B1' : {'percentage' : 0 , 'state' : '','name':"Hrudhay"} ,'408' : {'percentage' : 0 , 'state' : '','name':"Govardhan"} ,
+                  '407' : {'percentage' : 0 , 'state' : '','name':"Tharun"} , '412' : {'percentage' : 0 , 'state' : '','name':"Gopi"} }
+
 
         roll_numbers = list(batche.keys())
         for i in range(len(roll_numbers)) :
