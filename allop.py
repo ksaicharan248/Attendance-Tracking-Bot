@@ -240,7 +240,7 @@ if __name__ == "__main__" :
         if s == 3 :
             # with open("attendance.pkl" , "rb") as file :
             # t2 = pickle.load(file)
-            t2 = batchrolls()
+            t2 = await batchrolls()
             print(t2)
             roll_no = list(t2.keys())
             percentage = [details['percentage'] for details in t2.values()]
