@@ -18,6 +18,7 @@ from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
 import sympy
+from PIL import Image, ImageDraw, ImageFont
 
 """ 
                                    data 
