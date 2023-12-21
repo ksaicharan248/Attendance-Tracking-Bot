@@ -451,6 +451,7 @@ async def bio_pic(message: types.Message):
 
 @dp.message_handler(commands=['input', 'in','i'])
 async def update_message_handler(message: types.Message):
+    await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id )
     boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
