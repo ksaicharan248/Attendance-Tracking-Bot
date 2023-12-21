@@ -493,16 +493,16 @@ async def cmd_start(message: types.Message):
 
     # Run the long-running task in a separate thread
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        await asyncio.get_event_loop().run_in_executor(executor,batchrolls )
+        future = await asyncio.get_event_loop().run_in_executor(executor,batchrolls)
 
-    # Update the "Thinking" message with more dots
+    result = result = await asyncio.wrap_future(future)
     for i in range(2):
         await asyncio.sleep(1)  # Add a delay for visibility
         dots = "." * (i + 2)
         await bot.edit_message_text(f"Thinking{dots}", chat_id=message.chat.id, message_id=thinking_msg.message_id)
     stop= time.time()
     # Send a response after the task is done
-    await message.answer(f"Task completed!\n Time taken: {stop - start:.2f} seconds")
+    await message.answer(f"{x}!\n Time taken: {stop - start:.2f} seconds")
 '''
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
 first_thread.start()'''
