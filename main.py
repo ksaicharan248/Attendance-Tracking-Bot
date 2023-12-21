@@ -1,6 +1,7 @@
 import base64
 import concurrent.futures
 import os
+from aiogram.dispatcher.filters.state import State, StatesGroup
 import threading
 import io
 import time
@@ -16,6 +17,7 @@ from webser import keep_alive
 from tff import dft, parse_complex, idft
 from re_feren_ce import key
 import sympy
+
 """ 
                                    data 
 """
@@ -101,7 +103,7 @@ async def cmd_updaters(message: types.Message) :
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message) :
-    await bot.send_message(chat_id=message.chat.id, text="Hello,/help")
+    await bot.send_message(chat_id=message.chat.id, text="Hello you need any help use,/help")
 
 
 @dp.message_handler(commands=['help'])
@@ -347,19 +349,20 @@ async def cmd_clear(message: types.Message) :
 async def i_pic(message: types.Message) :
     user_id = message.chat.id
     try :
-            rollno = message.text.split()[1]
-            with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="roll_fuction") as ey :
-                future = ey.submit(goget, rollno)
-                encoded_string = future.result()
-            decoded_bytes = base64.b64decode(str(encoded_string))
-            photo_file = io.BytesIO(decoded_bytes)
-            await message.bot.send_photo(chat_id=message.chat.id, photo=photo_file)
-            try :
-                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
-                await message.bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 2)
-            except Exception as e :
-                pass
-
+        await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
+        rollno = message.text.split()[1]
+        with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="roll_fuction") as ey :
+            future = ey.submit(goget , rollno)
+            encoded_string = future.result()
+        decoded_bytes = base64.b64decode(str(encoded_string))
+        photo_file = io.BytesIO(decoded_bytes)
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await message.bot.send_photo(chat_id=message.chat.id , photo=photo_file)
+        try :
+            await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id - 1)
+            await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id - 2)
+        except Exception as e :
+            pass
     except Exception as e :
             await bot.send_message(chat_id=message.chat.id,
                                    text="Please enter last two digits of roll number, ex: roll xx .")
@@ -375,6 +378,7 @@ async def batchroll_num(message: types.Message) :
     if isinstance(t2, str) :
         await bot.send_message(chat_id=message.chat.id, text=t2)
     elif isinstance(t2, dict) :
+        await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
         for roll_number in list(t2.keys()) :
             if roll_number in old_dict and roll_number in t2 :
                 old_attendance = old_dict[roll_number]
@@ -396,6 +400,7 @@ async def batchroll_num(message: types.Message) :
                         range(len(t3[0]))]
         output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
             output_lines)
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id , text=output_text)
         with open("attendance.pkl" , "wb") as file :
             pickle.dump(t2 , file)
@@ -406,6 +411,7 @@ async def batchroll_num(message: types.Message) :
 
 @dp.message_handler(commands='find')
 async def ioni_pic(message: types.Message) :
+    await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
     try :
         name = message.text.split()[1]
         with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_name_fuction") as ey :
@@ -413,32 +419,50 @@ async def ioni_pic(message: types.Message) :
             encoded_string = future.result()
         decoded_bytes = base64.b64decode(str(encoded_string))
         photo_file = io.BytesIO(decoded_bytes)
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await message.bot.send_photo(chat_id=message.chat.id , photo=photo_file)
 
     except Exception as e:
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await message.bot.send_message(chat_id=message.chat.id,text="something need to be expected.")
 
 
 @dp.message_handler(commands='bio')
 async def bio_pic(message: types.Message):
     user_id = message.from_user.id
-    if user_id == 1746861239 :
+    if user_id :
         try :
+            await message.bot.send_message(chat_id=message.chat.id , text="please wait for a while...")
             rollnumber = message.text.split()[1]
             with concurrent.futures.ThreadPoolExecutor(thread_name_prefix="search_by_bio_fuction") as ey :
                 future = ey.submit(bio_data , rollnumber)
                 encoded_string = future.result()
             decoded_bytes = base64.b64decode(str(encoded_string))
             photo_file = io.BytesIO(decoded_bytes)
+            await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
             await message.bot.send_photo(chat_id=message.chat.id , photo=photo_file)
         except Exception as e :
+            await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
             await message.bot.send_message(chat_id=message.chat.id , text="something need to be expected.")
     else:
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await message.bot.send_message(chat_id=message.chat.id , text="Restricted by admin")
+
+
+@dp.message_handler(commands=['input', 'in','i'])
+async def update_message_handler(message: types.Message):
+    boont = Bot(token="6194712784:AAHa29JloERqh2RqYvPzTr5TJoCNeu28bzk")
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
+    await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][lol_sub_total]) + "%",disable_notification=True)
+
+
+
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1,), name="first")
 first_thread.start()
+
 
 if __name__ == '__main__' :
     keep_alive()
