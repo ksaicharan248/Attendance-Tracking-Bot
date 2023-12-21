@@ -114,7 +114,7 @@ def batchrolls() :
         driver.get("http://117.239.51.140/sitams/Academics/StudentAttendance.aspx?")
         batche = {'462' : {'percentage' : 0 , 'state' : '' ,'name':"Jeevan"} , '464' : {'percentage' : 0 , 'state' : '' ,'name':"Dinesh"} ,
                   '467' : {'percentage' : 0 , 'state' : '','name':"Sai Charan"} , '469' : {'percentage' : 0 , 'state' : '','name':"Varun"} ,
-                  '483' : {'percentage' : 0 , 'state' : '','name':"Mothiesh"} ,'486' : {'percentage' : 0 , 'state' : '','name':"Dilli"} ,
+                  '483' : {'percentage' : 0 , 'state' : '','name':"Dilli"} ,'486' : {'percentage' : 0 , 'state' : '','name':"Mothiesh"} ,
                   '491' : {'percentage' : 0 , 'state' : '','name':"Vishnu"} ,'4A3' : {'percentage' : 0 , 'state' : '','name':"Venkat"} ,
                   '4A5' : {'percentage' : 0 , 'state' : '','name':"Jagadesh"} ,'4b0' : {'percentage' : 0 , 'state' : '','name':"Rohith"} ,
                   '4B1' : {'percentage' : 0 , 'state' : '','name':"Hrudhay"} ,'408' : {'percentage' : 0 , 'state' : '','name':"Govardhan"} ,
