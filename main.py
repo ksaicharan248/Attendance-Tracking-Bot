@@ -466,7 +466,7 @@ async def update_message_handler(message: types.Message):
 async def batchpic(message: types.Message):
     pass
 # Function to create a dark-themed table with a title
-def create_table_with_title(draw, headers, data, start_position, cell_width, cell_height, header_font, data_font):
+def create_table(draw, headers, data, start_position, cell_width, cell_height, header_font, data_font):
     # Dark theme colors
     background_color = "#1A1C28"
     text_color = "white"
