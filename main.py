@@ -20,6 +20,7 @@ from re_feren_ce import key
 import sympy
 from PIL import Image, ImageDraw, ImageFont
 
+
 """ 
                                    data 
 """
