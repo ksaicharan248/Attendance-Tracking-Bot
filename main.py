@@ -12,7 +12,7 @@ from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ChatActions
 import asyncio
-from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name,bio_data
+from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name,bio_data,batch_data
 from todaypk import today, dato, today_rs
 from webser import keep_alive
 from tff import dft, parse_complex, idft
@@ -462,31 +462,52 @@ async def update_message_handler(message: types.Message):
     await boont.send_message(chat_id="1746861239", text="Attendance:" + str(total_attendance[0][1][lol_sub_total]) + "%",disable_notification=True)
 
 
-@dp.message_handler(commands=['bp','pb','batchpic'])
+@dp.message_handler(commands=['bp','pb','batchfa'])
 async def batchpic(message: types.Message):
-    pass
+    thinking_msg = await message.answer("Moon 🌙 is thinking...💭")
+    with open("attendance.pkl" , "rb") as file :
+        old_dict = pickle.load(file)
+    t2 = batch_data()
+    if isinstance(t2 , str) :
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await bot.send_message(chat_id=message.chat.id , text=t2)
+    elif isinstance(t2 , dict) :
+        roll_no = list(t2.keys())
+        percentage = [details['percentage'] for details in t2.values()]
+        t3 = [roll_no , percentage ]
+        output_lines = ["-> {0}     :      {1} % ".format(t3[0][i] , t3[1][i]) for i in
+                        range(len(t3[0]))]
+        output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
+            output_lines)
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=thinking_msg.message_id)
+        await bot.send_message(chat_id=message.chat.id , text=output_text)
+    else :
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await bot.send_message(chat_id=message.chat.id , text="Nothing found..........")
+
+
+
+
+
+
+
 def create_table(draw, headers, data, start_position, cell_width, cell_height, header_font, data_font):
     # Dark theme colors
     background_color = "#1A1C28"
     text_color = "white"
     header_color = "#1A1C28"
     line_color = "gray"
-
-    # Draw headers
     x, y = start_position
     for i, header in enumerate(headers):
         draw.rectangle([x, y, x + cell_width[i], y + cell_height], fill=header_color)
         draw.text((x + 5, y + 5), header, font=header_font, fill=text_color)
         x += cell_width[i]
-
-    # Draw data
     y += cell_height
     for roll_number, details in data.items():
         x = start_position[0]
         draw.rectangle([x, y, x + cell_width[0], y + cell_height], fill=background_color)
         draw.text((x + 5, y + 5), str(roll_number), font=data_font, fill=text_color)
         x += cell_width[0]
-
         for key in ['name', 'percentage']:  # Exclude the "state" key
             draw.rectangle([x, y, x + cell_width[1], y + cell_height], fill=background_color)
             if key == 'percentage':
@@ -495,7 +516,6 @@ def create_table(draw, headers, data, start_position, cell_width, cell_height, h
                 draw.text((x + 5, y + 5), str(details[key]), font=data_font, fill=text_color)
             x += cell_width[1]
             draw.line([(x, y), (x, y + cell_height)], fill=line_color, width=1)
-
         y += cell_height
 
 # Command handler for the "/table" command
@@ -506,27 +526,17 @@ async def send_table(message: types.Message):
     image_height = 510
     image = Image.new("RGB", (image_width, image_height), "#1A1C28")
     draw = ImageDraw.Draw(image)
-
-    # Set fonts and cell dimensions
     header_font = ImageFont.truetype("type1.ttf", 16)  # Replace "path_to_header_font.ttf" with your font file
     data_font = ImageFont.truetype("type2.ttf", 14)  # Replace "path_to_data_font.ttf" with your font file
     cell_width = [150, 200, 150]  # Adjust widths as needed
     cell_height = 30
-
-    # Set table data
-    # (Your batch data remains the same)
-
-    # Set headers
     headers = ["Roll number", "Name", "Percentage"]
-    data = batchrolls()
-    # Draw the dark-themed table
+    data = bio_data()
     table_start_position = (50, 50)
     create_table(draw, headers, data, table_start_position, cell_width, cell_height, header_font, data_font)
-
     image_buffer = io.BytesIO()
     image.save(image_buffer, format='PNG')
-    image_buffer.seek(0)  # Reset the buffer position to the beginning
-
+    image_buffer.seek(0)
     with image_buffer as photo:
         await message.bot.send_photo(chat_id=message.chat.id , photo=image_buffer)
 

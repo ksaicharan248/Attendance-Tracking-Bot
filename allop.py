@@ -4,12 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from PIL import Image
 import io
 import base64
 import time
 import re_feren_ce
-from re_feren_ce import id , pass_key
+from re_feren_ce import id , pass_key,id2
 
 length_of_subjects = [14 , 11]
 
@@ -205,6 +208,53 @@ def bio_data(roll_number) :
     else :
         return None
 
+def batch_data():
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(options=options)
+    driver.set_window_size(1024, 768)
+    try:
+        # Login
+        driver.get("http://117.239.51.140/sitams/default.aspx")
+        driver.find_element(By.CSS_SELECTOR, '#txtId1').send_keys("18CSEF0101")
+        driver.find_element(By.CSS_SELECTOR, '#txtPwd1').send_keys("1234")
+        driver.find_element(By.CSS_SELECTOR, '#imgBtn1').click()
+        driver.get("http://117.239.51.140/sitams/ACADEMICS/rptstudentsattendance.aspx?scrid=319")
+        select_option_by_index(driver, "#CapPlaceHolder_CourseBranchSemester1_ddlSemester", 6)
+        select_option_by_index(driver, "#CapPlaceHolder_CourseBranchSemester1_ddlBranch", 3)
+        select_option_by_index(driver, "#CapPlaceHolder_CourseBranchSemester1_ddlSection", 1)
+        driver.find_element(By.CSS_SELECTOR, '#form1 > div:nth-child(11) > table > tbody > tr:nth-child(13) > td:nth-child(2) > input').click()
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#tblReport")))
+        batche = {'462' : {'percentage' : 0 , 'state' : '8' , 'name' : "Jeevan"} ,
+                  '464' : {'percentage' : 0 , 'state' : '10' , 'name' : "Dinesh"} ,
+                  '467' : {'percentage' : 0 , 'state' : '13' , 'name' : "Sai Charan"} ,
+                  '469' : {'percentage' : 0 , 'state' : '15' , 'name' : "Varun"} ,
+                  '483' : {'percentage' : 0 , 'state' : '28' , 'name' : "Dilli"} ,
+                  '486' : {'percentage' : 0 , 'state' : '31' , 'name' : "Mothiesh"} ,
+                  '491' : {'percentage' : 0 , 'state' : '36' , 'name' : "Vishnu"} ,
+                  '4A3' : {'percentage' : 0 , 'state' : '48' , 'name' : "Venkat"} ,
+                  '4A5' : {'percentage' : 0 , 'state' : '49' , 'name' : "Jagadesh"} ,
+                  '4b0' : {'percentage' : 0 , 'state' : '54' , 'name' : "Rohith"} ,
+                  '4B1' : {'percentage' : 0 , 'state' : '55' , 'name' : "Hrudhay"} ,
+                  '408' : {'percentage' : 0 , 'state' : '57' , 'name' : "Govardhan"} ,
+                  '407' : {'percentage' : 0 , 'state' : '58' , 'name' : "Tharun"} ,
+                  '412' : {'percentage' : 0 , 'state' : '62' , 'name' : "Gopi"}}
+        common_selector = "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr"
+        for number in batche.keys():
+            batche[number]['percentage'] = driver.find_element(By.CSS_SELECTOR, f"{common_selector}:nth-child({batche[number]['state']}) > td:nth-child(17)").text
+        driver.quit()
+        sorted_batche = dict(sorted(batche.items() , key=lambda x : x[1]['percentage'] , reverse=True))
+        return sorted_batche
+    except :
+        return "something went wrong"
+
+
+def select_option_by_index(driver, selector, index):
+    dropdown = driver.find_element(By.CSS_SELECTOR, selector)
+    select = Select(dropdown)
+    select.select_by_index(index)
+
 
 
 
@@ -264,6 +314,9 @@ if __name__ == "__main__" :
             photo_file = io.BytesIO(decoded_bytes)
             await bot.send_photo(chat_id=1746861239 , photo=photo_file)
             await bot.close()
+        if s == 6:
+            t2 = batch_data()
+            print(t2)
 
     asyncio.run(getoo())
     end_time = time.time()
