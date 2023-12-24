@@ -11,6 +11,7 @@ from PIL import Image
 from aiogram import *
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ChatActions
+from aiogram.types import ParseMode
 import asyncio
 from allop import goget, batchrolls ,graber ,length_of_subjects,search_by_name,bio_data,batch_data
 from todaypk import today, dato, today_rs
@@ -32,7 +33,6 @@ dp = Dispatcher(bot)
 lol_sub_total = length_of_subjects[0] - 2
 lol_sub_total2 = length_of_subjects[1] - 2
 
-calculator_mode = False
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
 
@@ -554,25 +554,53 @@ def to_markdown(text):
 async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
-    zipped_data = {tuple(key) : value for key , value in zip(total_attendance[0] , total_attendance[1]) if value != 0}
+    filtered_attendance_data = {key : float(value) for key , value in zip(total_attendance[0][0] , total_attendance[0][1]) if value != 0.0}
+    zipped_data = {key : value for key , value in filtered_attendance_data.items() if value != 0.0}
     try:
         prompt_text = f"{message.text.split()[1]} ,This is my attendance data {zipped_data} you can analyze this data"
     except:
         prompt_text = f"I would like to analyze my attendance for the following classes: {zipped_data}. Please suggest which classes I should attend, explain clearly which ones I can skip, and provide a probability percentage for taking leave from a specific class"
-    print(prompt_text)
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
     gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
     request_body = {"prompt" : {"text" : prompt_text}}
     response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
-    print(response.json())
     if response.status_code == 200 :
         generated_text = response.json()["candidates"][0]["output"]
-    output = to_markdown(generated_text)
-    '''else :
-        output = "An error occurred while sending the request to the Gemini API."'''
-    await bot.send_message(chat_id=message.chat.id , text=output)
+        output = to_markdown(generated_text)
+    else :
+        output = "An error occurred while sending the request to the Gemini API."
+    await bot.send_message(chat_id=message.chat.id , text=output, parse_mode=ParseMode.MARKDOWN)
 
 
+
+gpt_mode = False
+@dp.message_handler(commands=['gpt'])
+async def start_calculator(message: types.Message) :
+    global gpt_mode
+    gpt_mode = True
+    await message.reply('gpt mode started. please enter a promt. Use /stopgpt to exit gpt mode.')
+
+
+@dp.message_handler(commands=['stopgpt'])
+async def stop_calculator(message: types.Message) :
+    global gpt_mode
+    gpt_mode = False
+    await message.reply('Gpt mode stopped./calc')
+
+
+@dp.message_handler(lambda message : gpt_mode and not message.text.startswith('/'))
+async def calculate(message: types.Message) :
+    prompt_text = message.text
+    api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
+    gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
+    request_body = {"prompt" : {"text" : prompt_text}}
+    response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
+    if response.status_code == 200 :
+        generated_text = response.json()["candidates"][0]["output"]
+        output = to_markdown(generated_text)
+    else :
+        output = "An error occurred while sending the request to the Gemini API."
+    await bot.send_message(chat_id=message.chat.id , text=output, parse_mode=ParseMode.MARKDOWN)
 
 
 
