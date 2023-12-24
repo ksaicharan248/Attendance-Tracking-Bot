@@ -554,17 +554,17 @@ def to_markdown(text):
 async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
-    # Assuming total_attendance[0] and total_attendance[1] are lists
     zipped_data = {tuple(key) : value for key , value in zip(total_attendance[0] , total_attendance[1]) if value != 0}
-
     try:
         prompt_text = f"{message.text.split()[1]} ,This is my attendance data {zipped_data} you can analyze this data"
     except:
         prompt_text = f"I would like to analyze my attendance for the following classes: {zipped_data}. Please suggest which classes I should attend, explain clearly which ones I can skip, and provide a probability percentage for taking leave from a specific class"
+    print(prompt_text)
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
     gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
     request_body = {"prompt" : {"text" : prompt_text}}
     response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
+    print(response.json())
     if response.status_code == 200 :
         generated_text = response.json()["candidates"][0]["output"]
     output = to_markdown(generated_text)
