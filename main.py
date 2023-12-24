@@ -550,8 +550,8 @@ def to_markdown(text):
     indented_text = textwrap.indent(text, ' ', predicate=lambda _: True)
     return indented_text
 
-@dp.message_handler(commands=['analyze'])
-async def send_table(message: types.Message):
+@dp.message_handler(commands=['analyze','ana'])
+async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     zipped_data = {key : value for key , value in zip(data[0][0] , data[0][1])}
