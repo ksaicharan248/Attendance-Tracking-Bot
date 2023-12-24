@@ -596,10 +596,13 @@ async def stop_calculator(message: types.Message) :
 
 @dp.message_handler(lambda message : gpt_mode and not message.text.startswith('/'))
 async def calculate(message: types.Message) :
-    prompt_text = message.text
+    if message.reply_to_message and is_user_message :
+        user_input = message.reply_to_message.text
+    else :
+        user_input = message.text
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
     gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
-    request_body = {"prompt" : {"text" : prompt_text}}
+    request_body = {"prompt" : {"text" : user_input}}
     response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
     if response.status_code == 200 :
         generated_text = response.json()["candidates"][0]["output"]
@@ -626,8 +629,12 @@ async def stop_talk(message: types.Message) :
 @dp.message_handler(lambda message : talk_mode and not message.text.startswith('/'))
 async def talk_back(message: types.Message) :
     global talk_mode
-    response = chater.send_message(message.text)
-    await message.bot.send_message(chat_id=message.chat.id , text=response)
+    if message.reply_to_message and is_user_message :
+        user_input = message.reply_to_message.text
+    else :
+        user_input = message.text
+    response = chater.send_message(user_input)
+    await message.bot.send_message(chat_id=message.chat.id , text=response.text)
 
 
 @dp.message_handler(commands=['id_only'])
