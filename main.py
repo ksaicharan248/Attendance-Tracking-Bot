@@ -19,6 +19,8 @@ from tff import dft, parse_complex, idft
 from re_feren_ce import key
 import sympy
 from PIL import Image, ImageDraw, ImageFont
+import requests
+import textwrap
 
 
 """ 
@@ -531,7 +533,7 @@ async def send_table(message: types.Message):
     cell_width = [150, 200, 150]  # Adjust widths as needed
     cell_height = 30
     headers = ["Roll number", "Name", "Percentage"]
-    data = bio_data()
+    data = batch_data()
     table_start_position = (50, 50)
     create_table(draw, headers, data, table_start_position, cell_width, cell_height, header_font, data_font)
     image_buffer = io.BytesIO()
@@ -540,8 +542,8 @@ async def send_table(message: types.Message):
     with image_buffer as photo:
         await message.bot.send_photo(chat_id=message.chat.id , photo=image_buffer)
 
-import requests
-import textwrap
+
+
 
 def to_markdown(text):
     text = text.replace('•', '  *')
