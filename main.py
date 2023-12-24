@@ -629,9 +629,12 @@ async def talk_back(message: types.Message) :
             talk_mode = False
             await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
         else:
-            response = chater.send_message(message.text)
-            await bot.send_message(chat_id=message.chat.id , text=response.text)
-            await bot.send_message(chat_id=message.chat.id , text=chater.history)
+            is_user_message = message.from_user.id != bot.get_me().id
+            if is_user_message:
+                response = chater.send_message(message.text)
+                await bot.send_message(chat_id=message.chat.id , text=response.text)
+                await bot.send_message(chat_id=message.chat.id , text=chater.history)
+
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
