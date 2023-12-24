@@ -557,9 +557,9 @@ async def send_data(message: types.Message):
     # Assuming total_attendance[0] and total_attendance[1] are lists
     zipped_data = {tuple(key) : value for key , value in zip(total_attendance[0] , total_attendance[1]) if value != 0}
 
-    if message.text.split()[1]:
+    try:
         prompt_text = f"{message.text.split()[1]} ,This is my attendance data {zipped_data} you can analyze this data"
-    else:
+    except:
         prompt_text = f"I would like to analyze my attendance for the following classes: {zipped_data}. Please suggest which classes I should attend, explain clearly which ones I can skip, and provide a probability percentage for taking leave from a specific class"
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
     gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
