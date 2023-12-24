@@ -630,7 +630,9 @@ async def talk_back(message: types.Message) :
     await message.reply(f'Bot: {response.text}')
 
 
-
+@dp.message_handler(commands=['id_only'])
+async def id_only(message: types.Message) :
+    await bot.send_message(chat_id=message.chat.id , text=f'{message.from_user.id}\n{message.chat.id}')
 
 
 
