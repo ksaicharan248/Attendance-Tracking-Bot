@@ -22,6 +22,7 @@ import sympy
 from PIL import Image, ImageDraw, ImageFont
 import requests
 import textwrap
+import google.generativeai as palm
 
 
 """ 
