@@ -602,6 +602,35 @@ async def calculate(message: types.Message) :
         output = "An error occurred while sending the request to the Gemini API."
     await bot.send_message(chat_id=message.chat.id , text=output, parse_mode=ParseMode.MARKDOWN)
 
+talk_mode = False
+
+@dp.message_handler(commands=['talk'])
+async def talk(message: types.Message) :
+    global talk_mode
+    talk_mode= True
+    await bot.send_message(chat_id=message.chat.id , text="talk mode started. please enter a promt. Use /stoptalk to exit talk mode.")
+
+@dp.message_handler(commands=['stoptalk'])
+async def stop_talk(message: types.Message) :
+    global talk_mode
+    talk_mode = False
+    await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
+
+@dp.message_handler(lambda message : talk_mode and not message.text.startswith('/'))
+async def talk_back(message: types.Message) :
+    global talk_mode
+    API_KEY = "AIzaSyDv6b2d3jyi93_rxLw_eb9Ab9CQedyt3XM"
+    palm.configure(api_key=API_KEY)
+    model = palm.GenerativeModel('gemini-pro')
+    chater = model.start_chat(history=[])
+    while talk_mode == True:
+        if message.text == "/stop":
+            talk_mode = False
+            await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
+        else:
+            response = chater.send_message(message.text)
+            await bot.send_message(chat_id=message.chat.id , text=response.text)
+            await bot.send_message(chat_id=message.chat.id , text=chater.history)
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
