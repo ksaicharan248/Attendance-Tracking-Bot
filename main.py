@@ -635,12 +635,10 @@ async def talk_back(message: types.Message) :
 
 
 
-"""first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
-first_thread.start()"""
+first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
+first_thread.start()
 
 
 if __name__ == '__main__' :
-    boooot = await bot.get_me()
-    print(boooot.username)
-    """keep_alive()
-    executor.start_polling(dp)"""
+    keep_alive()
+    executor.start_polling(dp)
