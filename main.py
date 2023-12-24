@@ -634,7 +634,7 @@ async def talk_back(message: types.Message) :
     else :
         user_input = message.text
     response = chater.send_message(user_input)
-    await message.bot.send_message(chat_id=message.chat.id , text=response.text)
+    await message.bot.send_message(chat_id=message.chat.id , text=response.text,parse_mode=ParseMode.MARKDOWN)
 
 
 @dp.message_handler(commands=['id_only'])
