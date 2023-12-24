@@ -555,8 +555,6 @@ async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     zipped_data = {key: value for key, value in zip(total_attendance[0], total_attendance[1]) if value != 0}
-
-    print(zipped_data)
     if message.text.split()[1]:
         prompt_text = f"{message.text.split()[1]} ,This is my attendance data {zipped_data} you can analyze this data"
     else:
@@ -570,7 +568,6 @@ async def send_data(message: types.Message):
         output = to_markdown(generated_text)
     else :
         output = "An error occurred while sending the request to the Gemini API."
-    print(output)
     await bot.send_message(chat_id=message.chat.id , text=output)
 
 
