@@ -624,12 +624,13 @@ async def talk_back(message: types.Message) :
     palm.configure(api_key=API_KEY)
     model = palm.GenerativeModel('gemini-pro')
     chater = model.start_chat(history=[])
+    bot_data = bot.get_me()
     while talk_mode == True:
         if message.text == "/stop":
             talk_mode = False
             await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
         else:
-            is_user_message = message.from_user.id != bot.get_me().id
+            is_user_message = message.from_user.id != bot_data.id
             if is_user_message:
                 response = chater.send_message(message.text)
                 await bot.send_message(chat_id=message.chat.id , text=response.text)
