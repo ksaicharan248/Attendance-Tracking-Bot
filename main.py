@@ -540,6 +540,33 @@ async def send_table(message: types.Message):
     with image_buffer as photo:
         await message.bot.send_photo(chat_id=message.chat.id , photo=image_buffer)
 
+import requests
+import textwrap
+
+def to_markdown(text):
+    text = text.replace('•', '  *')
+    indented_text = textwrap.indent(text, ' ', predicate=lambda _: True)
+    return indented_text
+
+@dp.message_handler(commands=['analyze'])
+async def send_table(message: types.Message):
+    with open('attendance_data.pkl' , 'rb') as file :
+        total_attendance = pickle.load(file)
+    zipped_data = {key : value for key , value in zip(data[0][0] , data[0][1])}
+    prompt_text = f"{message.text.split()[1]}this is my attendance data analyze it {zipped_data}"
+    api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
+    gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
+    request_body = {"prompt" : {"text" : prompt_text}}
+    response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
+    if response.status_code == 200 :
+        generated_text = response.json()["candidates"][0]["output"]
+        output = to_markdown(generated_text)
+    else :
+        output = "An error occurred while sending the request to the Gemini API."
+    await bot.send_message(chat_id=message.chat.id , text=output)
+
+
+
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
