@@ -37,6 +37,11 @@ lol_sub_total2 = length_of_subjects[1] - 2
 stop_event1 = threading.Event()
 stop_event2 = threading.Event()
 
+
+API_KEY = "AIzaSyDv6b2d3jyi93_rxLw_eb9Ab9CQedyt3XM"
+palm.configure(api_key=API_KEY)
+model = palm.GenerativeModel('gemini-pro')
+chater = model.start_chat(history=[])
 #                    recursvie fun
 def update_attendance(stop_event) :
     while not stop_event.is_set() :
@@ -615,22 +620,17 @@ async def talk(message: types.Message) :
 async def stop_talk(message: types.Message) :
     global talk_mode
     talk_mode = False
+    chater.history.clear()
     await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
 
 @dp.message_handler(lambda message : talk_mode and not message.text.startswith('/'))
 async def talk_back(message: types.Message) :
     global talk_mode
-    API_KEY = "AIzaSyDv6b2d3jyi93_rxLw_eb9Ab9CQedyt3XM"
-    palm.configure(api_key=API_KEY)
-    model = palm.GenerativeModel('gemini-pro')
-    chater = model.start_chat(history=[])
-    while talk_mode == True:
-        if message.text == "/stop":
-            talk_mode = False
-            await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
-        else:
-            response = chater.send_message(message.text)
-            await message.reply(f'Bot: {response.text}')
+    response = chater.send_message(message.text)
+    await message.reply(f'Bot: {response.text}')
+
+
+
 
 
 
