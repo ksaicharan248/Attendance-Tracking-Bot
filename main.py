@@ -585,7 +585,7 @@ async def start_calculator(message: types.Message) :
 async def stop_calculator(message: types.Message) :
     global gpt_mode
     gpt_mode = False
-    await message.reply('Gpt mode stopped./calc')
+    await message.reply('Gpt mode stopped./gpt to start again')
 
 
 @dp.message_handler(lambda message : gpt_mode and not message.text.startswith('/'))
