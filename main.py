@@ -639,9 +639,7 @@ async def talk_back(message: types.Message) :
 
 @dp.message_handler(commands=['id_only'])
 async def id_only(message: types.Message) :
-    await bot.send_message(chat_id=message.chat.id , text=f'{message.from_user.id}\n{message.chat.id}')
-
-
+    await bot.send_message(chat_id=message.chat.id , text=f'user id :{message.from_user.id}\nchat id : {message.chat.id}')
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
