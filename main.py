@@ -627,7 +627,7 @@ async def stop_talk(message: types.Message) :
 async def talk_back(message: types.Message) :
     global talk_mode
     response = chater.send_message(message.text)
-    await message.reply(f'Bot: {response.text}')
+    await message.bot.send_message(chat_id=message.chat.id , text=response)
 
 
 @dp.message_handler(commands=['id_only'])
