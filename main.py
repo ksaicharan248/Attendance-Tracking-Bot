@@ -39,7 +39,9 @@ stop_event2 = threading.Event()
 
 
 API_KEY = "AIzaSyDv6b2d3jyi93_rxLw_eb9Ab9CQedyt3XM"
-
+palm.configure(api_key=API_KEY)
+model = palm.GenerativeModel('gemini-pro')
+chater = model.start_chat(history=[])
 #                    recursvie fun
 def update_attendance(stop_event) :
     while not stop_event.is_set() :
@@ -626,9 +628,6 @@ async def stop_talk(message: types.Message) :
 
 @dp.message_handler(lambda message : talk_mode and not message.text.startswith('/'))
 async def talk_back(message: types.Message) :
-    palm.configure(api_key=API_KEY)
-    model = palm.GenerativeModel('gemini-pro')
-    chater = model.start_chat(history=[])
     global talk_mode
     if message.reply_to_message and is_user_message :
         user_input = message.reply_to_message.text
