@@ -554,7 +554,7 @@ def to_markdown(text):
 async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
-    zipped_data = {key : value for key , value in zip(data[0][0] , data[0][1])}
+    zipped_data = {key : value for key , value in zip(total_attendance[0][0] , total_attendance[0][1])}
     print(zipped_data)
     prompt_text = f"{message.text.split()[1]}this is my attendance data analyze it {zipped_data}"
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
