@@ -555,6 +555,7 @@ async def send_data(message: types.Message):
     with open('attendance_data.pkl' , 'rb') as file :
         total_attendance = pickle.load(file)
     zipped_data = {key : value for key , value in zip(data[0][0] , data[0][1])}
+    print(zipped_data)
     prompt_text = f"{message.text.split()[1]}this is my attendance data analyze it {zipped_data}"
     api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
     gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
@@ -565,6 +566,7 @@ async def send_data(message: types.Message):
         output = to_markdown(generated_text)
     else :
         output = "An error occurred while sending the request to the Gemini API."
+    print(output)
     await bot.send_message(chat_id=message.chat.id , text=output)
 
 
