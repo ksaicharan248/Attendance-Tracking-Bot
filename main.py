@@ -567,7 +567,7 @@ async def send_data(message: types.Message):
     response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
     if response.status_code == 200 :
         generated_text = response.json()["candidates"][0]["output"]
-        output = to_markdown(generated_text)
+    output = to_markdown(generated_text)
     '''else :
         output = "An error occurred while sending the request to the Gemini API."'''
     await bot.send_message(chat_id=message.chat.id , text=output)
