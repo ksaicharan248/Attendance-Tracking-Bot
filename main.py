@@ -587,7 +587,7 @@ async def stop_talk(message: types.Message) :
     global talk_mode
     talk_mode = False
     chater.history.clear()
-    await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
+    await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.\nNote use $ before you promt any thing ,so bot understand you are promting whithout $ sign text will be ignored ")
 
 @dp.message_handler(lambda message : talk_mode and message.text.startswith('$'))
 async def talk_back(message: types.Message) :
