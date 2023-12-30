@@ -477,15 +477,12 @@ async def batchpic(message: types.Message):
         await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id , text=t2)
     elif isinstance(t2 , dict) :
-        roll_no = list(t2.keys())
-        percentage = [details['percentage'] for details in t2.values()]
-        t3 = [roll_no , percentage ]
-        output_lines = ["-> {0}     :      {1} % ".format(t3[0][i] , t3[1][i]) for i in
-                        range(len(t3[0]))]
-        output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
-            output_lines)
-        await message.bot.delete_message(chat_id=message.chat.id , message_id=thinking_msg.message_id)
-        await bot.send_message(chat_id=message.chat.id , text=output_text)
+        table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
+        for Roll_number , info in t2.items() :
+            table += f"-> <b><u>{Roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
+        table += "-----------------------\n</pre>"
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await bot.send_message(chat_id=message.chat.id , text=table , parse_mode=ParseMode.HTML)
     else :
         await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id , text="Nothing found..........")
