@@ -586,37 +586,6 @@ async def send_data(message: types.Message):
 
 
 
-gpt_mode = False
-@dp.message_handler(commands=['gpt'])
-async def start_calculator(message: types.Message) :
-    global gpt_mode
-    gpt_mode = True
-    await message.reply('gpt mode started. please enter a promt. Use /stopgpt to exit gpt mode.')
-
-
-@dp.message_handler(commands=['stopgpt'])
-async def stop_calculator(message: types.Message) :
-    global gpt_mode
-    gpt_mode = False
-    await message.reply('Gpt mode stopped./gpt to start again')
-
-
-@dp.message_handler(lambda message : gpt_mode and not message.text.startswith('/'))
-async def calculate(message: types.Message) :
-    if message.reply_to_message and is_user_message :
-        user_input = message.reply_to_message.text
-    else :
-        user_input = message.text
-    api_key = "AIzaSyCexfS8zCMI_mlyswWf7k3LSO-uOq8ebgE"
-    gemini_api_endpoint = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key={API_KEY}"
-    request_body = {"prompt" : {"text" : user_input}}
-    response = requests.post(gemini_api_endpoint.format(API_KEY=api_key) , json=request_body)
-    if response.status_code == 200 :
-        generated_text = response.json()["candidates"][0]["output"]
-        output = to_markdown(generated_text)
-    else :
-        output = "An error occurred while sending the request to the Gemini API."
-    await bot.send_message(chat_id=message.chat.id , text=output, parse_mode=ParseMode.MARKDOWN)
 
 talk_mode = False
 
@@ -633,7 +602,7 @@ async def stop_talk(message: types.Message) :
     chater.history.clear()
     await bot.send_message(chat_id=message.chat.id , text="Talk mode stopped. /talk to start again.")
 
-@dp.message_handler(lambda message : talk_mode and not message.text.startswith('/'))
+@dp.message_handler(lambda message : talk_mode and message.text.startswith('$'))
 async def talk_back(message: types.Message) :
     global talk_mode
     if message.reply_to_message and is_user_message :
@@ -649,21 +618,7 @@ async def id_only(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id , text=f'user id :{message.from_user.id}\nchat id : {message.chat.id}')
 
 
-@dp.message_handler(commands=['tab'])
-async def send_html_table(message: types.Message):
-    data = {'462' : {'percentage' : 0 , 'state' : '' ,'name':"Jeevan"} , '464' : {'percentage' : 0 , 'state' : '' ,'name':"Dinesh"} ,
-                  '467' : {'percentage' : 0 , 'state' : '','name':"Sai Charan"} , '469' : {'percentage' : 0 , 'state' : '','name':"Varun"} ,
-                  '483' : {'percentage' : 0 , 'state' : '','name':"Dilli"} ,'486' : {'percentage' : 0 , 'state' : '','name':"Mothiesh"} ,
-                  '491' : {'percentage' : 0 , 'state' : '','name':"Vishnu"} ,'4A3' : {'percentage' : 0 , 'state' : '','name':"Venkat"} ,
-                  '4A5' : {'percentage' : 0 , 'state' : '','name':"Jagadesh"} ,'4b0' : {'percentage' : 0 , 'state' : '','name':"Rohith"} ,
-                  '4B1' : {'percentage' : 0 , 'state' : '','name':"Hrudhay"} ,'408' : {'percentage' : 0 , 'state' : '','name':"Govardhan"} ,
-                  '407' : {'percentage' : 0 , 'state' : '','name':"Tharun"} , '412' : {'percentage' : 0 , 'state' : '','name':"Gopi"} }
 
-    table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
-    for roll_number , info in data.items():
-        table += f"-> <b><u>{roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
-    table += "-----------------------\n</pre>"
-    await bot.send_message(chat_id=message.chat.id , text=table, parse_mode=ParseMode.HTML)
 
 
 

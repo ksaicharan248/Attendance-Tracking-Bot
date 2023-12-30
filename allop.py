@@ -237,8 +237,8 @@ def batch_data():
                   '4A5' : {'percentage' : 0 , 'state' : '49' , 'name' : "Jagadesh"} ,
                   '4b0' : {'percentage' : 0 , 'state' : '54' , 'name' : "Rohith"} ,
                   '4B1' : {'percentage' : 0 , 'state' : '55' , 'name' : "Hrudhay"} ,
-                  '408' : {'percentage' : 0 , 'state' : '57' , 'name' : "Govardhan"} ,
-                  '407' : {'percentage' : 0 , 'state' : '58' , 'name' : "Tharun"} ,
+                  '408' : {'percentage' : 0 , 'state' : '58' , 'name' : "Govardhan"} ,
+                  '407' : {'percentage' : 0 , 'state' : '57' , 'name' : "Tharun"} ,
                   '412' : {'percentage' : 0 , 'state' : '62' , 'name' : "Gopi"}}
         common_selector = "#tblReport > table > tbody > tr:nth-child(3) > td > table > tbody > tr"
         for number in batche.keys():
