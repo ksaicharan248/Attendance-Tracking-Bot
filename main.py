@@ -412,7 +412,14 @@ async def batchroll_num(message: types.Message) :
                         range(len(t3[0]))]
         output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
             output_lines)
-        await message.bot.delete_message(chat_id=message.chat.id , message_id=thinking_msg.message_id)
+        #######
+        ######
+        ########
+        table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
+        for Roll_number , info in t2.items() :
+            table += f"-> <b><u>{Roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
+        table += "-----------------------\n</pre>"
+        await bot.send_message(chat_id=message.chat.id , text=table , parse_mode=ParseMode.HTML)
         await bot.send_message(chat_id=message.chat.id , text=output_text)
         with open("attendance.pkl" , "wb") as file :
             pickle.dump(t2 , file)
@@ -640,6 +647,24 @@ async def talk_back(message: types.Message) :
 @dp.message_handler(commands=['id_only'])
 async def id_only(message: types.Message) :
     await bot.send_message(chat_id=message.chat.id , text=f'user id :{message.from_user.id}\nchat id : {message.chat.id}')
+
+
+@dp.message_handler(commands=['tab'])
+async def send_html_table(message: types.Message):
+    data = {'462' : {'percentage' : 0 , 'state' : '' ,'name':"Jeevan"} , '464' : {'percentage' : 0 , 'state' : '' ,'name':"Dinesh"} ,
+                  '467' : {'percentage' : 0 , 'state' : '','name':"Sai Charan"} , '469' : {'percentage' : 0 , 'state' : '','name':"Varun"} ,
+                  '483' : {'percentage' : 0 , 'state' : '','name':"Dilli"} ,'486' : {'percentage' : 0 , 'state' : '','name':"Mothiesh"} ,
+                  '491' : {'percentage' : 0 , 'state' : '','name':"Vishnu"} ,'4A3' : {'percentage' : 0 , 'state' : '','name':"Venkat"} ,
+                  '4A5' : {'percentage' : 0 , 'state' : '','name':"Jagadesh"} ,'4b0' : {'percentage' : 0 , 'state' : '','name':"Rohith"} ,
+                  '4B1' : {'percentage' : 0 , 'state' : '','name':"Hrudhay"} ,'408' : {'percentage' : 0 , 'state' : '','name':"Govardhan"} ,
+                  '407' : {'percentage' : 0 , 'state' : '','name':"Tharun"} , '412' : {'percentage' : 0 , 'state' : '','name':"Gopi"} }
+
+    table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
+    for roll_number , info in data.items() :
+        table += f"-> <b><u>{roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
+    table += "-----------------------\n</pre>"
+    await bot.send_message(chat_id=message.chat.id , text=table, parse_mode=ParseMode.HTML)
+
 
 
 first_thread = threading.Thread(target=update_attendance, args=(stop_event1), name="first")
