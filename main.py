@@ -660,7 +660,7 @@ async def send_html_table(message: types.Message):
                   '407' : {'percentage' : 0 , 'state' : '','name':"Tharun"} , '412' : {'percentage' : 0 , 'state' : '','name':"Gopi"} }
 
     table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
-    for roll_number , info in data.items() :
+    for roll_number , info in data.items():
         table += f"-> <b><u>{roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
     table += "-----------------------\n</pre>"
     await bot.send_message(chat_id=message.chat.id , text=table, parse_mode=ParseMode.HTML)
