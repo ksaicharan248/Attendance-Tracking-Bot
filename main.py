@@ -375,7 +375,8 @@ async def i_pic(message: types.Message) :
         except Exception as e :
             pass
     except Exception as e :
-            await bot.send_message(chat_id=message.chat.id,
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
+        await bot.send_message(chat_id=message.chat.id,
                                    text="Please enter last two digits of roll number, ex: roll xx .")
 
 
@@ -404,23 +405,12 @@ async def batchroll_num(message: types.Message) :
                         t2[roll_number]["state"] = "🔻"
                     else :
                         t2[roll_number]["state"] = old_dict[roll_number]["state"]
-        roll_no = list(t2.keys())
-        percentage = [details['percentage'] for details in t2.values()]
-        state = [details['state'] for details in t2.values()]
-        t3 = [roll_no , percentage , state]
-        output_lines = ["-> {0}     :      {1} %   {2}".format(t3[0][i] , t3[1][i] , t3[2][i]) for i in
-                        range(len(t3[0]))]
-        output_text = " roll num        percentage \n----------------------------------------\n" + "\n".join(
-            output_lines)
-        #######
-        ######
-        ########
         table = "<pre>\nRoll Num     Percentage\n-----------------------\n"
         for Roll_number , info in t2.items() :
             table += f"-> <b><u>{Roll_number}</u>    --    <u>{info['percentage']}%  {info['state']}</u></b>\n"
         table += "-----------------------\n</pre>"
+        await message.bot.delete_message(chat_id=message.chat.id , message_id=message.message_id + 1)
         await bot.send_message(chat_id=message.chat.id , text=table , parse_mode=ParseMode.HTML)
-        await bot.send_message(chat_id=message.chat.id , text=output_text)
         with open("attendance.pkl" , "wb") as file :
             pickle.dump(t2 , file)
     else:
