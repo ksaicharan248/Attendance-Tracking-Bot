@@ -594,11 +594,10 @@ async def talk_back(message: types.Message) :
     global talk_mode
     if message.reply_to_message and is_user_message :
         user_input = message.reply_to_message.text
-        user_input.strip('$')
     else :
         user_input = message.text
-        user_input.strip('$')
-    response = chater.send_message(user_input)
+
+    response = chater.send_message(user_input[1:])
     await message.bot.send_message(chat_id=message.chat.id , text=response.text,parse_mode=ParseMode.MARKDOWN)
 
 
